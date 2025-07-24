@@ -1,0 +1,487 @@
+[
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "checked": false,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "csigi.sebestyen@gmail.com",
+    "id": 0,
+    "notifications": [],
+    "sendEmails": [],
+    "user": "Sebi"
+  },
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "admin": true,
+    "checked": false,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "marcandemanuel@gmail.com",
+    "hasPin": true,
+    "id": 1,
+    "notifications": [],
+    "pin": "2019",
+    "seat_image": "",
+    "sendEmails": [],
+    "user": "Emi"
+  },
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "checked": true,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "csimate5@gmail.com",
+    "id": "2",
+    "notifications": [],
+    "sendEmails": [],
+    "user": "Máté"
+  },
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "checked": false,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "marcandemanuel@gmail.com",
+    "hasPin": false,
+    "id": 3,
+    "notifications": [],
+    "sendEmails": [],
+    "user": "Imike"
+  },
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "checked": false,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "marcandemanuel@gmail.com",
+    "id": "4",
+    "notifications": [],
+    "sendEmails": [],
+    "user": "Anya"
+  },
+  {
+    "acday0": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday1": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday2": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday3": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday4": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "acday5": [
+      "Eldöntetlen",
+      "Eldöntetlen"
+    ],
+    "checked": true,
+    "comment0": [
+      "",
+      ""
+    ],
+    "comment1": [
+      "",
+      ""
+    ],
+    "comment2": [
+      "",
+      ""
+    ],
+    "comment3": [
+      "",
+      ""
+    ],
+    "comment4": [
+      "",
+      ""
+    ],
+    "comment5": [
+      "",
+      ""
+    ],
+    "day0": [
+      "",
+      ""
+    ],
+    "day1": [
+      "",
+      ""
+    ],
+    "day2": [
+      "",
+      ""
+    ],
+    "day3": [
+      "",
+      ""
+    ],
+    "day4": [
+      "",
+      ""
+    ],
+    "day5": [
+      "",
+      ""
+    ],
+    "email": "marcandemanuel@gmail.com",
+    "id": "5",
+    "notifications": [],
+    "sendEmails": [],
+    "user": "Mama"
+  }
+]

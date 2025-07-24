@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flask Backend",
+      "type": "python",
+      "request": "launch",
+      "program": "app.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Full Stack Debug",
+      "type": "node",
+      "request": "launch",
+      "name": "Launch via NPM",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 2006,
+      "preLaunchTask": "Start Flask Backend"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch Full Stack",
+      "configurations": ["Flask Backend"],
+      "stopAll": true
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+    "pin": "2006",
+    "admin_main_email": "marcandemanuel@gmail.com",
+    "count_down_title": "🎉 A 2025-ös GyűrűkUra 10-27 kezdete: október 22. este hét óra! 🎉",
+    "start_time": "2025-10-22T19:00:00+02:00",
+    "birthday_on_movie_id": 5,
+    "year": 2025,
+    "about_current_text": "A VI. GyűrűkUra 10-27 fesztiválra 2025 október 22-én este hét órakor for sor kerülni. Ezen az új weblapon keresztül lehet a nasirendelést intézni és egyéb információkat is itt lehet majd megtalálni az idei, VI. GyűrűkUra 10-27-ről. Az idei év szintén nagy fejlődés a fesztivál történetében, a név (GyűrűkUra 10-27), a logó, valamint a weblap miatt.",
+    "about": {
+        "Az I. GyűrűkUra 10-27 fesztivál": {
+            "date": "2020-10",
+            "location": "Gargar, Örményország",
+            "description": "Az első GyűrűkUra 10-27 fesztiválra Sebi 14. szülinapján került sor. A fesztiválra való felkészülés kezdetleges volt, és a filmnézés közben több megszakítás és menetrendtől eltérés is történt."
+        },
+        "A II. GyűrűkUra 10-27 fesztivál": {
+            "date": "2021-10",
+            "location": "Kachardzan, Örményország",
+            "description": "A második GyűrűkUra 10-27 fesztivál Kachardzanban került megrendezésre Sebi 15. szülinapján. A filmnézés közben több nehézség is volt, és a fesztivál is majdnem el lett halasztva."
+        },
+        "A III. GyűrűkUra 10-27 fesztivál": {
+            "date": "2022-10",
+            "location": "Foshky, Ukrajna",
+            "description": "Sebi 16. szülinapján robbant nagyot 2022-ben a GyűrűkUra 10-27 népszerűsége és mérete. A filmezést hatalmas csipsz és kóla adagokkal kezdtük meg és MacBookon néztük végig."
+        },
+        "Az IV. GyűrűkUra 10-27 fesztivál": {
+            "date": "2023-10",
+            "location": "Parajd, Románia",
+            "description": "A nasiadagok újra emelkedtek és a kényelem is tovább fokozódott. Csorba is invitációt kapott a fesztiválra, ami többnyire jól ment és újra a MacBookon néztük a filmeket. Színre lépett a visszaszámláló."
+        },
+        "A 2024-es nasiválasztás": {
+            "date": "2024-07",
+            "location": "Parajd, Románia",
+            "description": "Sebi 18. szülinapján színre lépett sok más újdonsággal együtt a nasiválasztás is, ami Máté szülinapján kezdődött meg nasikóstolással."
+        },
+        "Az V. GyűrűkUra 10-27 fesztivál": {
+            "date": "2024-10",
+            "location": "Kemenesszentpéter, Magyarország",
+            "description": "A GyűrűkUra 10-27 újabb mérföldköve. A fesztiválhoz hozzácsapódtak a Hobbit filmek is, és a TV-n keresztül néztük a filmeket. A nasiadagok még tovább emelkedtek és rekord mennyiségű költséget perzselt fel Sebi 18. szülinapjával együtt."
+        },
+        "A 2025-ös nasiválasztás": {
+            "date": "2025-07",
+            "location": "Parajd, Románia",
+            "description": "Az idei nasiválasztás is Máté szülinapján fog kezdődni és külön GyűrűkUra 10-27 weblapot kapott."
+        },
+        "A VI. GyűrűkUra 10-27 fesztivál": {
+            "date": "2025-10",
+            "location": "Parajd, Románia",
+            "description": "🎉 2025 október 22-én este hét órakor 🎉"
+        }
+    },
+    "emails": {
+        "nv_opened": "2025-07-30T06:00:00+02:00",
+        "nv_opened_sent": false,
+        "nv_closes": "2025-09-30T06:00:00+02:00",
+        "nv_closes_sent": false,
+        "starts_today": "2025-10-22T06:00:00+02:00",
+        "starts_today_sent": false,
+        "started": "2025-10-22T19:00:00+02:00",
+        "started_sent": false,
+        "ends_today": "2025-10-27T06:00:00+02:00",
+        "ends_today_sent": false,
+        "birthday": "2025-10-27T06:00:10+02:00",
+        "birthday_sent": false
+    }
+}

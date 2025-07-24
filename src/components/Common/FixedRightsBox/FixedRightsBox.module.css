@@ -1,0 +1,48 @@
+.fixedBox {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    background: black;
+    color: #9C8028;
+    font-family: Aniron;
+    border-radius: 10px;
+    z-index: 9999;
+    box-shadow: 0px 0px 8px #9C8028;
+    pointer-events: auto;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 39px;
+    height: 39px;
+    padding: 10px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.fixedBox.expanded {
+    border: 2px solid #9C8028;
+}
+
+.logo {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.text {
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.25s 0.1s, width 0.3s, margin-left 0.3s;
+    font-size: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.copyright {
+    font-family: sans-serif
+}

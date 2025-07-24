@@ -1,0 +1,85 @@
+.notificationItem {
+    display: flex;
+    align-items: center;
+    border: 2px solid transparent;
+    background-color: black;
+    color: #9c8028;
+    border-radius: 30px;
+    box-shadow: 0px 0px 6px #9c8028;
+    padding: 15px 20px;
+    font-family: Aniron;
+    width: 30vw;
+    opacity: 0.95;
+    position: relative;
+    gap: 10px;
+    transition: transform 0.35s cubic-bezier(0.4, 0.2, 0.2, 1), margin 0.35s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.notificationItem:hover {
+    border: 2px solid #9c8028;
+}
+
+@keyframes swipeOutRightFade {
+    to {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}
+
+.notificationItem.closeClicked {
+    animation: swipeOutRightFade 0.4s;
+    pointer-events: none;
+    height: 0
+}
+
+.notification {
+    margin-right: 12px;
+    font-size: 12px;
+    width: calc(30vw - 150px)
+}
+
+.date {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #707070;
+    font-size: 10px;
+    margin: 0 15px;
+    font-family: Aniron
+}
+
+.closeButton {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #fff;
+    font-size: 1.2em;
+    border: 0;
+    border-radius: 40%;
+    aspect-ratio: 1 / 1;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: none;
+}
+
+.closeButton:active {
+    animation: none
+}
+
+.closeImage {
+    width: 18px;
+    height: 18px;
+    display: block;
+    margin: auto;
+}
+
+.closeButton:hover {
+    background-color: rgba(156, 128, 40, 0.1);
+    border: 0
+}

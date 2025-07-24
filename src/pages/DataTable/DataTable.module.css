@@ -1,0 +1,334 @@
+@keyframes swipeup {
+    0% {
+        margin-top: 80px;
+        opacity: 0
+    }
+
+    100% {
+        margin-top: 0;
+        opacity: 1
+    }
+}
+
+.container {
+    animation: swipeup 0.75s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.title {
+    font-size: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #9c8028;
+    font-family: "Aniron", sans-serif;
+}
+
+.tableContainer {
+    width: 90vw;
+}
+
+.table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 10px #9c8028;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-family: Aniron;
+}
+
+.table th:not(:last-child),
+.table td:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+.table>tbody>tr:not(:last-child):not(:first-child)>td {
+    border-bottom: 1px solid black;
+}
+
+.table>tbody>tr:first-child>td {
+    border-bottom: 1px solid black;
+}
+
+.dataCell {
+    font-size: 12px;
+    color: #9c8028;
+    padding: 10px 5px;
+    position: relative;
+    font-family: "Aniron", sans-serif;
+    text-align: center;
+}
+
+.headerCell {
+    font-size: 15px;
+    padding: 10px 10px;
+    color: #9c8028;
+    font-family: "Aniron", sans-serif;
+    text-align: center;
+}
+
+.userCell,
+.nameCell {
+    font-size: 12px;
+}
+
+.dayCell {
+    font-size: 10px;
+}
+
+.statusCell {
+    font-size: 10px;
+}
+
+.red {
+    color: rgba(255, 0, 0, 0.8);
+}
+
+.table input[type="text"] {
+    height: 100%;
+    background-color: transparent;
+    border: 0px solid black;
+    font-family: "Aniron", sans-serif;
+    font-size: 12px;
+    color: #9c8028;
+    width: 100%;
+    text-align: center;
+}
+
+.tableName {
+    width: 100%
+}
+
+.tableInput:hover {
+    border: 0px solid black !important;
+}
+
+.tableInput:focus {
+    border: 0px solid black !important;
+    background-color: transparent !important;
+}
+
+.idCell,
+.pinCell {
+    font-size: 15px !important;
+}
+
+.idCell {
+    width: 50px;
+}
+
+.pinCell,
+.adminCell {
+    width: 100px;
+}
+
+.adminText {
+    font-size: 12px;
+    color: #9c8028;
+    text-align: center;
+}
+
+.flexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px
+}
+
+.notifyImage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: 0px 0px;
+    border-radius: 40%;
+}
+
+.notifyImage img {
+    max-width: 12.5px;
+    max-height: 12.5px;
+    object-fit: contain;
+    display: block;
+}
+
+.notifyImage.animateRing {
+    animation: ring 0.1s;
+    animation-iteration-count: 5;
+}
+
+@keyframes ring {
+    25% {
+        transform: rotate(30deg)
+    }
+
+    50% {
+        transform: rotate(0deg)
+    }
+
+    75% {
+        transform: rotate(-30deg)
+    }
+
+    100% {
+        transform: rotate(0deg)
+    }
+}
+
+.notifyImage:hover {
+    background-color: rgba(156, 128, 40, 0.1);
+    border: 0
+}
+
+.imageBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: 0px 0px;
+    border-radius: 40%;
+}
+
+.imageBox img {
+    max-width: 12.5px;
+    max-height: 12.5px;
+    object-fit: contain;
+    display: block;
+}
+
+.imageBox:hover {
+    background-color: rgba(156, 128, 40, 0.1);
+    border: 0
+}
+
+/* Status dots */
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 10;
+    user-select: none;
+}
+
+.new {
+    top: 10px;
+    right: 10px;
+    width: 7.2px;
+    height: 7.2px;
+    background: #9c8028;
+    box-shadow: 0px 0px 10px #9c8028;
+}
+
+.notification {
+    top: 0px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+}
+
+.Elfogadva,
+.Teljesítve,
+.Elutasítva {
+    top: 8.8px;
+    right: 8.8px;
+    width: 10px;
+    height: 10px;
+}
+
+.Elfogadva {
+    background-color: green;
+}
+
+.Elutasítva {
+    background-color: rgb(150, 0, 0);
+}
+
+.Teljesítve {
+    background-color: green;
+}
+
+.completedImage {
+    position: absolute;
+    top: 8.8px;
+    right: 8.8px;
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+    z-index: 10;
+}
+
+.adminImage {
+    position: absolute;
+    top: calc(50% - 7.5px);
+    left: calc(50% - 7.5px);
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin: 50px 0 20px;
+}
+
+.backButton,
+.saveButton {
+    border: 2px solid transparent;
+    background-color: rgb(0, 0, 0);
+    color: #9c8028;
+    font-size: 12px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 5px;
+    font-family: "Aniron", sans-serif;
+}
+
+.backButton:hover,
+.saveButton:hover {
+    border: 2px solid #9c8028;
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100px;
+    /* Adjust as needed */
+}
+
+.loadingDot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loadingDot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loadingDot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}

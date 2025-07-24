@@ -1,0 +1,343 @@
+{
+    "drink": [
+        {
+            "name": "Coca Cola",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Coca Cola 🍒",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Fanta",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Fanta 🍇",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Fanta 🍊",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Sprite",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Pepsi",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Pepsi 🍋",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Mirinda",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Mirinda 🍓",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "7UP",
+            "amounts": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5
+            ]
+        },
+        {
+            "name": "Cappy Multivitamin",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Cappy Őszibarack-Sárgadinnye",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Fuze Tea 🍑",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Fuze Tea 🍋",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Fuze Tea 🫐",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Nestea 🍑",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Nestea 🍋",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Nestea 🫐",
+            "amounts": [
+                0.5,
+                1.5
+            ]
+        },
+        {
+            "name": "Levek",
+            "amounts": [
+                1
+            ]
+        }
+    ],
+    "chips": [
+        {
+            "name": "Sós Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Sajtos Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Tejfölös-Kapros Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Paprikás Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Barbecue-s Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Paradicsomos Lay's",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Paprikás Lay's Maxx",
+            "amounts": [
+                130
+            ]
+        },
+        {
+            "name": "Chilis Lay's Maxx",
+            "amounts": [
+                130
+            ]
+        },
+        {
+            "name": "Sajtos-Hagymás Lay's Maxx",
+            "amounts": [
+                130
+            ]
+        },
+        {
+            "name": "Sós Pringles",
+            "amounts": [
+                40,
+                165
+            ]
+        },
+        {
+            "name": "Fokhagymás-Tejfölös Pringles",
+            "amounts": [
+                40,
+                165
+            ]
+        },
+        {
+            "name": "Texas BBQ-s Pringles",
+            "amounts": [
+                40,
+                165
+            ]
+        },
+        {
+            "name": "Ketchupos Cheetos",
+            "amounts": [
+                30,
+                43,
+                85
+            ]
+        },
+        {
+            "name": "Sajtos Cheetos",
+            "amounts": [
+                30,
+                43,
+                85
+            ]
+        },
+        {
+            "name": "Pizzás Cheetos",
+            "amounts": [
+                30,
+                43,
+                85
+            ]
+        },
+        {
+            "name": "Sós Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Barbecue-s Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Fokhagymás-Tejfölös Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Sajtos Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Paprikás Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Tzatzikis Chio",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Paprikás Aldi Snack Fun",
+            "amounts": [
+                200
+            ]
+        }
+    ]
+}

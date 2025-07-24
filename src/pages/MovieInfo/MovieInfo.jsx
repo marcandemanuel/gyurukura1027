@@ -1,0 +1,184 @@
+import React, { useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useApp } from "../../contexts/AppContext";
+import { useConfig } from "../../contexts/ConfigContext.jsx";
+import NotFound from "../NotFound/NotFound";
+import BottomActions from "../../components/BottomActions/BottomActions.jsx";
+import styles from "./MovieInfo.module.css";
+
+// Movie titles for display
+const MOVIE_TITLES = [
+    "Váratlan Utazás",
+    "Smaug Pusztasága",
+    "Az Öt Sereg Csatája",
+    "A Gyűrű Szövetsége",
+    "A Két Torony",
+    "A Király Visszatér",
+];
+
+const RUNTIMES = [182, 186, 164, 208, 235, 263];
+const RATIO_DRINK = 2.25 / 263;
+const RATIO_CHIPS = 280 / 263;
+
+function getTrending(arr) {
+    if (!arr.length) return "";
+    const freq = {};
+    const original = {};
+    arr.forEach((item) => {
+        if (!item) return;
+        const norm = item.replace(/\s+/g, "").toLowerCase();
+        if (!(norm in original)) {
+            original[norm] = item; // store first appearance for display
+        }
+        freq[norm] = (freq[norm] || 0) + 1;
+    });
+    let max = 0;
+    let trendingNorm = "";
+    Object.entries(freq).forEach(([norm, count]) => {
+        if (count > max) {
+            max = count;
+            trendingNorm = norm;
+        }
+    });
+    return original[trendingNorm] || "-";
+}
+
+const MovieInfo = () => {
+    const { movieId } = useParams();
+    const navigate = useNavigate();
+    const { user, profiles } = useApp();
+    const movieIndex = Number(movieId) || 0;
+    const movieTitle = MOVIE_TITLES[movieIndex] || "Ismeretlen film";
+
+    const dayData = user[`day${movieIndex}`] || ["", ""];
+
+    const isEmpty = !dayData[0] && !dayData[1];
+    const missingDrink = !dayData[0] && dayData[1];
+    const missingChips = dayData[0] && !dayData[1];
+    const runtime = RUNTIMES[movieIndex];
+    const config = useConfig();
+
+    MOVIE_TITLES[config.birthday_on_movie_id] += " 🎂";
+
+    // Compute stats from profiles
+    const { amountDrink, amountChips, trendingDrink, trendingChips } =
+        useMemo(() => {
+            // Each profile has day0, day1, ... for each movie, which is an array [drink, chips]
+            const drinks = [];
+            const chips = [];
+            profiles.forEach((profile) => {
+                const day = profile[`day${movieIndex}`];
+                if (Array.isArray(day)) {
+                    if (day[0]) drinks.push(day[0]);
+                    if (day[1]) chips.push(day[1]);
+                }
+            });
+            return {
+                amountDrink: `${
+                    Math.round(RUNTIMES[movieIndex] * RATIO_DRINK * 10) / 10
+                }l`,
+                amountChips: `${
+                    Math.round((RUNTIMES[movieIndex] * RATIO_CHIPS) / 5) * 5
+                }g`,
+                trendingDrink: getTrending(drinks),
+                trendingChips: getTrending(chips),
+            };
+        }, [profiles, movieIndex]);
+
+    const getSubtitle = () => {
+        if (isEmpty) {
+            return (
+                <>
+                    <span className={styles.error}>
+                        {" "}
+                        Válassz innit és csipszet
+                    </span>
+                </>
+            );
+        }
+
+        if (missingDrink) {
+            return (
+                <>
+                    {dayData[1]} és{" "}
+                    <span className={styles.error}>válassz innit</span>
+                </>
+            );
+        }
+
+        if (missingChips) {
+            return (
+                <>
+                    {dayData[0]} és{" "}
+                    <span className={styles.error}>válassz csipszet</span>
+                </>
+            );
+        }
+
+        return (
+            <>
+                {dayData[0]} és {dayData[1]}
+            </>
+        );
+    };
+
+    if (MOVIE_TITLES[movieIndex] === undefined) {
+        return <NotFound />;
+    }
+    return (
+        <div className={styles.container}>
+            <h1 className={styles.title}>{movieTitle}</h1>
+            <p className={styles.subtitle}>{getSubtitle()}</p>
+            <div className={styles.videoSection}>
+                <video
+                    controls
+                    style={{
+                        width: "64vw",
+                        height: "36vw",
+                        borderRadius: "16px",
+                        background: "#000",
+                    }}
+                    autoPlay
+                    muted
+                >
+                    <source
+                        src={`/src/assets/videos/${movieIndex}.mp4`}
+                        type="video/mp4"
+                    />
+                    A videó nem elérhető.
+                </video>
+            </div>
+            <h3 className={styles.datasTitle}>Adatok</h3>
+            <div className={styles.info}>
+                <div className={styles.side}>
+                    <p>Hossz: {runtime}</p>
+                    <p>Ajánlott inni mennyiség: {amountDrink}</p>
+                    <p>Ajánlott csipsz mennyiség: {amountChips}</p>
+                </div>
+                <div className={styles.side}>
+                    <p>Népszerű inni: {trendingDrink ? trendingDrink : "-"}</p>
+                    <p>
+                        Népszerű csipsz: {trendingChips ? trendingChips : "-"}
+                    </p>
+                </div>
+            </div>
+            <div className={styles.actions}>
+                <button
+                    className={styles.actionButton}
+                    onClick={() => window.history.back()}
+                >
+                    Vissza
+                </button>
+                <button
+                    className={styles.actionButton}
+                    onClick={() => navigate(`/rendeles/${movieIndex}`)}
+                >
+                    Nasi szerkesztése
+                </button>
+            </div>
+            <BottomActions />
+        </div>
+    );
+};
+
+export default MovieInfo;

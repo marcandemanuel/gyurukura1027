@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject }}</title>
+    <style>
+        @font-face {
+            font-family: "Aniron";
+            src: url("AnironModified.ttf");
+        }
+
+        b {
+            color: black;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-background {
+            width: 100%;
+            min-height: 75vh;
+            background: url('https://i.imgur.com/kbwCFQ6.jpeg') center/cover no-repeat;
+            padding: 25px 0px;
+        }
+
+        .title {
+            font-size: 30px;
+            padding: 20px;
+            color: #9C8028;
+            font-family: 'Aniron';
+            text-align: center;
+        }
+
+        .text {
+            color: #9C8028;
+            font-size: 14px;
+            width: 80%;
+            font-family: 'Aniron';
+            margin: 10px auto;
+            text-align: center;
+        }
+
+        .countdown-title {
+            font-size: 12px;
+            color: #9C8028;
+            opacity: 0.8;
+            font-weight: normal;
+            padding: 0;
+            margin-top: 10px;
+            text-align: center;
+            font-family: Aniron
+        }
+
+        a {
+            color: #9C8028
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-background">
+        <h2 class="countdown-title">{{ count_down_title }}</h2>
+        <h2 class="title">Tisztelt {{ name }}!</h2>
+        <p class="text">
+            Tájékoztatjuk Önt, hogy elkezdődött az idei GyűrűkUra 10-27! Kellemes filmnézést kívánunk, és reméljük nasirendjét még időben kitöltötte.<br><br>Tisztelettel,<br>A
+            GyűrűkUra 10-27 adminisztrátora, Csigi Márk Emánuel
+        </p>
+    </div>
+</body>
+
+</html>

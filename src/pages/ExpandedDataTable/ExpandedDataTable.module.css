@@ -1,0 +1,240 @@
+@keyframes swipeup {
+    0% {
+        margin-top: 80px;
+        opacity: 0
+    }
+
+    100% {
+        margin-top: 0;
+        opacity: 1
+    }
+}
+
+.container {
+    animation: swipeup 0.75s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.title {
+    font-size: 30px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #9c8028;
+    font-family: "Aniron", sans-serif;
+}
+
+.tableContainer {
+    width: 90vw;
+}
+
+.table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 10px #9c8028;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-family: Aniron;
+}
+
+.table th:not(:last-child),
+.table td:not(:last-child) {
+    border-right: 1px solid black;
+}
+
+.table>tbody>tr:not(:last-child):not(:first-child)>td {
+    border-bottom: 1px solid black;
+}
+
+.table>tbody>tr:first-child>td {
+    border-bottom: 1px solid black;
+}
+
+.dataCell {
+    font-size: 12px;
+    color: #9c8028;
+    padding: 10px 5px;
+    position: relative;
+    font-family: "Aniron", sans-serif;
+    text-align: center;
+}
+
+.headerCell {
+    font-size: 15px;
+    padding: 10px 10px;
+    color: #9c8028;
+    font-family: "Aniron", sans-serif;
+    text-align: center;
+}
+
+.userCell,
+.nameCell {
+    font-size: 12px;
+}
+
+.dayCell {
+    font-size: 10px;
+}
+
+.statusCell {
+    font-size: 10px;
+}
+
+.red {
+    color: rgba(255, 0, 0, 0.8);
+}
+
+.table input[type="text"] {
+    height: 100%;
+    background-color: transparent;
+    border: 0px solid black;
+    font-family: "Aniron", sans-serif;
+    font-size: 12px;
+    color: #9c8028;
+    width: 100%;
+    text-align: center;
+}
+
+.tableInput:hover {
+    border: 0px solid black !important;
+}
+
+.tableInput:focus {
+    border: 0px solid black !important;
+    background-color: transparent !important;
+}
+
+.idCell,
+.pinCell {
+    font-size: 15px !important;
+}
+
+.idCell {
+    width: 50px;
+}
+
+.pinCell,
+.adminCell {
+    width: 100px;
+}
+
+.adminText {
+    font-size: 12px;
+    color: #9c8028;
+    text-align: center;
+}
+
+.flexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageBox {
+    opacity: 0;
+    height: 12.5px;
+    width: 12.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0px 5px;
+}
+
+.imageBox img {
+    max-width: 12.5px;
+    max-height: 12.5px;
+    object-fit: contain;
+    display: block;
+}
+
+.flexContainer:hover .imageBox {
+    opacity: 0.5;
+}
+
+.flexContainer:hover .imageBox:hover {
+    opacity: 1;
+}
+
+/* Status dots */
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 10;
+    user-select: none;
+}
+
+.new {
+    top: 10px;
+    right: 10px;
+    width: 7.2px;
+    height: 7.2px;
+    background: #9c8028;
+    box-shadow: 0px 0px 10px #9c8028;
+}
+
+.notification {
+    top: 0px;
+    right: 0px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+}
+
+.Elfogadva,
+.Teljesítve,
+.Elutasítva {
+    top: 8.8px;
+    right: 8.8px;
+    width: 10px;
+    height: 10px;
+}
+
+.Elfogadva {
+    background-color: green;
+}
+
+.Elutasítva {
+    background-color: rgb(150, 0, 0);
+}
+
+.Teljesítve {
+    background-color: green;
+}
+
+.completedImage {
+    position: absolute;
+    top: 8.8px;
+    right: 8.8px;
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+    z-index: 10;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin: 50px 0 20px;
+}
+
+.backButton,
+.saveButton {
+    border: 2px solid transparent;
+    background-color: rgb(0, 0, 0);
+    color: #9c8028;
+    font-size: 12px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 5px;
+    font-family: "Aniron", sans-serif;
+}
+
+.backButton:hover,
+.saveButton:hover {
+    border: 2px solid #9c8028;
+}

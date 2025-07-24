@@ -1,0 +1,437 @@
+.countdownTitle {
+    font-size: 12px;
+    padding: 20px;
+    color: #9c8028;
+    opacity: 0.8;
+    font-weight: normal;
+    padding-top: 0;
+    margin-top: 10px;
+    text-align: center;
+}
+
+@keyframes swipeup {
+    0% {
+        margin-top: 80px;
+        opacity: 0
+    }
+
+    100% {
+        margin-top: 0;
+        opacity: 1
+    }
+}
+
+.container {
+    animation: swipeup 0.75s ease-out;
+    color: #f0f0f0;
+    padding: 0 20px;
+    align-items: center;
+    height: auto;
+    position: relative;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #9c8028;
+    opacity: 0.8;
+    font-weight: normal;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.title {
+    font-size: 20px;
+    color: #9c8028;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.flexTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    gap: 15px;
+    margin-bottom: calc(20vh - 1em)
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    box-shadow: 0px 0px 10px #9c8028;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.actions {
+    text-align: center;
+    margin: 50px 0 20px;
+}
+
+.backButton {
+    background-color: transparent;
+    color: #9c8028;
+    font-size: 10px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 30px 5px 50px 5px;
+    border: 2px solid #9c8028;
+    transition: all 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: black;
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100px;
+    /* Adjust as needed */
+}
+
+.loadingDot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loadingDot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.loadingDot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
+}
+
+.aboutText {
+    text-align: center;
+    color: #9c8028;
+    font-family: Aniron;
+    font-size: 14px;
+    line-height: 1.618;
+    width: 70vw;
+    margin: 0 auto 50px auto;
+}
+
+.timelineTitle {
+    color: #9c8028;
+    text-align: center;
+    font-size: 25px;
+    margin: 50px;
+    margin-top: 100px
+}
+
+.timelineContainer {
+    position: relative;
+    width: 60px;
+    height: 2000px;
+    margin: 0 auto 100vh auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.timelineDotEntered {
+    animation: timelineDotFlyUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes timelineDotFlyUp {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px) scale(0.7);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+}
+
+
+.timelineLineFilled {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    background: #9c8028;
+    border: 2px solid #9c8028;
+    border-radius: 3px 3px 0 0;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.timelineLineUnfilled {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    background: black;
+    border: 2px solid #9c8028;
+    border-radius: 0 0 3px 3px;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.lastDot {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    z-index: 2;
+    border: 2px solid #9c8028;
+    pointer-events: auto;
+    box-shadow: 0 0 8px #9c8028;
+}
+
+.lastDotAbsolute,
+.lastDotAbsoluteTop {
+    left: 50% !important;
+    right: 50% !important;
+}
+
+.lastDotFixed {
+    position: fixed;
+    top: calc(80vh - 10px);
+}
+
+.lastDotAbsolute {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: black;
+    border-radius: 50%;
+    z-index: 2;
+    border: 2px solid #9c8028;
+    /* Place at the end of the timeline */
+    /* top will be set inline from JS */
+}
+
+.infoCard {
+    position: absolute;
+    width: 30vw;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #9c8028;
+    border-radius: 30px;
+    box-shadow: 0px 0px 6px #9c8028;
+    padding: 20px;
+    z-index: 10;
+    opacity: 1;
+    pointer-events: auto;
+    transition: box-shadow 0.2s;
+    animation: infoCardSimpleSwipeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.infoCardRight {
+    left: 90px;
+}
+
+.infoCardLeft {
+    right: 90px;
+}
+
+@keyframes infoCardSimpleSwipeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.infoCardTitle {
+    font-size: 15px;
+    font-weight: bold;
+    color: #9c8028;
+    font-family: Aniron;
+}
+
+.infoCardMeta {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    font-family: Aniron;
+    color: #9c8028;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.infoCardMetaCentered {
+    justify-content: center;
+}
+
+.infoCardYear {
+    font-size: 15px;
+    color: #9c8028;
+}
+
+.infoCardLocation {
+    font-size: 12px;
+    color: #9c8028;
+}
+
+.infoCardDesc {
+    font-size: 12px;
+    font-family: Aniron;
+    color: #9c8028;
+    margin-top: 4px;
+    line-height: 1.618
+}
+
+@media (max-width: 600px) {
+    .infoCard {
+        min-width: 120px;
+        max-width: 90vw;
+        font-size: 13px;
+        padding: 10px 10px 8px 10px;
+    }
+
+    .infoCardRight {
+        left: 36px;
+    }
+
+    .infoCardLeft {
+        right: 36px;
+    }
+
+    .infoCardTitle {
+        font-size: 15px;
+    }
+}
+
+
+.timelineDot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: #9c8028;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 8px #9c8028;
+}
+
+.timelineDotDetector {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.timelineDotFuture {
+    background: black !important;
+    border: 2px solid #9c8028;
+    box-shadow: 0 0 8px #9c8028;
+}
+
+@media (max-width: 600px) {
+    .timelineContainer {
+        width: 40px;
+        height: 400px;
+    }
+
+    .timelineLineFilled,
+    .timelineLineUnfilled {
+        width: 4px;
+    }
+
+    .timelineDot {
+        width: 12px;
+        height: 12px;
+    }
+
+    .timelineTooltip {
+        font-size: 11px;
+        min-width: 120px;
+        max-width: 180px;
+        padding: 7px 10px;
+    }
+}
+
+.infoCardCenter {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    text-align: center;
+    width: 75vw;
+    padding: 30px;
+    padding-bottom: 50px;
+    height: 75vh;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.infoCardCenter .infoCardTitle {
+    font-size: 20px;
+}
+
+.infoCardCenter:hover {
+    border: 0
+}
+
+.aboutCurrent {
+    text-align: center;
+    color: #9c8028;
+    font-family: Aniron;
+    font-size: 14px;
+    line-height: 1.618;
+    margin: 40px 0 0 0;
+
+    .infoCardLogoContainer {
+        min-height: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        width: 100%;
+        margin-top: 30px;
+        max-height: 30vh;
+        overflow: hidden;
+    }
+
+    .infoCardLogo {
+        max-width: 80%;
+        max-height: 20vh;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        border-radius: 20px;
+        box-shadow: 0 0 30px #9c8028cc;
+        background: rgba(0, 0, 0, 0.15);
+    }
+}

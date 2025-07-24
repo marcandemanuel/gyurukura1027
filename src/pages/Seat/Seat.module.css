@@ -1,0 +1,85 @@
+@keyframes swipeup {
+    0% {
+        margin-top: 80px;
+        opacity: 0
+    }
+
+    100% {
+        margin-top: 0;
+        opacity: 1
+    }
+}
+
+.container {
+    animation: swipeup 0.75s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.title {
+    font-size: 30px;
+    padding: 20px;
+    color: #9c8028;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #9c8028;
+    font-family: Aniron;
+    margin-bottom: 20px
+}
+
+.text {
+    color: #9c8028;
+    font-size: 18px;
+    width: 800px;
+    font-family: "Aniron";
+    margin: 10px auto;
+    margin-bottom: 30px;
+    padding-top: calc(20vh - 1em);
+    text-align: center;
+}
+
+.seatImageContainer {
+    position: relative;
+    width: 50vw;
+    min-height: 400px;
+    margin: 20px 0;
+    padding: 10px 10px;
+    display: block;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    box-shadow: 0px 0px 10px #9c8028;
+    border-radius: 1vw;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.backButton {
+    border: 2px solid transparent;
+    background-color: rgb(0, 0, 0);
+    color: #9c8028;
+    font-size: 12px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 5px;
+    font-family: "Aniron", sans-serif;
+    margin-top: 30px;
+}
+
+.backButton:hover {
+    border: 2px solid #9c8028;
+}
+
+.seatImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
