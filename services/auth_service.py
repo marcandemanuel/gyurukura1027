@@ -7,12 +7,12 @@ import services.config_service as config_service
 
 class AuthService:
     def __init__(self):
-        self.ips_file = 'static/ips.json'
+        self.ips_file = '/data/ips.json'
         self.hostname = socket.gethostname()
         self.local_ip = socket.gethostbyname(self.hostname)
         
         # Ensure directories exist
-        os.makedirs('static', exist_ok=True)
+        os.makedirs('/data', exist_ok=True)
     
     def load_ips(self) -> dict:
         try:

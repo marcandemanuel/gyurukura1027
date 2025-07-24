@@ -7,11 +7,11 @@ from datetime import datetime
 class DataService:
     def __init__(self):
         self.lock = threading.Lock()
-        self.data_file = 'static/data.json'
+        self.data_file = '/data/data.json'
         self.options_file = 'static/options.json'
         
         # Ensure directories exist
-        os.makedirs('static', exist_ok=True)
+        os.makedirs('/data', exist_ok=True)
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 📁 DataService initialized with data_file: {self.data_file}")
     
     def _load_profiles_internal(self, with_pin: bool = False) -> List[Dict[str, Any]]:
