@@ -34,15 +34,20 @@
 }
 
 .title {
-    font-size: 60px;
+    font-size: 30px;
+    padding: 20px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
     color: #9c8028;
+    font-family: "Aniron";
 }
 
 .subtitle {
     font-size: 15px;
+    padding-bottom: 40px;
     color: #9c8028;
-    font-family: Aniron;
-    margin-bottom: 20px
+    font-family: "Aniron";
+    margin: 0;
 }
 
 .acceptButton, .declineButton {
