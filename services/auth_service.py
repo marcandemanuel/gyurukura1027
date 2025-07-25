@@ -63,11 +63,13 @@ class AuthService:
             return False
     
     def is_known_ip(self, ip: str) -> bool:
+        print('\n\n\n\n\nCalled isknownip')
         if ip == self.local_ip:
             self.save_ip(ip)
             return True
         
         ips_data = self.load_ips()
+        print(f'\n\n\n\n\nips_data: {ips_data}, {ip}, {self.local_ip}')
         return ip in ips_data.get('ips', [])
     
     def save_ip(self, ip: str) -> bool:
