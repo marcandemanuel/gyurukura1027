@@ -27,7 +27,7 @@ const IPGuard = ({ children }) => {
     }, [needsPin, isChecking, isLoading, setIsPinRequestActive]);
     useEffect(() => {
         checkAccess();
-    }, [isLoading]);
+    }, []);
 
     const checkAccess = async () => {
         // Wait for app context to finish loading
@@ -69,28 +69,26 @@ const IPGuard = ({ children }) => {
     };
 
     // Show loading while checking IP and app is initializing
-    
+    if (isChecking || isLoading) {
+        return (
+            <div className={styles.loadingContainer}>
+                <div
+                    className={styles.loadingDot}
+                    style={{ backgroundColor: "#9C8028" }}
+                ></div>
+                <div
+                    className={styles.loadingDot}
+                    style={{ backgroundColor: "#9C8028" }}
+                ></div>
+                <div
+                    className={styles.loadingDot}
+                    style={{ backgroundColor: "#9C8028" }}
+                ></div>
+            </div>
+        );
+    }
 
     if (needsPin) {
-        if (isChecking || isLoading) {
-            return (
-                <div className={styles.loadingContainer}>
-                    <div
-                        className={styles.loadingDot}
-                        style={{ backgroundColor: "#9C8028" }}
-                    ></div>
-                    <div
-                        className={styles.loadingDot}
-                        style={{ backgroundColor: "#9C8028" }}
-                    ></div>
-                    <div
-                        className={styles.loadingDot}
-                        style={{ backgroundColor: "#9C8028" }}
-                    ></div>
-                </div>
-            );
-        }
-        
         return (
             <div
                 style={{
