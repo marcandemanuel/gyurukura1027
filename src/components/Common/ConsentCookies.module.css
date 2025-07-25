@@ -97,7 +97,7 @@
     width: 200px;
     height: 200px;
     object-fit: contain;
-    z-index: 1;
+    z-index: 3;
     opacity: 0.25;
     pointer-events: none;
     user-select: none;
