@@ -69,26 +69,28 @@ const IPGuard = ({ children }) => {
     };
 
     // Show loading while checking IP and app is initializing
-    if (isChecking || isLoading) {
-        return (
-            <div className={styles.loadingContainer}>
-                <div
-                    className={styles.loadingDot}
-                    style={{ backgroundColor: "#9C8028" }}
-                ></div>
-                <div
-                    className={styles.loadingDot}
-                    style={{ backgroundColor: "#9C8028" }}
-                ></div>
-                <div
-                    className={styles.loadingDot}
-                    style={{ backgroundColor: "#9C8028" }}
-                ></div>
-            </div>
-        );
-    }
+    
 
     if (needsPin) {
+        if (isChecking || isLoading) {
+            return (
+                <div className={styles.loadingContainer}>
+                    <div
+                        className={styles.loadingDot}
+                        style={{ backgroundColor: "#9C8028" }}
+                    ></div>
+                    <div
+                        className={styles.loadingDot}
+                        style={{ backgroundColor: "#9C8028" }}
+                    ></div>
+                    <div
+                        className={styles.loadingDot}
+                        style={{ backgroundColor: "#9C8028" }}
+                    ></div>
+                </div>
+            );
+        }
+        
         return (
             <div
                 style={{

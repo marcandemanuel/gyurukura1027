@@ -42,11 +42,10 @@ const AuthGuard = ({ children }) => {
     }
 
     const handlePinComplete = async (pin) => {
-
+        setIsLoading(true)
         if (isCreatingPin) {
             if (isConfirming) {
                 if (pin === tempPin) {
-                    setIsLoading(true);
                     // Save new PIN and authenticate
                     const now = new Date();
                     const pad = (n) => n.toString().padStart(2, "0");
@@ -70,7 +69,6 @@ const AuthGuard = ({ children }) => {
                             setIsConfirming(false);
                             setTempPin("");
                             setMissedAttempts(0);
-                            setIsLoading(false);
                         }
                     }
                 } else {
@@ -111,6 +109,7 @@ const AuthGuard = ({ children }) => {
                 }
             }
         }
+        setIsLoading(false)
     };
 
     const handleForgot = () => {
