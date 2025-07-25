@@ -158,7 +158,9 @@ def is_send_emails(config):
 # Serve React app in production
 @app.route('/')
 def serve_react_app():
-    if os.path.exists('dist/index.html'):
+    if os.path.exists('build/index.html'):
+        return send_from_directory('build', 'index.html')
+    elif os.path.exists('dist/index.html'):
         return send_from_directory('dist', 'index.html')
     else:
         return jsonify({
@@ -170,12 +172,16 @@ def serve_react_app():
 @app.route('/<path:path>')
 def serve_static_files(path):
     # Serve static assets from dist/assets
-    if os.path.exists('dist') and path.startswith('assets/'):
+    if os.path.exists('build') and path.startswith('assets/'):
+        return send_from_directory('build', path)
+    elif os.path.exists('dist') and path.startswith('assets/'):
         return send_from_directory('dist', path)
     # Serve static files from public/ (favicon, etc.)
     elif os.path.exists('public') and os.path.exists(os.path.join('public', path)):
         return send_from_directory('public', path)
     # For all other routes (SPA), serve index.html
+    elif os.path.exists('build/index.html'):
+        return send_from_directory('build', 'index.html')
     elif os.path.exists('dist/index.html'):
         return send_from_directory('dist', 'index.html')
     else:
