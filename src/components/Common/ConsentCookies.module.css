@@ -48,6 +48,8 @@
     color: #9c8028;
     font-family: "Aniron";
     margin: 0;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .acceptButton, .declineButton {
@@ -89,7 +91,8 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
-    width: max-content;
+    width: 100%;
+    max-width: 100%;
 }
 
 .imageRight {

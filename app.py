@@ -156,6 +156,50 @@ def is_send_emails(config):
             call_at_datetime(birthday, "birthday")
 
 
+# --- AUDIO STREAMING ROUTE WITH RANGE SUPPORT ---
+from flask import Response, abort
+
+@app.route('/audio/<path:filename>')
+def serve_audio(filename):
+    audio_dir = os.path.join('public', 'audio')
+    file_path = os.path.join(audio_dir, filename)
+    if not os.path.exists(file_path):
+        return abort(404)
+
+    range_header = request.headers.get('Range', None)
+    if not range_header:
+        # No Range header, send full file
+        return send_from_directory(audio_dir, filename)
+
+    size = os.path.getsize(file_path)
+    byte1, byte2 = 0, None
+
+    # Parse Range header: e.g. "bytes=0-1023"
+    import re
+    m = re.match(r"bytes=(\d+)-(\d*)", range_header)
+    if m:
+        byte1 = int(m.group(1))
+        if m.group(2):
+            byte2 = int(m.group(2))
+    else:
+        # Malformed Range header
+        return abort(416)
+
+    if byte2 is not None:
+        length = byte2 - byte1 + 1
+    else:
+        length = size - byte1
+
+    with open(file_path, 'rb') as f:
+        f.seek(byte1)
+        data = f.read(length)
+
+    rv = Response(data, 206, mimetype="audio/mpeg", direct_passthrough=True)
+    rv.headers.add('Content-Range', f'bytes {byte1}-{byte1 + length - 1}/{size}')
+    rv.headers.add('Accept-Ranges', 'bytes')
+    rv.headers.add('Content-Length', str(length))
+    return rv
+
 # Serve React app in production
 @app.route('/')
 def serve_react_app():
