@@ -17,7 +17,11 @@ IPAddr = socket.gethostbyname(hostname)
 
 app = Flask(__name__)
 CORS(app, origins=[
-    "https://gyurukura1027.com", "http://localhost:2006", f"http://{IPAddr}:2006"])
+    "https://gyurukura1027.com",
+    "http://localhost:2006",
+    f"http://{IPAddr}:2006",
+    "https://gyurukura1027.onrender.com"
+])
 app.config["STATIC_FOLDER"] = "static"
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["PREFERRED_URL_SCHEME"] = "https"
