@@ -116,7 +116,7 @@ const IPGuard = ({ children }) => {
         );
     }
 
-    if (showConsent) {
+    if (showConsent || true) {
         return (
             <ConsentCookies
                 onAccept={handleConsentAccept}
