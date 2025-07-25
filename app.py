@@ -169,8 +169,13 @@ def serve_react_app():
 
 @app.route('/<path:path>')
 def serve_static_files(path):
+    # Serve static assets from dist/assets
     if os.path.exists('dist') and path.startswith('assets/'):
         return send_from_directory('dist', path)
+    # Serve static files from public/ (favicon, etc.)
+    elif os.path.exists('public') and os.path.exists(os.path.join('public', path)):
+        return send_from_directory('public', path)
+    # For all other routes (SPA), serve index.html
     elif os.path.exists('dist/index.html'):
         return send_from_directory('dist', 'index.html')
     else:

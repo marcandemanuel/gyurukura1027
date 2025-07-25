@@ -9,6 +9,10 @@ import PinInput from "../../components/Common/PinInput/PinInput";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./Home.module.css";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  "/api";
+
 const Home = () => {
     const [message, setMessage] = useState("Loading...");
     const [showPinChange, setShowPinChange] = useState(false);
@@ -139,7 +143,7 @@ const Home = () => {
 
     useEffect(() => {
         
-        fetch("/api/health")
+        fetch(`${API_BASE}/health`)
             .then((res) => res.json())
             .then((data) => {
                 setMessage(
