@@ -12,6 +12,7 @@ const IPGuard = ({ children }) => {
     const [isChecking, setIsChecking] = useState(true);
     const [needsPin, setNeedsPin] = useState(false);
     const [pinError, setPinError] = useState(false);
+    const [hasChecked, setHasChecked] = useState(false);
     const { isLoading, setIsLoading } = useApp();
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,9 +26,14 @@ const IPGuard = ({ children }) => {
             setIsPinRequestActive(false);
         }
     }, [needsPin, isChecking, isLoading, setIsPinRequestActive]);
+
+    // Only run checkAccess once after isLoading becomes false
     useEffect(() => {
-        checkAccess();
-    }, []);
+        if (!isLoading && !hasChecked) {
+            checkAccess();
+            setHasChecked(true);
+        }
+    }, [isLoading, hasChecked]);
 
     const checkAccess = async () => {
         // Wait for app context to finish loading
