@@ -7,8 +7,8 @@ from datetime import datetime
 class DataService:
     def __init__(self):
         self.lock = threading.Lock()
-        self.data_file = os.environ.get("DATAS_PATH", "data.json")
-        self.options_file = os.environ.get("OPTIONS_PATH", "options.json")
+        self.data_file = os.environ.get("DATAS_PATH")
+        self.options_file = os.environ.get("OPTIONS_PATH")
         
         # Ensure directories exist
         os.makedirs('/data', exist_ok=True)
