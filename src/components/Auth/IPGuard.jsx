@@ -12,7 +12,7 @@ const IPGuard = ({ children }) => {
     const [isChecking, setIsChecking] = useState(true);
     const [needsPin, setNeedsPin] = useState(false);
     const [pinError, setPinError] = useState(false);
-    const { isLoading } = useApp();
+    const { isLoading, setIsLoading } = useApp();
     const navigate = useNavigate();
     const location = useLocation();
     const { setIsPinRequestActive } = usePinRequest();
@@ -49,17 +49,21 @@ const IPGuard = ({ children }) => {
     };
 
     const handlePinComplete = async (pin) => {
+        setIsLoading(true)
         try {
             const isValid = await apiService.checkAdminPin(pin);
             if (isValid) {
                 await apiService.saveIP();
+                setIsLoading(false);
                 setNeedsPin(false);
                 setPinError(false);
                 // Don't redirect here, let the user stay on their intended route
             } else {
+                setIsLoading(false);
                 setPinError(true);
             }
         } catch (error) {
+            setIsLoading(false);
             setPinError(true);
         }
     };
@@ -92,6 +96,7 @@ const IPGuard = ({ children }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
+                    marginTop: 64.8
                 }}
             >
                 <PinInput
