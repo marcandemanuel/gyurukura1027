@@ -10,17 +10,17 @@
     }
 }
 
-
-.overlay {
+.container {
+    animation: swipeup 0.75s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .fadedBackground {
@@ -33,72 +33,78 @@
     z-index: 1;
 }
 
-.modalCard {
-    animation: swipeup 0.75s ease-out;
+.title {
+    font-size: 60px;
+    color: #9c8028;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #9c8028;
+    font-family: Aniron;
+    margin-bottom: 20px
+}
+
+.acceptButton, .declineButton {
+    border: 2px solid transparent;
+    background-color: rgb(0, 0, 0);
+    color: #9c8028;
+    font-size: 12px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 5px;
+    margin-top: 30px;
+    font-family: "Aniron";
     position: relative;
-    z-index: 2;
+}
+
+.textContainer {
+    position: relative;
     width: 70vw;
     min-height: 70vh;
     margin-top: 15vh;
     margin-bottom: 15vh;
+    padding: 10px 0;
+    display: block;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
     box-shadow: 0px 0px 10px #9c8028;
     border-radius: 1vw;
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.textContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
-    justify-content: top;
     align-items: center;
-    overflow: hidden;
-}
-
-.title {
-    margin-bottom: 24px;
-}
-
-.text {
-    font-size: 18px;
-    margin-bottom: 32px;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-}
-
-.buttonRow {
-    display: flex;
-    gap: 32px;
-}
-
-.acceptButton {
-    padding: 12px 32px;
-    background: #9C8028;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.declineButton {
-    padding: 12px 32px;
-    background: #ccc;
-    color: #222;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    cursor: pointer;
+    justify-content: center;
+    z-index: 1;
+    width: max-content;
 }
 
 .imageRight {
     position: absolute;
-    right: 0;
     bottom: 0;
-    width: 200px;
-    height: 200px;
+    right: 0;
+    height: 250px;
+    width: auto;
     object-fit: contain;
-    z-index: 3;
-    opacity: 0.25;
+    display: block;
+    z-index: 0;
     pointer-events: none;
-    user-select: none;
+    border-bottom-right-radius: 1vw;
+}
+
+.buttonRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0;
+    margin-bottom: 20px;
+    justify-content: center;
 }
