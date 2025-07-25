@@ -12,6 +12,7 @@ class ApiService {
             headers: {
                 "Content-Type": "application/json",
             },
+            withCredentials: true, // Ensure cookies are sent
         })
     }
 
@@ -61,14 +62,14 @@ class ApiService {
         return response.data.valid
     }
 
-    async checkIP() {
-        const response = await this.client.get("/auth/check-ip")
-        return response.data.known
+    async checkDeviceToken() {
+        const response = await this.client.get("/auth/check-device-token");
+        return response.data.valid;
     }
 
-    async saveIP() {
-        const response = await this.client.post("/auth/save-ip")
-        return response.data
+    async registerDeviceToken() {
+        const response = await this.client.post("/auth/register-device-token");
+        return response.data;
     }
 
     async sendAcceptanceEmails(ids, message = "") {

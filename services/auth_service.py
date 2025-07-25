@@ -5,23 +5,49 @@ from typing import Optional
 from datetime import datetime
 import services.config_service as config_service
 
+import secrets
+
 class AuthService:
     def __init__(self):
-        self.ips_file = os.environ.get("IPS_PATH")
+        self.device_tokens_file = os.path.join("data", "device_tokens.json")
         self.hostname = socket.gethostname()
         self.local_ip = socket.gethostbyname(self.hostname)
-    
-    def load_ips(self) -> dict:
+
+    def load_device_tokens(self) -> dict:
         try:
-            with open(self.ips_file, 'r', encoding='utf-8') as f:
+            with open(self.device_tokens_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except FileNotFoundError:
-            # Create default IPs file if it doesn't exist
-            default_ips = {'ips': [], 'home-ip': ''}
-            with open(self.ips_file, 'w', encoding='utf-8') as f:
-                json.dump(default_ips, f, ensure_ascii=False, indent=2)
-            return default_ips
-    
+            # Create default device tokens file if it doesn't exist
+            default_tokens = {'tokens': []}
+            with open(self.device_tokens_file, 'w', encoding='utf-8') as f:
+                json.dump(default_tokens, f, ensure_ascii=False, indent=2)
+            return default_tokens
+
+    def save_device_token(self, token: str) -> bool:
+        try:
+            tokens_data = self.load_device_tokens()
+            if token not in [t['token'] for t in tokens_data.get('tokens', [])]:
+                tokens_data.setdefault('tokens', []).append({
+                    'token': token,
+                    'created_at': datetime.now().isoformat()
+                })
+                with open(self.device_tokens_file, 'w', encoding='utf-8') as f:
+                    json.dump(tokens_data, f, ensure_ascii=False, indent=2)
+            return True
+        except Exception as e:
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ Error saving device token: {e}")
+            return False
+
+    def is_valid_device_token(self, token: str) -> bool:
+        tokens_data = self.load_device_tokens()
+        return any(t['token'] == token for t in tokens_data.get('tokens', []))
+
+    def generate_device_token(self) -> str:
+        return secrets.token_urlsafe(32)
+
+    # --- IP-based methods removed ---
+
     def check_profile_pin(self, profile_id: int, pin: str) -> bool:
         try:
             from services.data_service import DataService
@@ -62,31 +88,4 @@ class AuthService:
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ ERROR in check_admin_pin: {e}")
             return False
     
-    def is_known_ip(self, ip: str) -> bool:
-        print('\n\n\n\n\nCalled isknownip')
-        if ip == self.local_ip:
-            self.save_ip(ip)
-            return True
-        
-        ips_data = self.load_ips()
-        print(f'\n\n\n\n\nips_data: {ips_data}, {ip}, {self.local_ip}')
-        return ip in ips_data.get('ips', [])
-    
-    def save_ip(self, ip: str) -> bool:
-        try:
-            ips_data = self.load_ips()
-            
-            if ip == self.local_ip and ips_data.get('home-ip') != self.local_ip:
-                ips_data['ips'] = []
-                ips_data['home-ip'] = self.local_ip
-            
-            if ip not in ips_data.get('ips', []):
-                ips_data.setdefault('ips', []).append(ip)
-            
-            with open(self.ips_file, 'w', encoding='utf-8') as f:
-                json.dump(ips_data, f, ensure_ascii=False, indent=2)
-            
-            return True
-        except Exception as e:
-            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ Error saving IP: {e}")
-            return False
+    # --- IP-based methods removed ---

@@ -17,10 +17,13 @@ import Seat from "./pages/Seat/Seat";
 import NotFound from "./pages/NotFound/NotFound"
 import ErrorBoundary from "./components/Common/ErrorBoundary.jsx";
 
+import CookieConsent from "./components/Common/CookieConsent";
+
 function App() {
   return (
       <ErrorBoundary>
           <>
+              <CookieConsent />
               <Layout>
                   <ScrollToTop />
                   <IPGuard>

@@ -40,7 +40,7 @@ const IPGuard = ({ children }) => {
         if (isLoading) return;
 
         try {
-            const isKnown = await apiService.checkIP();
+            const isKnown = await apiService.checkDeviceToken();
             if (isKnown) {
                 setIsChecking(false);
                 setNeedsPin(false);
@@ -59,7 +59,7 @@ const IPGuard = ({ children }) => {
         try {
             const isValid = await apiService.checkAdminPin(pin);
             if (isValid) {
-                await apiService.saveIP();
+                await apiService.registerDeviceToken();
                 setIsLoading(false);
                 setNeedsPin(false);
                 setPinError(false);

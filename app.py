@@ -347,28 +347,43 @@ def check_admin_pin():
         print(f"[{get_time()}] - ❌ Error in check_admin_pin: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/auth/check-ip', methods=['GET'])
-def check_ip():
+# Device token authentication endpoints
+
+from flask import make_response
+
+@app.route('/api/auth/check-device-token', methods=['GET'])
+def check_device_token():
     try:
-        ip = request.remote_addr
-        print(f"[{get_time()}] - 🌐 Checking IP: {ip}")
-        
-        is_known = auth_service.is_known_ip(ip)
-        return jsonify({'known': is_known})
+        token = request.cookies.get('device_token')
+        print(f"[{get_time()}] - 🔑 Checking device token: {token}")
+        is_valid = False
+        if token:
+            is_valid = auth_service.is_valid_device_token(token)
+        return jsonify({'valid': is_valid})
     except Exception as e:
-        print(f"[{get_time()}] - ❌ Error in check_ip: {e}")
+        print(f"[{get_time()}] - ❌ Error in check_device_token: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/auth/save-ip', methods=['POST'])
-def save_ip():
+@app.route('/api/auth/register-device-token', methods=['POST'])
+def register_device_token():
     try:
-        ip = request.remote_addr
-        print(f"[{get_time()}] - 💾 Saving IP: {ip}")
-        
-        auth_service.save_ip(ip)
-        return jsonify({'success': True})
+        # This endpoint should be called after successful PIN entry
+        token = auth_service.generate_device_token()
+        auth_service.save_device_token(token)
+        resp = make_response(jsonify({'success': True, 'token': token}))
+        # Set as secure, HttpOnly cookie (adjust domain/path as needed)
+        resp.set_cookie(
+            'device_token',
+            token,
+            max_age=60*60*24*365,  # 1 year
+            httponly=True,
+            secure=True,
+            samesite='Lax'
+        )
+        print(f"[{get_time()}] - 🆕 Device token issued and stored.")
+        return resp
     except Exception as e:
-        print(f"[{get_time()}] - ❌ Error in save_ip: {e}")
+        print(f"[{get_time()}] - ❌ Error in register_device_token: {e}")
         return jsonify({'error': str(e)}), 500
 
 # Email routes (for future use)
