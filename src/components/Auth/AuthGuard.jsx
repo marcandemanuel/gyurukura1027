@@ -96,6 +96,18 @@ const AuthGuard = ({ children }) => {
             const success = await authenticate(user.id, pin);
 
             if (success) {
+                // Register device token after successful PIN entry
+                if (window.apiService && typeof window.apiService.registerDeviceToken === "function") {
+                    window.apiService.registerDeviceToken();
+                } else if (typeof import.meta !== "undefined") {
+                    // Vite/ESM: import directly
+                    import("../../services/apiService").then(({ apiService }) => {
+                        apiService.registerDeviceToken();
+                    });
+                } else if (typeof require !== "undefined") {
+                    // CommonJS fallback
+                    require("../../services/apiService").apiService.registerDeviceToken();
+                }
                 setPinError(false);
                 setMissedAttempts(0);
             } else {
