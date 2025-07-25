@@ -3,17 +3,17 @@ import { createPortal } from "react-dom";
 import { useAudio } from "../../contexts/AudioProvider";
 import styles from "./AudioIsland.module.css";
 
+import playImg from "../../assets/images/play.png";
+import pauseImg from "../../assets/images/pause.png";
+import forwardImg from "../../assets/images/forward.png";
+import backwardImg from "../../assets/images/backward.png";
+
 const AudioIsland = () => {
     const { toggleAudio, playNext, playPrevious, isPlaying } = useAudio();
 
     // Preload play/pause/forward/backward images
     useEffect(() => {
-        const images = [
-            "/src/assets/images/play.png",
-            "/src/assets/images/pause.png",
-            "/src/assets/images/forward.png",
-            "/src/assets/images/backward.png"
-        ];
+        const images = [playImg, pauseImg, forwardImg, backwardImg];
         images.forEach(src => {
             const img = new window.Image();
             img.src = src;
@@ -27,7 +27,7 @@ const AudioIsland = () => {
                 className={styles.toggleButton}
                 onClick={playPrevious}
             >
-                <img src="/src/assets/images/backward.png" alt="Előző" />
+                <img src={backwardImg} alt="Előző" />
             </button>
             <button
                 type="button"
@@ -37,8 +37,8 @@ const AudioIsland = () => {
                 <img
                     src={
                         isPlaying
-                            ? "/src/assets/images/pause.png"
-                            : "/src/assets/images/play.png"
+                            ? pauseImg
+                            : playImg
                     }
                     alt={isPlaying ? "Megállítás" : "Lejátszás"}
                 />
@@ -48,7 +48,7 @@ const AudioIsland = () => {
                 className={styles.toggleButton}
                 onClick={playNext}
             >
-                <img src="/src/assets/images/forward.png" alt="Következő" />
+                <img src={forwardImg} alt="Következő" />
             </button>
         </div>
     );

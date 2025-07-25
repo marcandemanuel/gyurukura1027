@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Loading from "../components/Common/Loading/Loading";
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL ||
+  "/api";
+
 const ConfigContext = createContext({
   config: null,
   reloadConfig: () => {},
@@ -15,7 +19,7 @@ export const ConfigProvider = ({ children }) => {
 
   const fetchConfig = () => {
     setLoading(true);
-    fetch(`/api/config?t=${Date.now()}`)
+    fetch(`${API_BASE}/config?t=${Date.now()}`)
       .then((res) => res.json())
       .then((data) => {
         setConfig(data);

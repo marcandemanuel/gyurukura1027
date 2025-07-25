@@ -6,6 +6,8 @@ import Loading from "../../components/Common/Loading/Loading";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Options.module.css";
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+
 const Options = () => {
     const [options, setOptions] = useState({ drink: [], chips: [] });
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
@@ -16,7 +18,7 @@ const Options = () => {
         const fetchOptions = async () => {
             setLoading(true);
             try {
-                const res = await fetch("/api/options");
+                const res = await fetch(`${API_BASE}/api/options`);
                 const data = await res.json();
                 setOptions(data.options || { drink: [], chips: [] });
             } catch (err) {
