@@ -112,10 +112,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const initializeSession = async () => {
       try {
-        // Check if IP is known first
-        const isKnownIP = await apiService.checkIP()
+        // Check if device token is valid first
+        const isKnownDevice = await apiService.checkDeviceToken()
 
-        if (isKnownIP) {
+        if (isKnownDevice) {
           // Try to restore session
           const session = loadSession()
 
@@ -138,7 +138,7 @@ export const AppProvider = ({ children }) => {
           } else {
           }
         } else {
-          // IP not known, clear any existing session
+          // Device not recognized, clear any existing session
           clearSession()
         }
       } catch (error) {
