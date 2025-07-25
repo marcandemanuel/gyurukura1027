@@ -97,7 +97,7 @@ const MovieCard = ({ id, movie, userProfile, onEdit, onInfo }) => {
           {renderContent()}
           {overallStatus !== "Eldöntetlen" && (
               <img
-                  src={`/src/assets/images/${TRANSLATIONS[overallStatus]}.png`}
+                  src={`/images/${TRANSLATIONS[overallStatus]}.png`}
                   alt={TRANSLATIONS[overallStatus]}
                   className={styles.statusImage}
               />

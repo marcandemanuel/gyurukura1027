@@ -2,7 +2,7 @@
 export const useAssets = () => {
   const getImagePath = (imageName) => {
     // For images used in React components
-    return `/src/assets/images/${imageName}`
+    return `/images/${imageName}`
   }
 
   const getPublicImagePath = (imageName) => {

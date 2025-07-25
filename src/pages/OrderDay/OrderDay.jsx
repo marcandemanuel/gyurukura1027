@@ -180,7 +180,7 @@ const OrderDay = () => {
                             />
                             {drinkStatus !== "Eldöntetlen" && (
                                 <img
-                                    src={`/src/assets/images/${TRANSLATIONS[drinkStatus]}.png`}
+                                    src={`/images/${TRANSLATIONS[drinkStatus]}.png`}
                                     alt={TRANSLATIONS[drinkStatus]}
                                     className={styles.statusImage}
                                 />
@@ -209,7 +209,7 @@ const OrderDay = () => {
                             />
                             {chipsStatus !== "Eldöntetlen" && (
                                 <img
-                                    src={`/src/assets/images/${TRANSLATIONS[chipsStatus]}.png`}
+                                    src={`/images/${TRANSLATIONS[chipsStatus]}.png`}
                                     alt={TRANSLATIONS[chipsStatus]}
                                     className={styles.statusImage}
                                 />

@@ -13,8 +13,6 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
     },
-    // Enable SPA fallback for client-side routing
-    historyApiFallback: true,
   },
   build: {
     outDir: "build",

@@ -356,7 +356,7 @@ const Home = () => {
                                 }}
                             >
                                 <img
-                                    src="/src/assets/images/close.png"
+                                    src="/images/close.png"
                                     alt="close"
                                     className={styles.closeImage}
                                 />
