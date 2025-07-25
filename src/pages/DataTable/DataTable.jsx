@@ -260,7 +260,7 @@ const DataTable = () => {
                                         }
                                     >
                                         <img
-                                            src="/src/assets/images/arrow.png"
+                                            src="/images/arrow.png"
                                             alt="arrow"
                                         />
                                     </div>
@@ -296,7 +296,7 @@ const DataTable = () => {
                                             }
                                         >
                                             <img
-                                                src="/src/assets/images/notify.png"
+                                                src="/images/notify.png"
                                                 alt="notify"
                                             />
                                         </div>
@@ -331,7 +331,7 @@ const DataTable = () => {
                                         {formatDayContent(profile, day)}
                                         {dotType === "Teljesítve" && (
                                             <img
-                                                src="/src/assets/images/completed.png"
+                                                src="/images/completed.png"
                                                 alt="Completed"
                                                 className={
                                                     styles.completedImage
@@ -357,7 +357,7 @@ const DataTable = () => {
                                             onClick={() => navigate(`/ulohely/${profileIndex}`)}
                                         >
                                             <img
-                                                src="/src/assets/images/arrow.png"
+                                                src="/images/arrow.png"
                                                 alt="arrow"
                                             />
                                         </div>
@@ -423,7 +423,7 @@ const DataTable = () => {
                             >
                                 {profile.admin && (
                                     <img
-                                        src="/src/assets/images/completed.png"
+                                        src="/images/completed.png"
                                         alt="Completed"
                                         className={styles.adminImage}
                                     />

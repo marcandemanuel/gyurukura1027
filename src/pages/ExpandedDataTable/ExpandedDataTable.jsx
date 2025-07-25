@@ -280,7 +280,7 @@ const ExpandedDataTable = () => {
                                                 `acday${index}`
                                             ][0] === "Teljesítve" && (
                                                 <img
-                                                    src="/src/assets/images/completed.png"
+                                                    src="/images/completed.png"
                                                     alt="Completed"
                                                     className={
                                                         styles.completedImage
@@ -351,7 +351,7 @@ const ExpandedDataTable = () => {
                                                 `acday${index}`
                                             ][1] === "Teljesítve" && (
                                                 <img
-                                                    src="/src/assets/images/completed.png"
+                                                    src="/images/completed.png"
                                                     alt="Completed"
                                                     className={
                                                         styles.completedImage
