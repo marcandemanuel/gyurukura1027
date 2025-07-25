@@ -71,7 +71,7 @@
     min-height: 70vh;
     margin-top: 15vh;
     margin-bottom: 15vh;
-    padding: 10px 0;
+    padding: 10px;
     display: block;
     max-width: none;
     margin-left: 0;
@@ -93,6 +93,7 @@
     z-index: 1;
     width: 100%;
     max-width: 100%;
+    text-align: center;
 }
 
 .imageRight {
