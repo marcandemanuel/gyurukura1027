@@ -56,6 +56,7 @@ export const AppProvider = ({ children }) => {
     const loadSession = () => {
         try {
             const sessionData = localStorage.getItem(SESSION_KEY);
+            console.log(sessionData, 'data');
             if (!sessionData) return null;
 
             const session = JSON.parse(sessionData);
