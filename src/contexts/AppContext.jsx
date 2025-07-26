@@ -60,6 +60,8 @@ export const AppProvider = ({ children }) => {
       const session = JSON.parse(sessionData)
       const now = Date.now()
 
+      console.log(session);
+
       // If there's an unload time, check if timeout has passed since then
       if (session.lastUnloadTime) {
         const timeSinceUnload = now - session.lastUnloadTime
