@@ -64,7 +64,8 @@ class ApiService {
 
     async checkDeviceToken() {
         const response = await this.client.get("/auth/check-device-token");
-        return response.data.valid;
+        // Return the full response object, which may include { valid, user }
+        return response.data;
     }
 
     async registerDeviceToken() {
