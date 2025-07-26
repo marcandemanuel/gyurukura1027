@@ -52,8 +52,10 @@ const DeviceGuard = ({ children }) => {
             if (getDeviceCookie()) {
                 setIsChecking(false);
                 setNeedsPin(false);
+                setIsPinRequestActive(false);
                 setHasChecked(true);
             } else {
+                setIsPinRequestActive(true);
                 setShowConsent(true);
                 setIsChecking(false);
                 setHasChecked(true);
