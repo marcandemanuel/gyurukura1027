@@ -26,6 +26,29 @@ export const AppProvider = ({ children }) => {
     const [confettiStatus, setConfettiStatus] = useState(0);
     const [editedUser, setEditedUser] = useState(null);
 
+    // Listen for deviceguard-autosignin event to auto sign in user
+    useEffect(() => {
+        const handleAutoSignIn = async (event) => {
+            const autoUser = event.detail;
+            if (autoUser && autoUser.id) {
+                setUser(autoUser);
+                setIsAuthenticated(true);
+                // Optionally, fetch latest profiles and update
+                try {
+                    const currentProfiles = await apiService.getProfiles(false);
+                    setProfiles(currentProfiles);
+                } catch (e) {}
+                // Save session in localStorage for consistency
+                saveSession(autoUser, true, null);
+            }
+        };
+        window.addEventListener("deviceguard-autosignin", handleAutoSignIn);
+        return () => {
+            window.removeEventListener("deviceguard-autosignin", handleAutoSignIn);
+        };
+        // eslint-disable-next-line
+    }, []);
+
     // Save session to localStorage
     const saveSession = (userData, isAuth, unloadTime = null) => {
         const session = {
@@ -129,9 +152,7 @@ export const AppProvider = ({ children }) => {
 
                     if (session && session.user) {
                         // Validate that the user still exists in profiles
-                        const currentProfiles = await apiService.getProfiles(
-                            false
-                        );
+                        const currentProfiles = await apiService.getProfiles(false);
                         const userExists = currentProfiles.find(
                             (p) => p.id === session.user.id
                         );
@@ -152,14 +173,27 @@ export const AppProvider = ({ children }) => {
                             clearSession();
                         }
                     } else {
+                        // Device is known but no session: clear session and require user selection/auth
+                        clearSession();
+                        setUser(null);
+                        setIsAuthenticated(false);
                     }
                 } else {
-                    // Device not recognized, clear any existing session
+                    // Device not recognized: register device token, then clear session
+                    try {
+                        await apiService.registerDeviceToken();
+                    } catch (e) {
+                        console.error("Device registration failed:", e);
+                    }
                     clearSession();
+                    setUser(null);
+                    setIsAuthenticated(false);
                 }
             } catch (error) {
                 console.error("Failed to initialize session:", error);
                 clearSession();
+                setUser(null);
+                setIsAuthenticated(false);
             } finally {
                 setIsLoading(false);
             }

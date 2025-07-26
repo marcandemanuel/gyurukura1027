@@ -46,22 +46,65 @@ const DeviceGuard = ({ children }) => {
         }
     }, [needsPin, isChecking, isLoading, setIsPinRequestActive]);
 
-    // On mount, check for device cookie first
+    // On mount, check for device cookie and device session validity
     useEffect(() => {
-        if (!isLoading && !hasChecked) {
-            if (getDeviceCookie()) {
-                setIsChecking(false);
-                setNeedsPin(false);
-                setIsPinRequestActive(false);
-                setHasChecked(true);
-            } else {
+        const checkDeviceAndSession = async () => {
+            if (isLoading || hasChecked) return;
+
+            if (!getDeviceCookie()) {
                 setIsPinRequestActive(true);
                 setShowConsent(true);
                 setIsChecking(false);
                 setHasChecked(true);
+                // Redirect to main page if not already there
+                if (location.pathname !== "/") {
+                    navigate("/", { replace: true });
+                }
+                return;
             }
-        }
-    }, [isLoading, hasChecked]);
+
+            // Device cookie present, check backend for device session
+            setIsChecking(true);
+            try {
+                // This should return { valid: true, user: {...} } if session is valid
+                const response = await apiService.checkDeviceToken();
+                if (response && response.valid && response.user) {
+                    // Auto sign in user and allow navigation
+                    // Set user and isAuthenticated in context
+                    if (typeof window !== "undefined") {
+                        // Defensive: avoid SSR issues
+                        const event = new CustomEvent("deviceguard-autosignin", { detail: response.user });
+                        window.dispatchEvent(event);
+                    }
+                    setIsChecking(false);
+                    setNeedsPin(false);
+                    setIsPinRequestActive(false);
+                    setHasChecked(true);
+                } else {
+                    // Device recognized but no valid session, redirect to /profilok
+                    setIsChecking(false);
+                    setNeedsPin(false);
+                    setIsPinRequestActive(false);
+                    setHasChecked(true);
+                    if (location.pathname !== "/profilok") {
+                        navigate("/profilok", { replace: true });
+                    }
+                }
+            } catch (e) {
+                // On error, treat as not recognized
+                setIsChecking(false);
+                setNeedsPin(false);
+                setIsPinRequestActive(false);
+                setHasChecked(true);
+                if (location.pathname !== "/") {
+                    navigate("/", { replace: true });
+                }
+            }
+        };
+
+        checkDeviceAndSession();
+        // eslint-disable-next-line
+    }, [isLoading, hasChecked, location.pathname, navigate, setIsPinRequestActive]);
 
     // After consent is handled, if declined, go to PIN (do not remember device)
     // If accepted, go to PIN, and after correct PIN, remember device
