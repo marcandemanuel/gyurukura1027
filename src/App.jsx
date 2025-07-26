@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import Layout from "./components/Layout/Layout"
 import ScrollToTop from "./components/Common/ScrollToTop"
-import IPGuard from "./components/Auth/IPGuard"
+import DeviceGuard from "./components/Auth/DeviceGuard"
 import AuthGuard from "./components/Auth/AuthGuard"
 import ProfileSelect from "./pages/ProfileSelect/ProfileSelect"
 import Home from "./pages/Home/Home"
@@ -26,7 +26,7 @@ function App() {
               <CookieConsent />
               <Layout>
                   <ScrollToTop />
-                  <IPGuard>
+                  <DeviceGuard>
                       <Routes>
                           <Route
                               path="/"
@@ -97,7 +97,7 @@ function App() {
                           <Route path="/gyurukura1027" element={<About />} />
                           <Route path="*" element={<NotFound />} />
                       </Routes>
-                  </IPGuard>
+                  </DeviceGuard>
               </Layout>
           </>
       </ErrorBoundary>

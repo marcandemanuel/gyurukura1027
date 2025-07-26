@@ -6,7 +6,7 @@ import { useApp } from "../../contexts/AppContext";
 import PinInput from "../Common/PinInput/PinInput";
 import ConsentCookies from "../Common/ConsentCookies";
 import { apiService } from "../../services/apiService";
-import styles from "./IPGuard.module.css";
+import styles from "./DeviceGuard.module.css";
 import { usePinRequest } from "../../contexts/PinRequestContext";
 
 const DEVICE_COOKIE_KEY = "device_remembered";
@@ -24,7 +24,7 @@ function deleteDeviceCookie() {
     document.cookie = `${DEVICE_COOKIE_KEY}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Strict`;
 }
 
-const IPGuard = ({ children }) => {
+const DeviceGuard = ({ children }) => {
     const [isChecking, setIsChecking] = useState(true);
     const [needsPin, setNeedsPin] = useState(false);
     const [pinError, setPinError] = useState(false);
@@ -116,7 +116,7 @@ const IPGuard = ({ children }) => {
         );
     }
 
-    if (showConsent || true) {
+    if (showConsent) {
         return (
             <ConsentCookies
                 onAccept={handleConsentAccept}
@@ -149,4 +149,4 @@ const IPGuard = ({ children }) => {
     return children;
 };
 
-export default IPGuard;
+export default DeviceGuard;
