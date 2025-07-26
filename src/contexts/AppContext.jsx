@@ -145,6 +145,7 @@ export const AppProvider = ({ children }) => {
             try {
                 // Ask backend for device session and user directly
                 const response = await apiService.checkDeviceToken();
+                console.log("DEBUG: /auth/check-device-token response", response);
                 if (response && response.valid && response.user) {
                     setUser(response.user);
                     setIsAuthenticated(true);
