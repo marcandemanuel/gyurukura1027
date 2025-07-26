@@ -13,7 +13,7 @@ export const useApp = () => {
   return context
 }
 
-const SESSION_TIMEOUT = 5000 // 5 seconds after tab close/page unload
+const SESSION_TIMEOUT = 60000
 const SESSION_KEY = "lotr_session"
 
 export const AppProvider = ({ children }) => {
