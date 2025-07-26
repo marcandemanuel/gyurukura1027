@@ -143,48 +143,20 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         const initializeSession = async () => {
             try {
-                // Check if device token is valid first
-                const isKnownDevice = await apiService.checkDeviceToken();
-
-                if (isKnownDevice) {
-                    // Try to restore session
-                    const session = loadSession();
-
-                    if (session && session.user) {
-                        // Validate that the user still exists in profiles
-                        const currentProfiles = await apiService.getProfiles(false);
-                        const userExists = currentProfiles.find(
-                            (p) => p.id === session.user.id
-                        );
-
-                        if (userExists) {
-                            // Update user data with current profile data
-                            setUser(userExists);
-                            setIsAuthenticated(session.isAuthenticated);
-                            setProfiles(currentProfiles);
-
-                            // Clear the unload time since we're back online
-                            saveSession(
-                                userExists,
-                                session.isAuthenticated,
-                                null
-                            );
-                        } else {
-                            clearSession();
-                        }
-                    } else {
-                        // Device is known but no session: clear session and require user selection/auth
-                        clearSession();
-                        setUser(null);
-                        setIsAuthenticated(false);
-                    }
-                } else {
-                    // Device not recognized: register device token, then clear session
+                // Ask backend for device session and user directly
+                const response = await apiService.checkDeviceToken();
+                if (response && response.valid && response.user) {
+                    setUser(response.user);
+                    setIsAuthenticated(true);
+                    // Optionally fetch latest profiles
                     try {
-                        await apiService.registerDeviceToken();
-                    } catch (e) {
-                        console.error("Device registration failed:", e);
-                    }
+                        const currentProfiles = await apiService.getProfiles(false);
+                        setProfiles(currentProfiles);
+                    } catch (e) {}
+                    // Save session in localStorage for consistency
+                    saveSession(response.user, true, null);
+                } else {
+                    // No valid session: clear everything
                     clearSession();
                     setUser(null);
                     setIsAuthenticated(false);
