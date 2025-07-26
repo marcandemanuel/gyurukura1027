@@ -118,7 +118,7 @@ const DeviceGuard = ({ children }) => {
         );
     }
 
-    if (showConsent || true) {
+    if (showConsent) {
         return (
             <ConsentCookies
                 onAccept={handleConsentAccept}
