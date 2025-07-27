@@ -25,6 +25,9 @@ export const AppProvider = ({ children }) => {
     const [editedUser, setEditedUser] = useState(null);
     const [consentAccepted, setConsentAccepted] = useState(false);
 
+    const USER_ID_COOKIE_KEY = "user_id";
+    const USER_ID_COOKIE_DAYS = 1;
+
     useEffect(() => {
         const initializeUser = async () => {
             try {
@@ -65,7 +68,6 @@ export const AppProvider = ({ children }) => {
         initializeUser();
     }, []);
 
-    // Loads all profiles and updates both profiles and the current user (if logged in)
     const loadProfiles = async (withPin = false) => {
         try {
             const profilesData = await apiService.getProfiles(withPin);
@@ -88,11 +90,22 @@ export const AppProvider = ({ children }) => {
         setIsAuthenticated(false);
     };
 
+    const setUserIDCookie = (id = "none") => {
+        console.log("Setting userid cookie with id", id);
+        const d = new Date();
+        d.setTime(d.getTime() + USER_ID_COOKIE_DAYS * 24 * 60 * 60 * 1000);
+        document.cookie = `${USER_ID_COOKIE_KEY}=${id};expires=${d.toUTCString()};path=/;SameSite=Strict`;
+    };
+
     const authenticate = async (userId, pin) => {
         try {
             const isValid = await apiService.checkProfilePin(userId, pin);
             if (isValid) {
                 setIsAuthenticated(true);
+                console.log('consentAccepted', consentAccepted)
+                if (consentAccepted) {
+                    setUserIDCookie(user.id);
+                }
                 return true;
             }
             return false;
@@ -160,6 +173,7 @@ export const AppProvider = ({ children }) => {
         setConfettiStatus,
         setEditedUser,
         setConsentAccepted,
+        setUserIDCookie
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
