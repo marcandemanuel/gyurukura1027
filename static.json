@@ -1,6 +1,11 @@
 {
   "routes": [
     {
+      "src": "/(.*\\.(png|jpg|jpeg|svg|gif|ico|webp|mp3|mp4|wav|ogg|json|txt|pdf|csv|zip|rar|tar|gz|woff|woff2|ttf|eot|otf))",
+      "dest": "/404.html",
+      "status": 404
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
