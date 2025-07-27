@@ -15,15 +15,18 @@ const Options = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchOptions = async () => {
+        const fetchOptions = () => {
             setLoading(true);
-            try {
-                const res = await fetch(`${API_BASE}/options`);
-                const data = await res.json();
-                setOptions(data.options || { drink: [], chips: [] });
-            } catch (err) {
-            }
-            setLoading(false);
+            fetch(`${API_BASE}/options?t=${Date.now()}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setOptions(data.options || { drink: [], chips: [] });
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    setOptions({ drink: [], chips: [] });
+                    setLoading(false);
+                });
         };
         fetchOptions();
     }, []);
