@@ -33,7 +33,8 @@ export const AppProvider = ({ children }) => {
                     .find((row) => row.startsWith(`${USER_ID_COOKIE_KEY}=`));
                 if (cookieString) {
                     const value = cookieString.split("=")[1];
-                    rememberedUserID = value === "none" ? null : parseInt(value);
+                    rememberedUserID =
+                        value === "none" ? null : parseInt(value);
                     if (rememberedUserID) {
                         const currentProfiles = await apiService.getProfiles(
                             false
@@ -152,7 +153,7 @@ export const AppProvider = ({ children }) => {
         setIsServerError,
         setConfettiStatus,
         setEditedUser,
-        setConsentAccepted
+        setConsentAccepted,
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
