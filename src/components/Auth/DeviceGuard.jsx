@@ -39,7 +39,6 @@ const DeviceGuard = ({ children }) => {
     const { setIsPinRequestActive } = usePinRequest();
     const consentHandledRef = useRef(false);
 
-    // Effect: Set pin request active when needsPin changes
     useEffect(() => {
         if (needsPin) {
             setIsPinRequestActive(true);
@@ -48,7 +47,6 @@ const DeviceGuard = ({ children }) => {
         }
     }, [needsPin, isChecking, isLoading, setIsPinRequestActive]);
 
-    // On mount, check for device cookie first
     useEffect(() => {
         if (!isLoading && !hasChecked) {
             if (getDeviceCookie()) {
@@ -65,8 +63,6 @@ const DeviceGuard = ({ children }) => {
         }
     }, [isLoading, hasChecked]);
 
-    // After consent is handled, if declined, go to PIN (do not remember device)
-    // If accepted, go to PIN, and after correct PIN, remember device
     const handleConsentAccept = () => {
         setShowConsent(false);
         setConsentAccepted(true);
