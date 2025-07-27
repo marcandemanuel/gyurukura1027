@@ -8,6 +8,8 @@ import styles from "./Options.module.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
+console.log(import.meta.env.VITE_API_BASE_URL);
+
 const Options = () => {
     const [options, setOptions] = useState({ drink: [], chips: [] });
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
