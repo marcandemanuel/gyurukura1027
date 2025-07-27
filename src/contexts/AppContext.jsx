@@ -38,8 +38,7 @@ export const AppProvider = ({ children }) => {
                 console.log('cookieString', cookieString);
                 if (cookieString) {
                     const value = cookieString.split("=")[1];
-                    rememberedUserID =
-                        value === "none" ? null : parseInt(value);
+                    const rememberedUserID = value === "none" ? null : parseInt(value);
                     console.log('rememberedUserID', rememberedUserID)
                     if (rememberedUserID) {
                         const currentProfiles = await apiService.getProfiles(
