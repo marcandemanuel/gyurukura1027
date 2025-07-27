@@ -50,6 +50,7 @@ const DeviceGuard = ({ children }) => {
     useEffect(() => {
         if (!isLoading && !hasChecked) {
             if (getDeviceCookie()) {
+                setConsentAccepted(true);
                 setIsChecking(false);
                 setNeedsPin(false);
                 setIsPinRequestActive(false);
