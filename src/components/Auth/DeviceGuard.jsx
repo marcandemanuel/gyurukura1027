@@ -17,9 +17,11 @@ function setDeviceCookie() {
     d.setTime(d.getTime() + (DEVICE_COOKIE_DAYS*24*60*60*1000));
     document.cookie = `${DEVICE_COOKIE_KEY}=1;expires=${d.toUTCString()};path=/;SameSite=Strict`;
 }
+
 function getDeviceCookie() {
     return document.cookie.split(';').some(c => c.trim().startsWith(DEVICE_COOKIE_KEY + '='));
 }
+
 function deleteDeviceCookie() {
     document.cookie = `${DEVICE_COOKIE_KEY}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=Strict`;
 }
@@ -30,8 +32,8 @@ const DeviceGuard = ({ children }) => {
     const [pinError, setPinError] = useState(false);
     const [hasChecked, setHasChecked] = useState(false);
     const [showConsent, setShowConsent] = useState(false);
-    const [consentAccepted, setConsentAccepted] = useState(null); // null = not chosen, true/false = chosen
-    const { isLoading, setIsLoading } = useApp();
+    const { isLoading, setIsLoading, consentAccepted, setConsentAccepted } =
+        useApp();
     const navigate = useNavigate();
     const location = useLocation();
     const { setIsPinRequestActive } = usePinRequest();

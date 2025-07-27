@@ -24,7 +24,6 @@ const Home = () => {
         user,
         loadProfiles,
         refreshCurrentUser,
-        logout,
         isAuthenticated,
         updateProfile,
     } = useApp();
@@ -154,7 +153,6 @@ const Home = () => {
                 setMessage(
                     "❌ Backend connection failed. Make sure Flask is running on port 2020."
                 );
-                console.error("API Error:", err);
             });
 
         
@@ -179,7 +177,6 @@ const Home = () => {
     };
 
     const handleChangeProfile = () => {
-        logout();
         navigate("/profilok");
     };
 

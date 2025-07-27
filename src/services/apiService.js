@@ -36,7 +36,6 @@ class ApiService {
             })
             return response.data
         } catch (error) {
-            console.error("apiService.updateProfile error:", error)
             throw error
         }
     }

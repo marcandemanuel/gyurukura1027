@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { apiService } from "../services/apiService";
 
 const AppContext = createContext();
+const USER_ID_COOKIE_KEY = "user_id";
 
 export const useApp = () => {
     const context = useContext(AppContext);
@@ -12,9 +13,6 @@ export const useApp = () => {
     }
     return context;
 };
-
-const SESSION_TIMEOUT = 60000;
-const SESSION_KEY = "lotr_session";
 
 export const AppProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -25,147 +23,39 @@ export const AppProvider = ({ children }) => {
     const [isServerError, setIsServerError] = useState(false);
     const [confettiStatus, setConfettiStatus] = useState(0);
     const [editedUser, setEditedUser] = useState(null);
+    const [consentAccepted, setConsentAccepted] = useState(false);
 
-    // Save session to localStorage
-    const saveSession = (userData, isAuth, unloadTime = null) => {
-        const session = {
-            user: userData,
-            isAuthenticated: isAuth,
-            lastUnloadTime: unloadTime, // Time when page was unloaded
-            createdTime: Date.now(), // When session was created (for reference)
-        };
-        console.log('Session', session)
-        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    };
-
-    // Update session with unload time
-    const updateSessionUnloadTime = () => {
-        const sessionData = localStorage.getItem(SESSION_KEY);
-        if (sessionData && user && isAuthenticated) {
-            try {
-                const session = JSON.parse(sessionData);
-                session.lastUnloadTime = Date.now();
-                localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-            } catch (error) {
-                console.error("Failed to update session unload time:", error);
-            }
-        }
-    };
-
-    // Load session from localStorage
-    const loadSession = () => {
-        try {
-            const sessionData = localStorage.getItem(SESSION_KEY);
-            console.log(sessionData, 'data');
-            if (!sessionData) return null;
-
-            const session = JSON.parse(sessionData);
-            const now = Date.now();
-
-            console.log(session);
-
-            // If there's an unload time, check if timeout has passed since then
-            if (session.lastUnloadTime) {
-                const timeSinceUnload = now - session.lastUnloadTime;
-                if (timeSinceUnload > SESSION_TIMEOUT) {
-                    localStorage.removeItem(SESSION_KEY);
-                    return null;
-                }
-            }
-
-            return session;
-        } catch (error) {
-            console.log(error);
-            localStorage.removeItem(SESSION_KEY);
-            return null;
-        }
-    };
-
-    // Clear session
-    const clearSession = () => {
-        localStorage.removeItem(SESSION_KEY);
-        setUser(null);
-        setIsAuthenticated(false);
-    };
-
-    // Handle page unload - save the unload timestamp
     useEffect(() => {
-        const handleBeforeUnload = () => {
-            updateSessionUnloadTime();
-        };
-
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "hidden") {
-                // Page is being hidden (tab switch, minimize, etc.)
-                updateSessionUnloadTime();
-            }
-        };
-
-        // Listen for page unload events
-        window.addEventListener("beforeunload", handleBeforeUnload);
-        window.addEventListener("pagehide", handleBeforeUnload);
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-
-        return () => {
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-            window.removeEventListener("pagehide", handleBeforeUnload);
-            document.removeEventListener(
-                "visibilitychange",
-                handleVisibilityChange
-            );
-        };
-    }, [user, isAuthenticated]);
-
-    // Initialize session on app load
-    useEffect(() => {
-        const initializeSession = async () => {
+        const initializeUser = async () => {
             try {
-                // Check if device token is valid first
-                const isKnownDevice = await apiService.checkDeviceToken();
-
-                if (isKnownDevice) {
-                    // Try to restore session
-                    const session = loadSession();
-
-                    if (session && session.user) {
-                        // Validate that the user still exists in profiles
+                const cookieString = document.cookie
+                    .split("; ")
+                    .find((row) => row.startsWith(`${USER_ID_COOKIE_KEY}=`));
+                if (cookieString) {
+                    const value = cookieString.split("=")[1];
+                    rememberedUserID = value === "none" ? null : parseInt(value);
+                    if (rememberedUserID) {
                         const currentProfiles = await apiService.getProfiles(
                             false
                         );
                         const userExists = currentProfiles.find(
-                            (p) => p.id === session.user.id
+                            (p) => p.id === rememberedUserID
                         );
 
                         if (userExists) {
-                            // Update user data with current profile data
                             setUser(userExists);
-                            setIsAuthenticated(session.isAuthenticated);
+                            setIsAuthenticated(true);
                             setProfiles(currentProfiles);
-
-                            // Clear the unload time since we're back online
-                            saveSession(
-                                userExists,
-                                session.isAuthenticated,
-                                null
-                            );
-                        } else {
-                            clearSession();
                         }
-                    } else {
                     }
-                } else {
-                    // Device not recognized, clear any existing session
-                    clearSession();
                 }
             } catch (error) {
-                console.error("Failed to initialize session:", error);
-                clearSession();
             } finally {
                 setIsLoading(false);
             }
         };
 
-        initializeSession();
+        initializeUser();
     }, []);
 
     // Loads all profiles and updates both profiles and the current user (if logged in)
@@ -178,12 +68,10 @@ export const AppProvider = ({ children }) => {
                 const updatedUser = profilesData.find((p) => p.id === user.id);
                 if (updatedUser) {
                     setUser(updatedUser);
-                    saveSession(updatedUser, isAuthenticated, null);
                 }
             }
             return profilesData;
         } catch (error) {
-            console.error("Failed to load profiles:", error);
             return [];
         }
     };
@@ -191,7 +79,6 @@ export const AppProvider = ({ children }) => {
     const selectUser = (selectedUser) => {
         setUser(selectedUser);
         setIsAuthenticated(false);
-        saveSession(selectedUser, false, null);
     };
 
     const authenticate = async (userId, pin) => {
@@ -199,12 +86,10 @@ export const AppProvider = ({ children }) => {
             const isValid = await apiService.checkProfilePin(userId, pin);
             if (isValid) {
                 setIsAuthenticated(true);
-                saveSession(user, true, null);
                 return true;
             }
             return false;
         } catch (error) {
-            console.error("Authentication failed:", error);
             return false;
         }
     };
@@ -227,18 +112,12 @@ export const AppProvider = ({ children }) => {
             // Always update the current user context if the updated profile is the logged-in user
             if (user && updatedUser.id === user.id) {
                 setUser(updatedUser);
-                saveSession(updatedUser, isAuthenticated, null);
             }
 
             return true;
         } catch (error) {
-            console.error("Failed to update profile:", error);
             return false;
         }
-    };
-
-    const logout = () => {
-        clearSession();
     };
 
     // Refreshes the current user from the latest profiles (fetches and updates both)
@@ -248,7 +127,6 @@ export const AppProvider = ({ children }) => {
             const updatedUser = profilesData.find((p) => p.id === user.id);
             if (updatedUser) {
                 setUser(updatedUser);
-                saveSession(updatedUser, isAuthenticated, null);
             }
         }
     };
@@ -263,17 +141,18 @@ export const AppProvider = ({ children }) => {
         isAdmin: user?.admin === true,
         confettiStatus,
         editedUser,
+        consentAccepted,
         loadProfiles,
         refreshCurrentUser,
         selectUser,
         authenticate,
         updateProfile,
-        logout,
         setIsLoading,
         setIsNotFound,
         setIsServerError,
         setConfettiStatus,
         setEditedUser,
+        setConsentAccepted
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

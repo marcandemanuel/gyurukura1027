@@ -7,8 +7,17 @@ import BottomActions from "../../components/BottomActions/BottomActions";
 import Loading from "../../components/Common/Loading/Loading";
 import styles from "./ProfileSelect.module.css";
 
+const USER_ID_COOKIE_KEY = "user_id";
+const USER_ID_COOKIE_DAYS = 1;
+
+function setUserIDCookie(id='none') {
+    const d = new Date();
+    d.setTime(d.getTime() + USER_ID_COOKIE_DAYS * 24 * 60 * 60 * 1000);
+    document.cookie = `${USER_ID_COOKIE_KEY}=${id};expires=${d.toUTCString()};path=/;SameSite=Strict`;
+}
+
 const ProfileSelect = () => {
-    const { profiles, loadProfiles, selectUser, user, isAuthenticated } =
+    const { profiles, loadProfiles, selectUser, user, isAuthenticated, consentAccepted } =
         useApp();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -20,11 +29,15 @@ const ProfileSelect = () => {
             setLoading(false);
         };
         initProfiles();
+        if (consentAccepted) setUserIDCookie('none')
     }, []);
 
     // If user is already selected and authenticated, redirect to home
     useEffect(() => {
         if (user && isAuthenticated) {
+            if (consentAccepted) {
+                setUserIDCookie(user.id)
+            }
             navigate("/nasirend", { replace: true });
         }
     }, [user, isAuthenticated, navigate]);

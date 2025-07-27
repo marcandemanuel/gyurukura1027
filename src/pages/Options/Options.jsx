@@ -22,7 +22,6 @@ const Options = () => {
                 const data = await res.json();
                 setOptions(data.options || { drink: [], chips: [] });
             } catch (err) {
-                console.error("Failed to load options:", err);
             }
             setLoading(false);
         };
