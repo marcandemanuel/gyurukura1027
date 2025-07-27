@@ -11,6 +11,7 @@ const USER_ID_COOKIE_KEY = "user_id";
 const USER_ID_COOKIE_DAYS = 1;
 
 function setUserIDCookie(id='none') {
+    console.log('Setting userid cookie with id', id)
     const d = new Date();
     d.setTime(d.getTime() + USER_ID_COOKIE_DAYS * 24 * 60 * 60 * 1000);
     document.cookie = `${USER_ID_COOKIE_KEY}=${id};expires=${d.toUTCString()};path=/;SameSite=Strict`;
@@ -34,7 +35,9 @@ const ProfileSelect = () => {
 
     // If user is already selected and authenticated, redirect to home
     useEffect(() => {
+        console.log('user, isAuthenticated', user, isAuthenticated)
         if (user && isAuthenticated) {
+            console.log('consentAccepted', consentAccepted)
             if (consentAccepted) {
                 setUserIDCookie(user.id)
             }
