@@ -26,6 +26,7 @@ const Home = () => {
         refreshCurrentUser,
         isAuthenticated,
         updateProfile,
+        logout
     } = useApp();
     const navigate = useNavigate();
     const config = useConfig();
@@ -177,6 +178,7 @@ const Home = () => {
     };
 
     const handleChangeProfile = () => {
+        logout();
         navigate("/profilok");
     };
 

@@ -150,6 +150,11 @@ export const AppProvider = ({ children }) => {
         }
     };
 
+    const logout = () => {
+        setUser(null);
+        setIsAuthenticated(false)
+    }
+
     const value = {
         user,
         isAuthenticated,
@@ -172,7 +177,8 @@ export const AppProvider = ({ children }) => {
         setConfettiStatus,
         setEditedUser,
         setConsentAccepted,
-        setUserIDCookie
+        setUserIDCookie,
+        logout
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
