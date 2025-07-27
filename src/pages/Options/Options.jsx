@@ -20,8 +20,10 @@ const Options = () => {
             try {
                 const res = await fetch(`${API_BASE}/api/options`);
                 const data = await res.json();
+                console.log('data', data)
                 setOptions(data.options || { drink: [], chips: [] });
             } catch (err) {
+                console.error('error', err)
             }
             setLoading(false);
         };

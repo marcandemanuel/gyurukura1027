@@ -31,15 +31,12 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         const initializeUser = async () => {
             try {
-                console.log('Cookie', document.cookie)
                 const cookieString = document.cookie
                     .split("; ")
                     .find((row) => row.startsWith(`${USER_ID_COOKIE_KEY}=`));
-                console.log('cookieString', cookieString);
                 if (cookieString) {
                     const value = cookieString.split("=")[1];
                     const rememberedUserID = value === "none" ? null : parseInt(value);
-                    console.log('rememberedUserID', rememberedUserID)
                     if (rememberedUserID) {
                         const currentProfiles = await apiService.getProfiles(
                             false
@@ -48,7 +45,6 @@ export const AppProvider = ({ children }) => {
                             (p) => p.id === rememberedUserID
                         );
 
-                        console.log('userExists', userExists)
 
                         if (userExists) {
                             setUser(userExists);
@@ -58,7 +54,6 @@ export const AppProvider = ({ children }) => {
                     }
                 }
             } catch (error) {
-                console.log('Error', error)
             } finally {
                 setIsLoading(false);
             }
@@ -90,7 +85,6 @@ export const AppProvider = ({ children }) => {
     };
 
     const setUserIDCookie = (id = "none") => {
-        console.log("Setting userid cookie with id", id);
         const d = new Date();
         d.setTime(d.getTime() + USER_ID_COOKIE_DAYS * 24 * 60 * 60 * 1000);
         document.cookie = `${USER_ID_COOKIE_KEY}=${id};expires=${d.toUTCString()};path=/;SameSite=Strict`;
@@ -101,7 +95,6 @@ export const AppProvider = ({ children }) => {
             const isValid = await apiService.checkProfilePin(userId, pin);
             if (isValid) {
                 setIsAuthenticated(true);
-                console.log('consentAccepted', consentAccepted)
                 if (consentAccepted) {
                     setUserIDCookie(user.id);
                 }

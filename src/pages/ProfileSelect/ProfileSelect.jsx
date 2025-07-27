@@ -25,7 +25,6 @@ const ProfileSelect = () => {
 
     // If user is already selected and authenticated, redirect to home
     useEffect(() => {
-        console.log('user, isAuthenticated', user, isAuthenticated)
         if (user && isAuthenticated) {
             navigate("/nasirend", { replace: true });
         }

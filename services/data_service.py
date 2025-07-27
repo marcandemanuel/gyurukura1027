@@ -74,20 +74,7 @@ class DataService:
             with open(self.options_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except FileNotFoundError:
-            # Create default options file if it doesn't exist
-            default_options = {
-                "drink": [
-                    {"name": "Coca Cola", "amounts": [0.5, 1.0, 1.5, 2.0]},
-                    {"name": "Víz", "amounts": [0.5, 1.0, 1.5, 2.0]}
-                ],
-                "chips": [
-                    {"name": "Lay's Classic", "amounts": [50, 100, 150, 200, 250]},
-                    {"name": "Pringles Original", "amounts": [50, 100, 150, 200]}
-                ]
-            }
-            with open(self.options_file, 'w', encoding='utf-8') as f:
-                json.dump(default_options, f, ensure_ascii=False, indent=2)
-            return default_options
+            print('FILENOTFOUND ERROR')
     
     def update_profile(self, profile_id: int, profile_data: Dict[str, Any], updateType: str = '') -> bool:
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 🔧 DataService.update_profile called with profile_id={profile_id} (type: {type(profile_id)})")
