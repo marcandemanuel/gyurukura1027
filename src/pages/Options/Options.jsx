@@ -8,8 +8,6 @@ import styles from "./Options.module.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
-console.log(import.meta.env.VITE_API_BASE_URL);
-
 const Options = () => {
     const [options, setOptions] = useState({ drink: [], chips: [] });
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
@@ -20,13 +18,10 @@ const Options = () => {
         const fetchOptions = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`${API_BASE}/api/options`);
-                console.log('res', res)
+                const res = await fetch(`${API_BASE}/options`);
                 const data = await res.json();
-                console.log('data', data)
                 setOptions(data.options || { drink: [], chips: [] });
             } catch (err) {
-                console.error('error', err)
             }
             setLoading(false);
         };
