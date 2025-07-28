@@ -216,9 +216,6 @@ def serve_react_app():
 
 @app.route('/<path:path>')
 def serve_static_files(path):
-    print('\n\n\n\n\n')
-    print(path, os.path.exists('build/index.html'))
-    # Serve static assets from dist/assets
     if os.path.exists('build') and path.startswith('assets/'):
         return send_from_directory('build', path)
     elif os.path.exists('dist') and path.startswith('assets/'):
@@ -228,13 +225,10 @@ def serve_static_files(path):
         return send_from_directory('public', path)
     # For all other routes (SPA), serve index.html
     elif os.path.exists('build/index.html'):
-        print('\n\n\n\n\n')
         return send_from_directory('build', 'index.html')
     elif os.path.exists('dist/index.html'):
         return send_from_directory('dist', 'index.html')
     else:
-        print(404)
-        print('\n\n\n\n\n')
         return jsonify({"error": "File not found", "path": path}), 404
 
 # API Routes
