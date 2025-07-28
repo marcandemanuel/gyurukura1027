@@ -27,10 +27,17 @@
         }
 
         body {
+            font-family: "Aniron";
+            background-image: url("/images/lotr-img-1.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
             margin: 0;
-            background: #181818;
-            color: #9c8028;
-            font-family: 'Aniron', Arial, sans-serif;
+            cursor: url("/images/gimli_esmall.png"), auto;
+        }
+        .cursor-gimli2 {
+            cursor: url("/images/gimli2_esmall.png"), auto !important;
         }
 
         .container {
@@ -123,6 +130,19 @@
             <img src="/images/404_top.png" alt="404 illustration" class="notFoundImageRight" />
         </div>
     </div>
+    <script>
+        // Change cursor to gimli2_esmall.png on mousedown, revert on mouseup
+        document.addEventListener('mousedown', function () {
+            document.body.classList.add('cursor-gimli2');
+        });
+        document.addEventListener('mouseup', function () {
+            document.body.classList.remove('cursor-gimli2');
+        });
+        // Also handle mouse leaving window while pressed
+        document.addEventListener('mouseleave', function () {
+            document.body.classList.remove('cursor-gimli2');
+        });
+    </script>
 </body>
 
 </html>
