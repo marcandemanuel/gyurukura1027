@@ -11,9 +11,11 @@ const PinInput = ({
     showForgot = false,
     onForgot,
     error = false,
+    username = "",
 }) => {
     const [pins, setPins] = useState(["", "", "", ""]);
     const inputRefs = useRef([]);
+    const passwordInputRef = useRef(null);
 
     useEffect(() => {
         // Focus first input on mount
@@ -33,6 +35,33 @@ const PinInput = ({
             }, 100);
         }
     }, [error]);
+
+    // Autofill support: If browser autofills the hidden password field, fill the PIN fields
+    useEffect(() => {
+        const checkAutofill = () => {
+            if (passwordInputRef.current) {
+                const val = passwordInputRef.current.value;
+                if (
+                    val &&
+                    val.length === 4 &&
+                    pins.join("") !== val &&
+                    pins.every((p) => p === "")
+                ) {
+                    setPins(val.split(""));
+                    // Optionally, trigger onComplete if you want to auto-submit
+                    // onComplete(val);
+                }
+            }
+        };
+
+        // Check on mount and when the user focuses the first input
+        checkAutofill();
+
+        // Listen for autofill events (works for most browsers)
+        const interval = setInterval(checkAutofill, 300);
+
+        return () => clearInterval(interval);
+    }, [pins]);
 
     const handleChange = (e) => {
         return;
@@ -131,6 +160,27 @@ const PinInput = ({
         <div className={styles.container}>
             <h2 className={styles.title}>{title}</h2>
             <h3 className={styles.subtitle}>{subtitle}</h3>
+
+            {/* Hidden fields for browser password manager */}
+            <input
+                type="text"
+                name="username"
+                autoComplete="username"
+                value={username}
+                readOnly
+                tabIndex={-1}
+                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+            />
+            <input
+                type="password"
+                name="password"
+                autoComplete="current-password"
+                value={pins.join("")}
+                readOnly
+                tabIndex={-1}
+                ref={passwordInputRef}
+                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
+            />
 
             <div
                 className={`${styles.pinBox} ${

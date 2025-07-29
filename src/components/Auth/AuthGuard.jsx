@@ -174,6 +174,7 @@ const AuthGuard = ({ children }) => {
                 showForgot={!isCreatingPin}
                 onForgot={handleForgot}
                 error={pinError}
+                username={user.user}
             />
             <div
                 style={{
