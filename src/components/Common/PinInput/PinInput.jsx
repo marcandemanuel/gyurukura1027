@@ -166,7 +166,6 @@ const PinInput = ({
                     name="password"
                     value={pins.join("")}
                     onChange={(e) => handleHiddenPasswordChange(e)}
-                    autocomplete="one-time-code"
                     readOnly
                     hidden
                 />
@@ -192,6 +191,7 @@ const PinInput = ({
                             className={`${styles.pinInput} ${
                                 pin ? styles.filled : styles.empty
                             }`}
+                            autocomplete="one-time-code"
                             inputMode="numeric"
                             pattern="[0-9]"
                             name={`pininput-${index}`}
