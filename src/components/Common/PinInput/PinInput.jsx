@@ -166,6 +166,7 @@ const PinInput = ({
                     name="password"
                     value={pins.join("")}
                     onChange={(e) => handleHiddenPasswordChange(e)}
+                    autocomplete="one-time-code"
                     readOnly
                     hidden
                 />
