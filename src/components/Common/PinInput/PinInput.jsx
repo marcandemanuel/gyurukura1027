@@ -55,6 +55,8 @@ const PinInput = ({
     }
 
     const handleChange = (e) => {
+        console.log(pins);
+        document.querySelector('input[name="password"]').value = pins.join('');
         setIsPinChanged(true)
     };
 
