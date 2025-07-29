@@ -36,28 +36,7 @@ const PinInput = ({
         }
     }, [error]);
 
-    // Autofill support: If browser autofills the hidden password field, fill the PIN fields
-    useEffect(() => {
-        const checkAutofill = () => {
-            if (passwordInputRef.current) {
-                const val = passwordInputRef.current.value;
-                if (
-                    val &&
-                    val.length === 4
-                ) {
-                    setPins(val.split(""));
-                    // Optionally, trigger onComplete if you want to auto-submit
-                    // onComplete(val);
-                }
-            }
-        };
-
-        // Check on mount and periodically for autofill
-        checkAutofill();
-        const interval = setInterval(checkAutofill, 300);
-
-        return () => clearInterval(interval);
-    }, []);
+    // Autofill support removed: do not allow password managers to save or autofill PIN
 
     const handleChange = (e) => {
         return;
@@ -158,24 +137,7 @@ const PinInput = ({
             <h3 className={styles.subtitle}>{subtitle}</h3>
 
             {/* Hidden fields for browser password manager */}
-            <input
-                type="text"
-                name="username"
-                autoComplete="username"
-                value={username}
-                readOnly
-                tabIndex={-1}
-                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
-            />
-            <input
-                type="password"
-                name="password"
-                autoComplete="current-password"
-                value={pins.join("")}
-                tabIndex={-1}
-                ref={passwordInputRef}
-                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
-            />
+            {/* Hidden username and password fields removed to prevent password manager from saving PIN */}
 
             <div
                 className={`${styles.pinBox} ${
@@ -199,8 +161,8 @@ const PinInput = ({
                         }`}
                         inputMode="numeric"
                         pattern="[0-9]"
-                        autoComplete="one-time-code"
-                        name={`pin-${index}`}
+                        autoComplete="off"
+                        name={`pininput-${index}`}
                     />
                 ))}
             </div>
