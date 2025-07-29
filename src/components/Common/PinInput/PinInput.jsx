@@ -43,9 +43,7 @@ const PinInput = ({
                 const val = passwordInputRef.current.value;
                 if (
                     val &&
-                    val.length === 4 &&
-                    pins.join("") !== val &&
-                    pins.every((p) => p === "")
+                    val.length === 4
                 ) {
                     setPins(val.split(""));
                     // Optionally, trigger onComplete if you want to auto-submit
@@ -54,14 +52,12 @@ const PinInput = ({
             }
         };
 
-        // Check on mount and when the user focuses the first input
+        // Check on mount and periodically for autofill
         checkAutofill();
-
-        // Listen for autofill events (works for most browsers)
         const interval = setInterval(checkAutofill, 300);
 
         return () => clearInterval(interval);
-    }, [pins]);
+    }, []);
 
     const handleChange = (e) => {
         return;
@@ -176,7 +172,6 @@ const PinInput = ({
                 name="password"
                 autoComplete="current-password"
                 value={pins.join("")}
-                readOnly
                 tabIndex={-1}
                 ref={passwordInputRef}
                 style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
@@ -204,7 +199,8 @@ const PinInput = ({
                         }`}
                         inputMode="numeric"
                         pattern="[0-9]"
-                        autoComplete="off"
+                        autoComplete="one-time-code"
+                        name={`pin-${index}`}
                     />
                 ))}
             </div>
