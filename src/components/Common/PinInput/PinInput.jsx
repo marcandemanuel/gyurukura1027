@@ -14,6 +14,7 @@ const PinInput = ({
     username = "",
 }) => {
     const [pins, setPins] = useState(["", "", "", ""]);
+    const [isPinChanged, setIsPinChanged] = useState(false);
     const inputRefs = useRef([]);
     const passwordInputRef = useRef(null);
 
@@ -38,8 +39,23 @@ const PinInput = ({
 
     // Autofill support removed: do not allow password managers to save or autofill PIN
 
+    const handleHiddenPasswordChange = (e) => {
+        if (isPinChanged) {
+            setIsPinChanged(false)
+        } else {
+            const autofilledPIN = document.querySelector(
+                'input[name="password"]'
+            )?.value;
+            if (autofilledPIN && autofilledPIN.length === 4) {
+                setPins(autofilledPIN.split(""));
+                onComplete(autofilledPIN);
+                setPins(["", "", "", ""]);
+            }
+        }
+    }
+
     const handleChange = (e) => {
-        return;
+        setIsPinChanged(true)
     };
 
     const handleInputChange = (index, value) => {
@@ -60,12 +76,12 @@ const PinInput = ({
 
         // Check if all pins are filled
         if (newPins.every((pin) => pin !== "")) {
-            setPins(['', '', '', '']);
             if (inputRefs.current[0]) {
                 inputRefs.current[0].focus();
             }
             const fullPin = newPins.join("");
             onComplete(fullPin);
+            setPins(['', '', '', '']);
         }
     };
 
@@ -93,6 +109,7 @@ const PinInput = ({
             const fullPin = pins.join("");
             if (fullPin.length === 4) {
                 onComplete(fullPin);
+                setPins(["", "", "", ""]);
             }
         } else if (e.key.length === 1) {
             clearError()
@@ -127,45 +144,58 @@ const PinInput = ({
             // If all 4 digits pasted, trigger completion
             if (numbers.length === 4) {
                 onComplete(numbers);
+                setPins(["", "", "", ""]);
             }
         }
     };
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>{title}</h2>
-            <h3 className={styles.subtitle}>{subtitle}</h3>
+            <form onSubmit={(e) => e.preventDefault()}>
+                <input
+                    type="text"
+                    name="username"
+                    value={username}
+                    readOnly
+                    hidden
+                />
+                <input
+                    type="password"
+                    name="password"
+                    value={pins.join("")}
+                    onChange={(e) => handleHiddenPasswordChange(e)}
+                    readOnly
+                    hidden
+                />
 
-            {/* Hidden fields for browser password manager */}
-            {/* Hidden username and password fields removed to prevent password manager from saving PIN */}
+                <h2 className={styles.title}>{title}</h2>
+                <h3 className={styles.subtitle}>{subtitle}</h3>
 
-            <div
-                className={`${styles.pinBox} ${
-                    error ? styles.error : ""
-                }`}
-            >
-                {pins.map((pin, index) => (
-                    <input
-                        key={index}
-                        ref={(el) => (inputRefs.current[index] = el)}
-                        type="password"
-                        maxLength="1"
-                        value={pin}
-                        onChange={(e) => handleChange(e)}
-                        onKeyDown={(e) => handleKeyDown(index, e)}
-                        onPaste={handlePaste}
-                        onFocus={(e) => handleFocus(index)}
-                        onClick={(e) => handleClick(index)}
-                        className={`${styles.pinInput} ${
-                            pin ? styles.filled : styles.empty
-                        }`}
-                        inputMode="numeric"
-                        pattern="[0-9]"
-                        autoComplete="off"
-                        name={`pininput-${index}`}
-                    />
-                ))}
-            </div>
+                <div
+                    className={`${styles.pinBox} ${error ? styles.error : ""}`}
+                >
+                    {pins.map((pin, index) => (
+                        <input
+                            key={index}
+                            ref={(el) => (inputRefs.current[index] = el)}
+                            type="password"
+                            maxLength="1"
+                            value={pin}
+                            onChange={(e) => handleChange(e)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
+                            onPaste={handlePaste}
+                            onFocus={(e) => handleFocus(index)}
+                            onClick={(e) => handleClick(index)}
+                            className={`${styles.pinInput} ${
+                                pin ? styles.filled : styles.empty
+                            }`}
+                            inputMode="numeric"
+                            pattern="[0-9]"
+                            name={`pininput-${index}`}
+                        />
+                    ))}
+                </div>
+            </form>
         </div>
     );
 };
