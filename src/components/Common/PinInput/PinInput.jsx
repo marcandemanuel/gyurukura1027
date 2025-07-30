@@ -15,16 +15,8 @@ const PinInput = ({
 }) => {
     const [pins, setPins] = useState(["", "", "", ""]);
     const [isPinChanged, setIsPinChanged] = useState(false);
-    const [isCompleted, setIsCompleted] = useState(false);
     const inputRefs = useRef([]);
     const passwordInputRef = useRef(null);
-
-    useEffect(() => {
-        const hiddenPin = document.querySelector('input[name="password"]')?.value;
-        if (isCompleted && hiddenPin && hiddenPin.length === 4) {
-            onComplete(hiddenPin)
-        }
-    })
 
     useEffect(() => {
         // Focus first input on mount
@@ -49,23 +41,23 @@ const PinInput = ({
 
     const handleHiddenPasswordChange = (e) => {
         if (isPinChanged) {
-            setIsPinChanged(false)
+            setIsPinChanged(false);
         } else {
             const autofilledPIN = document.querySelector(
                 'input[name="password"]'
             )?.value;
             if (autofilledPIN && autofilledPIN.length === 4) {
                 setPins(autofilledPIN.split(""));
-                setIsCompleted(true);
+                onComplete(autofilledPIN);
                 setPins(["", "", "", ""]);
             }
         }
-    }
+    };
 
     const handleChange = (e) => {
         console.log(pins);
-        document.querySelector('input[name="password"]').value = pins.join('');
-        setIsPinChanged(true)
+        document.querySelector('input[name="password"]').value = pins.join("");
+        setIsPinChanged(true);
     };
 
     const handleInputChange = (index, value) => {
@@ -89,14 +81,15 @@ const PinInput = ({
             if (inputRefs.current[0]) {
                 inputRefs.current[0].focus();
             }
-            setIsCompleted(true);
-            setPins(['', '', '', '']);
+            const fullPin = newPins.join("");
+            onComplete(fullPin);
+            setPins(["", "", "", ""]);
         }
     };
 
     const handleKeyDown = (index, e) => {
         if (e.key === "Backspace") {
-            clearError()
+            clearError();
             e.preventDefault();
             const newPins = [...pins];
 
@@ -117,11 +110,11 @@ const PinInput = ({
         } else if (e.key === "Enter") {
             const fullPin = pins.join("");
             if (fullPin.length === 4) {
-                setIsCompleted(true);
+                onComplete(fullPin);
                 setPins(["", "", "", ""]);
             }
         } else if (e.key.length === 1) {
-            clearError()
+            clearError();
             handleInputChange(index, e.key);
         }
     };
@@ -152,7 +145,7 @@ const PinInput = ({
 
             // If all 4 digits pasted, trigger completion
             if (numbers.length === 4) {
-                setIsCompleted(true);
+                onComplete(numbers);
                 setPins(["", "", "", ""]);
             }
         }
