@@ -70,7 +70,11 @@ const PinInput = ({
         newPins[index] = value;
 
         setPins(newPins);
-
+        // Update hidden password input with the latest value
+        const hiddenInput = document.querySelector('input[name="password"]');
+        if (hiddenInput) {
+            hiddenInput.value = newPins.join("");
+        }
         // Auto-focus next input
         if (value && index < 3) {
             inputRefs.current[index + 1]?.focus();
