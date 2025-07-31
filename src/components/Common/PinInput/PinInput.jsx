@@ -17,16 +17,11 @@ const PinInput = ({
     const [isPinChanged, setIsPinChanged] = useState(false);
     const inputRefs = useRef([]);
     const passwordInputRef = useRef(null);
-    const [focusedIndex, setFocusedIndex] = useState(0);
 
     useEffect(() => {
         // Focus first input on mount
         if (inputRefs.current[0]) {
             inputRefs.current[0].focus();
-        }
-        // Always focus hidden input when any bubble is focused
-        if (passwordInputRef.current) {
-            passwordInputRef.current.focus();
         }
     }, []);
 
@@ -46,7 +41,11 @@ const PinInput = ({
 
     const handleHiddenPasswordChange = (e) => {
         const autofilledPIN = e.target.value;
-        if (autofilledPIN && autofilledPIN.length === 4 && /^\d{4}$/.test(autofilledPIN)) {
+        if (
+            autofilledPIN &&
+            autofilledPIN.length === 4 &&
+            /^\d{4}$/.test(autofilledPIN)
+        ) {
             setPins(autofilledPIN.split(""));
             onComplete(autofilledPIN);
             setTimeout(() => setPins(["", "", "", ""]), 100);
@@ -59,7 +58,9 @@ const PinInput = ({
         if (value && value.length === 4 && /^\d{4}$/.test(value)) {
             setPins(value.split(""));
             // Update hidden input
-            const hiddenInput = document.querySelector('input[name="password"]');
+            const hiddenInput = document.querySelector(
+                'input[name="password"]'
+            );
             if (hiddenInput) hiddenInput.value = value;
             onComplete(value);
             setTimeout(() => setPins(["", "", "", ""]), 100);
@@ -134,11 +135,7 @@ const PinInput = ({
     };
 
     const handleFocus = (index) => {
-        setFocusedIndex(index);
-        // Focus the hidden input instead
-        if (passwordInputRef.current) {
-            passwordInputRef.current.focus();
-        }
+        inputRefs.current[index].select();
     };
 
     const handleClick = (index) => {
@@ -180,23 +177,12 @@ const PinInput = ({
                     hidden
                 />
                 <input
-                    ref={passwordInputRef}
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
+                    type="password"
                     name="password"
-                    style={{
-                        position: "absolute",
-                        opacity: 0,
-                        width: "1px",
-                        height: "1px",
-                        pointerEvents: "none",
-                        zIndex: -1,
-                    }}
                     value={pins.join("")}
-                    onChange={handleHiddenPasswordChange}
                     onInput={handleHiddenPasswordChange}
-                    tabIndex={-1}
+                    onChange={handleHiddenPasswordChange}
+                    hidden
                 />
 
                 <h2 className={styles.title}>{title}</h2>
@@ -212,13 +198,15 @@ const PinInput = ({
                             type="password"
                             maxLength="1"
                             value={pin}
-                            readOnly
-                            onFocus={() => handleFocus(index)}
-                            onClick={() => handleFocus(index)}
+                            onChange={(e) => handleChange(e)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
+                            onPaste={handlePaste}
+                            onFocus={(e) => handleFocus(index)}
+                            onClick={(e) => handleClick(index)}
                             className={`${styles.pinInput} ${
                                 pin ? styles.filled : styles.empty
                             }`}
-                            autoComplete="one-time-code"
+                            autocomplete="one-time-code"
                             inputMode="numeric"
                             pattern="[0-9]"
                             name={`pininput-${index}`}
