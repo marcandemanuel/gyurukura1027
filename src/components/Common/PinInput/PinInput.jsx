@@ -40,22 +40,27 @@ const PinInput = ({
     // Autofill support removed: do not allow password managers to save or autofill PIN
 
     const handleHiddenPasswordChange = (e) => {
-        if (isPinChanged) {
-            setIsPinChanged(false);
-        } else {
-            const autofilledPIN = document.querySelector(
-                'input[name="password"]'
-            )?.value;
-            if (autofilledPIN && autofilledPIN.length === 4) {
-                setPins(autofilledPIN.split(""));
-                onComplete(autofilledPIN);
-                setPins(["", "", "", ""]);
-            }
+        const autofilledPIN = e.target.value;
+        if (autofilledPIN && autofilledPIN.length === 4 && /^\d{4}$/.test(autofilledPIN)) {
+            setPins(autofilledPIN.split(""));
+            onComplete(autofilledPIN);
+            setTimeout(() => setPins(["", "", "", ""]), 100);
         }
     };
 
     const handleChange = (e) => {
-        console.log(pins);
+        const value = e.target.value;
+        // Autofill: if 4 digits are pasted/filled at once, distribute them
+        if (value && value.length === 4 && /^\d{4}$/.test(value)) {
+            setPins(value.split(""));
+            // Update hidden input
+            const hiddenInput = document.querySelector('input[name="password"]');
+            if (hiddenInput) hiddenInput.value = value;
+            onComplete(value);
+            setTimeout(() => setPins(["", "", "", ""]), 100);
+            return;
+        }
+        // Normal single digit input
         document.querySelector('input[name="password"]').value = pins.join("");
         setIsPinChanged(true);
     };
@@ -169,8 +174,8 @@ const PinInput = ({
                     type="password"
                     name="password"
                     value={pins.join("")}
-                    onChange={(e) => handleHiddenPasswordChange(e)}
-                    readOnly
+                    onInput={handleHiddenPasswordChange}
+                    onChange={handleHiddenPasswordChange}
                     hidden
                 />
 
