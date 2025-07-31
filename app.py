@@ -17,6 +17,7 @@ IPAddr = socket.gethostbyname(hostname)
 
 app = Flask(__name__)
 CORS(app, origins=[
+    "https://www.gyurukura1027.com",
     "https://gyurukura1027.com",
     "http://localhost:2006",
     f"http://{IPAddr}:2006",

@@ -68,6 +68,19 @@ const PinInput = ({
     const handleInputChange = (index, value) => {
         // Remove all non-digit characters
         let digits = value.replace(/\D/g, "");
+
+        // Autofill scenario: if user is on the first box and value is 4 digits, treat as autofill
+        if (index === 0 && digits.length === 4) {
+            const newPins = digits.split("");
+            setPins(newPins);
+            const hiddenInput = document.querySelector('input[name="password"]');
+            if (hiddenInput) hiddenInput.value = newPins.join("");
+            // Immediately trigger onComplete and clear
+            onComplete(newPins.join(""));
+            setTimeout(() => setPins(["", "", "", ""]), 100);
+            return;
+        }
+
         if (!digits) {
             // If input is cleared, clear this cell
             const newPins = [...pins];
