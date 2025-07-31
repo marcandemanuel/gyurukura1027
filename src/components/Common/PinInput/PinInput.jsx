@@ -19,14 +19,12 @@ const PinInput = ({
     const passwordInputRef = useRef(null);
 
     useEffect(() => {
-        // Focus first input on mount
         if (inputRefs.current[0]) {
             inputRefs.current[0].focus();
         }
     }, []);
 
     useEffect(() => {
-        // Clear inputs on error
         if (error) {
             setPins(["", "", "", ""]);
             setTimeout(() => {
@@ -37,7 +35,6 @@ const PinInput = ({
         }
     }, [error]);
 
-    // Autofill support removed: do not allow password managers to save or autofill PIN
 
     const handleHiddenPasswordChange = (e) => {
         const autofilledPIN = e.target.value;
@@ -54,11 +51,8 @@ const PinInput = ({
 
     const handleChange = (e) => {
         const value = e.target.value;
-        console.log('Change value', value)
-        // Autofill: if 4 digits are pasted/filled at once, distribute them
         if (value && value.length === 4 && /^\d{4}$/.test(value)) {
             setPins(value.split(""));
-            // Update hidden input
             const hiddenInput = document.querySelector(
                 'input[name="password"]'
             );
@@ -67,33 +61,49 @@ const PinInput = ({
             setTimeout(() => setPins(["", "", "", ""]), 100);
             return;
         }
-        // Normal single digit input
         document.querySelector('input[name="password"]').value = pins.join("");
         setIsPinChanged(true);
     };
 
     const handleInputChange = (index, value) => {
-        // Only allow numbers
-        if (value && !/^\d$/.test(value)) {
+        // Remove all non-digit characters
+        let digits = value.replace(/\D/g, "");
+        if (!digits) {
+            // If input is cleared, clear this cell
+            const newPins = [...pins];
+            newPins[index] = "";
+            setPins(newPins);
+            const hiddenInput = document.querySelector('input[name="password"]');
+            if (hiddenInput) hiddenInput.value = newPins.join("");
             return;
         }
-        console.log('value', value)
 
+        // Distribute digits across the cells starting from current index
         const newPins = [...pins];
-        newPins[index] = value;
-
+        let i = index;
+        for (let d = 0; d < digits.length && i < 4; d++, i++) {
+            newPins[i] = digits[d];
+        }
         setPins(newPins);
-        // Update hidden password input with the latest value
+
+        // Update hidden input
         const hiddenInput = document.querySelector('input[name="password"]');
-        if (hiddenInput) {
-            hiddenInput.value = newPins.join("");
+        if (hiddenInput) hiddenInput.value = newPins.join("");
+
+        // Move focus to next empty cell, or stay if at end
+        let nextIndex = index;
+        for (let j = index; j < 4; j++) {
+            if (newPins[j] === "") {
+                nextIndex = j;
+                break;
+            }
+            nextIndex = j + 1;
         }
-        // Auto-focus next input
-        if (value && index < 3) {
-            inputRefs.current[index + 1]?.focus();
+        if (nextIndex < 4) {
+            inputRefs.current[nextIndex]?.focus();
         }
 
-        // Check if all pins are filled
+        // If all cells filled, trigger onComplete
         if (newPins.every((pin) => pin !== "")) {
             if (inputRefs.current[0]) {
                 inputRefs.current[0].focus();
@@ -111,11 +121,9 @@ const PinInput = ({
             const newPins = [...pins];
 
             if (newPins[index]) {
-                // Clear current input
                 newPins[index] = "";
                 setPins(newPins);
             } else if (index > 0) {
-                // Move to previous input and clear it
                 newPins[index - 1] = "";
                 setPins(newPins);
                 inputRefs.current[index - 1]?.focus();
@@ -156,11 +164,9 @@ const PinInput = ({
             }
             setPins(newPins);
 
-            // Focus the next empty input or last input
             const nextIndex = Math.min(numbers.length, 3);
             inputRefs.current[nextIndex]?.focus();
 
-            // If all 4 digits pasted, trigger completion
             if (numbers.length === 4) {
                 onComplete(numbers);
                 setPins(["", "", "", ""]);
@@ -198,9 +204,8 @@ const PinInput = ({
                             key={index}
                             ref={(el) => (inputRefs.current[index] = el)}
                             type="password"
-                            maxLength="1"
                             value={pin}
-                            onChange={(e) => handleChange(e)}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
                             onKeyDown={(e) => handleKeyDown(index, e)}
                             onPaste={handlePaste}
                             onFocus={(e) => handleFocus(index)}
@@ -208,7 +213,7 @@ const PinInput = ({
                             className={`${styles.pinInput} ${
                                 pin ? styles.filled : styles.empty
                             }`}
-                            autocomplete="one-time-code"
+                            autoComplete="one-time-code"
                             inputMode="numeric"
                             pattern="[0-9]"
                             name={`pininput-${index}`}
