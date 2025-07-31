@@ -91,7 +91,34 @@ const PinInput = ({
             return;
         }
 
-        // Distribute digits across the cells starting from current index
+        if (digits.length === 1) {
+            // Only fill the current box with the single digit
+            const newPins = [...pins];
+            newPins[index] = digits;
+            setPins(newPins);
+
+            // Update hidden input
+            const hiddenInput = document.querySelector('input[name="password"]');
+            if (hiddenInput) hiddenInput.value = newPins.join("");
+
+            // Move focus to next box if not last
+            if (index < 3) {
+                inputRefs.current[index + 1]?.focus();
+            }
+
+            // If all cells filled, trigger onComplete
+            if (newPins.every((pin) => pin !== "")) {
+                if (inputRefs.current[0]) {
+                    inputRefs.current[0].focus();
+                }
+                const fullPin = newPins.join("");
+                onComplete(fullPin);
+                setPins(["", "", "", ""]);
+            }
+            return;
+        }
+
+        // If multiple digits (but not autofill), distribute across cells starting from current index
         const newPins = [...pins];
         let i = index;
         for (let d = 0; d < digits.length && i < 4; d++, i++) {
