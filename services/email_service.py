@@ -39,7 +39,7 @@ class EmailService:
 
             context = ssl.create_default_context()
 
-            with smtplib.SMTP_SSL('smtp.mailersend.net', 587) as server:
+            with smtplib.SMTP('smtp.mailersend.net', 587) as server:
                 server.starttls(context=context)
                 server.login(self.USERNAME, self.PASSWORD)
                 server.sendmail(self.EMAIL, receiver_email, message.as_string())
