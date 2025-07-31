@@ -1,17 +1,24 @@
-import os
-import requests
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+from email.utils import formataddr
+from email.mime.image import MIMEImage
 from typing import List, Dict, Any
 import json
 from datetime import datetime
 import services.config_service as config_service
+import os
+import ssl
 
 class EmailService:
     def __init__(self):
         self.config = config_service.ConfigService().get_config()
-        self.FROM_EMAIL = "nasivalaszto@gyurukura1027.com"
-        self.FROM_NAME = "GyűrűkUra 10-27"
-        self.MAILERSEND_API_KEY = os.environ.get("MAILERSEND_API_KEY")
-
+        self.USERNAME = os.environ.get("SMTP_USERNAME")
+        self.PASSWORD = os.environ.get("SMTP_PASSWORD")
+        self.EMAIL = "nasivalaszto@gyurukura1027.com"
+        self.NAME = "GyűrűkUra 10-27"
+    
     def send_email(self, receiver_email, subject, name, template, app, url="https://www.gyurukura1027.com"):
         try:
             with app.app_context():
@@ -20,33 +27,24 @@ class EmailService:
                 print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] - 📄 Template read')
                 email_content = jinja_template.render({'name': name, 'subject': subject, 'url': url, 'count_down_title': self.config.get('count_down_title')})
 
-            payload = {
-                "from": {
-                    "email": self.FROM_EMAIL,
-                    "name": self.FROM_NAME
-                },
-                "to": [
-                    {
-                        "email": receiver_email,
-                        "name": name
-                    }
-                ],
-                "subject": subject,
-                "html": email_content
-            }
+            message = MIMEMultipart('related')
+            message['From'] = formataddr((str(Header(self.NAME, 'utf-8')), self.EMAIL))
+            message['To'] = receiver_email
+            message["Subject"] = subject
+            message["X-Priority"] = "1"
+            message["X-MSMail-Priority"] = "High"
+            message["Importance"] = "High"
 
-            headers = {
-                "Authorization": f"Bearer {self.MAILERSEND_API_KEY}",
-                "Content-Type": "application/json"
-            }
+            message.attach(MIMEText(email_content, "html"))
 
-            response = requests.post("https://api.mailersend.com/v1/email", headers=headers, data=json.dumps(payload))
-            if response.status_code == 202:
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 📧 Email sikeresen elküldve MailerSend-del!")
-                return True
-            else:
-                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ MailerSend error: {response.status_code} {response.text}")
-                return False
+            context = ssl.create_default_context()
+
+            with smtplib.SMTP_SSL('smtp.mailersend.net', 587) as server:
+                server.starttls(context=context)
+                server.login(self.USERNAME, self.PASSWORD)
+                server.sendmail(self.EMAIL, receiver_email, message.as_string())
+            print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 📧 Email sikeresen elküldve!")
+            return True
         except Exception as e:
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ Error az email küldése közben: {e}")
             return False
