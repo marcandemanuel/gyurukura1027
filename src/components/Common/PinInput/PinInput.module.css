@@ -132,3 +132,14 @@
         margin-right: 0px;
     }
 }
+.hiddenPasswordInput {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(4 * 2px + 4 * 2 * 5px + 3 * 10px + 4 * 6px); /* 4 inputs, padding, gap, border */
+    height: 50px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+}

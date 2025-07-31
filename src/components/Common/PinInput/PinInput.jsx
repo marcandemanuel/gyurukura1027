@@ -19,12 +19,14 @@ const PinInput = ({
     const passwordInputRef = useRef(null);
 
     useEffect(() => {
+        // Focus first input on mount
         if (inputRefs.current[0]) {
             inputRefs.current[0].focus();
         }
     }, []);
 
     useEffect(() => {
+        // Clear inputs on error
         if (error) {
             setPins(["", "", "", ""]);
             setTimeout(() => {
@@ -35,75 +37,48 @@ const PinInput = ({
         }
     }, [error]);
 
+    // Autofill support removed: do not allow password managers to save or autofill PIN
+
     const handleHiddenPasswordChange = (e) => {
-        const autofilledPIN = e.target.value;
-        if (
-            autofilledPIN &&
-            autofilledPIN.length === 4 &&
-            /^\d{4}$/.test(autofilledPIN)
-        ) {
-            setPins(autofilledPIN.split(""));
-            onComplete(autofilledPIN);
-            setTimeout(() => setPins(["", "", "", ""]), 100);
+        if (isPinChanged) {
+            setIsPinChanged(false);
+        } else {
+            const autofilledPIN = document.querySelector(
+                'input[name="password"]'
+            )?.value;
+            if (autofilledPIN && autofilledPIN.length === 4) {
+                setPins(autofilledPIN.split(""));
+                onComplete(autofilledPIN);
+                setPins(["", "", "", ""]);
+            }
         }
     };
 
     const handleChange = (e) => {
-        if (isPinChanged) {
-            setIsPinChanged(false)
-        } else {
-            const value = e.target.value;
-            console.log(value);
-            if (value && value.length === 4 && /^\d{4}$/.test(value)) {
-                setPins(value.split(""));
-                const hiddenInput = document.querySelector(
-                    'input[name="password"]'
-                );
-                if (hiddenInput) hiddenInput.value = value;
-                onComplete(value);
-                setTimeout(() => setPins(["", "", "", ""]), 100);
-                return;
-            }
-            document.querySelector('input[name="password"]').value = pins.join("");
-        }
+        return
     };
 
     const handleInputChange = (index, value) => {
-        setIsPinChanged(true);
-        let digits = value.replace(/\D/g, "");
-        if (!digits) {
-            const newPins = [...pins];
-            newPins[index] = "";
-            setPins(newPins);
-            const hiddenInput = document.querySelector(
-                'input[name="password"]'
-            );
-            if (hiddenInput) hiddenInput.value = newPins.join("");
+        // Only allow numbers
+        if (value && !/^\d$/.test(value)) {
             return;
         }
 
         const newPins = [...pins];
-        let i = index;
-        for (let d = 0; d < digits.length && i < 4; d++, i++) {
-            newPins[i] = digits[d];
-        }
+        newPins[index] = value;
+
         setPins(newPins);
-
+        // Update hidden password input with the latest value
         const hiddenInput = document.querySelector('input[name="password"]');
-        if (hiddenInput) hiddenInput.value = newPins.join("");
-
-        let nextIndex = index;
-        for (let j = index; j < 4; j++) {
-            if (newPins[j] === "") {
-                nextIndex = j;
-                break;
-            }
-            nextIndex = j + 1;
+        if (hiddenInput) {
+            hiddenInput.value = newPins.join("");
         }
-        if (nextIndex < 4) {
-            inputRefs.current[nextIndex]?.focus();
+        // Auto-focus next input
+        if (value && index < 3) {
+            inputRefs.current[index + 1]?.focus();
         }
 
+        // Check if all pins are filled
         if (newPins.every((pin) => pin !== "")) {
             if (inputRefs.current[0]) {
                 inputRefs.current[0].focus();
@@ -121,9 +96,11 @@ const PinInput = ({
             const newPins = [...pins];
 
             if (newPins[index]) {
+                // Clear current input
                 newPins[index] = "";
                 setPins(newPins);
             } else if (index > 0) {
+                // Move to previous input and clear it
                 newPins[index - 1] = "";
                 setPins(newPins);
                 inputRefs.current[index - 1]?.focus();
@@ -164,9 +141,11 @@ const PinInput = ({
             }
             setPins(newPins);
 
+            // Focus the next empty input or last input
             const nextIndex = Math.min(numbers.length, 3);
             inputRefs.current[nextIndex]?.focus();
 
+            // If all 4 digits pasted, trigger completion
             if (numbers.length === 4) {
                 onComplete(numbers);
                 setPins(["", "", "", ""]);
@@ -184,6 +163,17 @@ const PinInput = ({
                     readOnly
                     hidden
                 />
+                <input
+                    type="password"
+                    name="password"
+                    value={pins.join("")}
+                    onChange={(e) => handleHiddenPasswordChange(e)}
+                    readOnly
+                    className={styles.hiddenPasswordInput}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    autoComplete="off"
+                />
 
                 <h2 className={styles.title}>{title}</h2>
                 <h3 className={styles.subtitle}>{subtitle}</h3>
@@ -196,10 +186,9 @@ const PinInput = ({
                             key={index}
                             ref={(el) => (inputRefs.current[index] = el)}
                             type="password"
+                            maxLength="1"
                             value={pin}
-                            onChange={(e) =>
-                                console.log(e)
-                            }
+                            onChange={(e) => handleChange(e)}
                             onKeyDown={(e) => handleKeyDown(index, e)}
                             onPaste={handlePaste}
                             onFocus={(e) => handleFocus(index)}
@@ -207,7 +196,7 @@ const PinInput = ({
                             className={`${styles.pinInput} ${
                                 pin ? styles.filled : styles.empty
                             }`}
-                            autoComplete="one-time-code"
+                            autocomplete="off"
                             inputMode="numeric"
                             pattern="[0-9]"
                             name={`pininput-${index}`}
