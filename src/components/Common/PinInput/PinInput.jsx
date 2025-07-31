@@ -184,14 +184,6 @@ const PinInput = ({
                     readOnly
                     hidden
                 />
-                <input
-                    type="password"
-                    name="password"
-                    value={pins.join("")}
-                    onInput={handleHiddenPasswordChange}
-                    onChange={handleHiddenPasswordChange}
-                    hidden
-                />
 
                 <h2 className={styles.title}>{title}</h2>
                 <h3 className={styles.subtitle}>{subtitle}</h3>
