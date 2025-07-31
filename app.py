@@ -238,6 +238,8 @@ def update_profile(profile_id):
         print(f"[{get_time()}] - 🚀 Calling data_service.update_profile...")
         success = data_service.update_profile(profile_id, profile_data, updateType)
         print(f"[{get_time()}] - ✅ Update result: {success}")
+
+        print(f"Type ------ {updateType}, {success}")
         
         if success and updateType == 'nasi_changed':
             print(f"[{get_time()}] - 📧 Sending notification to admin...")
