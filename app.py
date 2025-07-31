@@ -24,7 +24,7 @@ CORS(app, origins=[
     f"http://{IPAddr}:2006",
     "https://gyurukura1027.onrender.com",
     "https://gyurukura1027-backend.onrender.com"
-], supports_credentials=True, allow_headers="*", methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+], supports_credentials=True, allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 app.config["STATIC_FOLDER"] = "static"
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["PREFERRED_URL_SCHEME"] = "https"
