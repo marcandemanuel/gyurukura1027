@@ -52,8 +52,8 @@ const PinInput = ({
         if (isPinChanged) {
             setIsPinChanged(false)
         } else {
-            console.log(e)
             const value = e.target.value;
+            console.log(value);
             if (value && value.length === 4 && /^\d{4}$/.test(value)) {
                 setPins(value.split(""));
                 const hiddenInput = document.querySelector(
