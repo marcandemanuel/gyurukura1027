@@ -54,6 +54,7 @@ const PinInput = ({
 
     const handleChange = (e) => {
         const value = e.target.value;
+        console.log('Change value', value)
         // Autofill: if 4 digits are pasted/filled at once, distribute them
         if (value && value.length === 4 && /^\d{4}$/.test(value)) {
             setPins(value.split(""));
@@ -76,6 +77,7 @@ const PinInput = ({
         if (value && !/^\d$/.test(value)) {
             return;
         }
+        console.log('value', value)
 
         const newPins = [...pins];
         newPins[index] = value;
