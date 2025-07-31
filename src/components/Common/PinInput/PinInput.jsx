@@ -17,11 +17,16 @@ const PinInput = ({
     const [isPinChanged, setIsPinChanged] = useState(false);
     const inputRefs = useRef([]);
     const passwordInputRef = useRef(null);
+    const [focusedIndex, setFocusedIndex] = useState(0);
 
     useEffect(() => {
         // Focus first input on mount
         if (inputRefs.current[0]) {
             inputRefs.current[0].focus();
+        }
+        // Always focus hidden input when any bubble is focused
+        if (passwordInputRef.current) {
+            passwordInputRef.current.focus();
         }
     }, []);
 
@@ -129,7 +134,11 @@ const PinInput = ({
     };
 
     const handleFocus = (index) => {
-        inputRefs.current[index].select();
+        setFocusedIndex(index);
+        // Focus the hidden input instead
+        if (passwordInputRef.current) {
+            passwordInputRef.current.focus();
+        }
     };
 
     const handleClick = (index) => {
@@ -171,12 +180,23 @@ const PinInput = ({
                     hidden
                 />
                 <input
-                    type="password"
+                    ref={passwordInputRef}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
                     name="password"
+                    style={{
+                        position: "absolute",
+                        opacity: 0,
+                        width: "1px",
+                        height: "1px",
+                        pointerEvents: "none",
+                        zIndex: -1,
+                    }}
                     value={pins.join("")}
-                    onInput={handleHiddenPasswordChange}
                     onChange={handleHiddenPasswordChange}
-                    hidden
+                    onInput={handleHiddenPasswordChange}
+                    tabIndex={-1}
                 />
 
                 <h2 className={styles.title}>{title}</h2>
@@ -192,15 +212,13 @@ const PinInput = ({
                             type="password"
                             maxLength="1"
                             value={pin}
-                            onChange={(e) => handleChange(e)}
-                            onKeyDown={(e) => handleKeyDown(index, e)}
-                            onPaste={handlePaste}
-                            onFocus={(e) => handleFocus(index)}
-                            onClick={(e) => handleClick(index)}
+                            readOnly
+                            onFocus={() => handleFocus(index)}
+                            onClick={() => handleFocus(index)}
                             className={`${styles.pinInput} ${
                                 pin ? styles.filled : styles.empty
                             }`}
-                            autocomplete="one-time-code"
+                            autoComplete="one-time-code"
                             inputMode="numeric"
                             pattern="[0-9]"
                             name={`pininput-${index}`}
