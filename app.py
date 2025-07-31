@@ -11,6 +11,7 @@ from services.data_service import DataService
 from services.auth_service import AuthService
 from services.config_service import ConfigService
 import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
@@ -94,67 +95,26 @@ def send_emails(template):
         
         data_service.update_profile(profile['id'], profile, False)
 
-    
-def is_send_emails(config):
-    nv_opened = config.get("nv_opened")
-    nv_opened_sent = config.get("nv_opened_sent")
-    if nv_opened and nv_opened_sent == False:
-        nv_opened = parser.isoparse(nv_opened)
-        now = datetime.now(nv_opened.tzinfo)
-        today = now.date()
-        nv_date = nv_opened.date()
-        if nv_date == today:
-            call_at_datetime(nv_opened, "nv_opened")
 
-    nv_closes = config.get("nv_closes")
-    nv_closes_sent = config.get("nv_closes_sent")
-    if nv_closes and nv_closes_sent == False:
-        nv_closes = parser.isoparse(nv_closes)
-        now = datetime.now(nv_closes.tzinfo)
-        today = now.date()
-        nv_date = nv_closes.date()
-        if nv_date == today:
-            call_at_datetime(nv_closes, "nv_closes")
-            
-    starts_today = config.get("starts_today")
-    starts_today_sent = config.get("starts_today_sent")
-    if starts_today and starts_today_sent == False:
-        starts_today = parser.isoparse(starts_today)
-        now = datetime.now(starts_today.tzinfo)
-        today = now.date()
-        gyu_date = starts_today.date()
-        if gyu_date == today:
-            call_at_datetime(starts_today, "starts_today")
-            
-    started = config.get("started")
-    started_sent = config.get("started_sent")
-    if started and started_sent == False:
-        started = parser.isoparse(started)
-        now = datetime.now(started.tzinfo)
-        today = now.date()
-        started_date = started.date()
-        if started_date == today:
-            call_at_datetime(started, "started")
-            
-    ends_today = config.get("ends_today")
-    ends_today_sent = config.get("ends_today_sent")
-    if ends_today and ends_today_sent == False:
-        ends_today = parser.isoparse(ends_today)
-        now = datetime.now(ends_today.tzinfo)
-        today = now.date()
-        ends_date = ends_today.date()
-        if ends_date == today:
-            call_at_datetime(ends_today, "ends_today")
-
-    birthday = config.get("birthday")
-    birthday_sent = config.get("birthday_sent")
-    if birthday and birthday_sent == False:
-        birthday = parser.isoparse(birthday)
-        now = datetime.now(birthday.tzinfo)
-        today = now.date()
-        birthday_date = birthday.date()
-        if birthday_date == today:
-            call_at_datetime(birthday, "birthday")
+def schedule_emails_from_config(emails_config):
+    scheduler = BackgroundScheduler()
+    for key, value in emails_config.items():
+        try:
+            send_time = parser.isoparse(value)
+            if send_time > datetime.now(send_time.tzinfo):
+                scheduler.add_job(
+                    send_emails,
+                    'date',
+                    run_date=send_time,
+                    args=[key],
+                    id=f"send_email_{key}",
+                    misfire_grace_time=3600  # 1 hour grace period
+                )
+                print(f"[{get_time()}] - 🗓️ Scheduled '{key}' email for {send_time}")
+        except Exception as e:
+            print(f"[{get_time()}] - ⚠️ Could not schedule '{key}': {e}")
+    scheduler.start()
+    return scheduler
 
 
 # --- AUDIO STREAMING ROUTE WITH RANGE SUPPORT ---
@@ -492,7 +452,9 @@ if __name__ == "__main__":
     print(f"[{get_time()}] - 🎯 Frontend should connect to: http://{IPAddr}:2006")
     print(f"\n\n{'='*20} Console {'='*20}\n\n")
 
-    is_send_emails(config_service.get_config()['emails'])
-    
+    # Schedule all emails at startup
+    emails_config = config_service.get_config()['emails']
+    schedule_emails_from_config(emails_config)
+
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
