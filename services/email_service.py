@@ -8,16 +8,13 @@ from typing import List, Dict, Any
 import json
 from datetime import datetime
 import services.config_service as config_service
-import os
-import ssl
 
 class EmailService:
     def __init__(self):
         self.config = config_service.ConfigService().get_config()
-        self.USERNAME = os.environ.get("SMTP_USERNAME")
-        self.PASSWORD = os.environ.get("SMTP_PASSWORD")
-        self.EMAIL = "nasivalaszto@gyurukura1027.com"
-        self.NAME = "GyűrűkUra 10-27"
+        self.EMAIL = "gyurukura1027@gmail.com"
+        self.PASSWORD = "mzpl oinu laty vkxz"
+        self.NAME = 'GyűrűkUra 10-27'
     
     def send_email(self, receiver_email, subject, name, template, app, url="https://www.gyurukura1027.com"):
         try:
@@ -37,11 +34,8 @@ class EmailService:
 
             message.attach(MIMEText(email_content, "html"))
 
-            context = ssl.create_default_context()
-
-            with smtplib.SMTP('smtp.mailersend.net', 587) as server:
-                server.starttls(context=context)
-                server.login(self.USERNAME, self.PASSWORD)
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+                server.login(self.EMAIL, self.PASSWORD)
                 server.sendmail(self.EMAIL, receiver_email, message.as_string())
             print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 📧 Email sikeresen elküldve!")
             return True
