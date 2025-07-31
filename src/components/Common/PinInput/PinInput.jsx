@@ -70,7 +70,9 @@ const PinInput = ({
         setPins(newPins);
         // Update hidden password input with the latest value
         const hiddenInput = document.querySelector('input[name="password"]');
+        console.log('Tabudi', hiddenInput)
         if (hiddenInput) {
+            console.log(newPins.join(''), 'tabudi')
             hiddenInput.value = newPins.join("");
         }
         // Auto-focus next input
@@ -199,7 +201,7 @@ const PinInput = ({
                             autocomplete="off"
                             inputMode="numeric"
                             pattern="[0-9]"
-                            name={`pininput-${index}`}
+                            name={`input-${index}`}
                         />
                     ))}
                 </div>
