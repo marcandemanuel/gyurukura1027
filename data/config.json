@@ -49,17 +49,11 @@
         }
     },
     "emails": {
-        "nv_opened": "2025-07-30T06:00:00+02:00",
-        "nv_opened_sent": false,
+        "nv_opened": "2025-08-01T06:00:00+02:00",
         "nv_closes": "2025-09-30T06:00:00+02:00",
-        "nv_closes_sent": false,
         "starts_today": "2025-10-22T06:00:00+02:00",
-        "starts_today_sent": false,
         "started": "2025-10-22T19:00:00+02:00",
-        "started_sent": false,
         "ends_today": "2025-10-27T06:00:00+02:00",
-        "ends_today_sent": false,
         "birthday": "2025-10-27T06:00:10+02:00",
-        "birthday_sent": false
     }
 }
