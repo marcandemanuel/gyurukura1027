@@ -206,7 +206,7 @@ const PinInput = ({
                             type="password"
                             value={pin}
                             onChange={(e) =>
-                                handleChange(index, e)
+                                console.log(e)
                             }
                             onKeyDown={(e) => handleKeyDown(index, e)}
                             onPaste={handlePaste}
