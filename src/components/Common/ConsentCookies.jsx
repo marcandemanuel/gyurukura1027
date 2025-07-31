@@ -9,9 +9,7 @@ const ConsentCookies = ({ onAccept, onDecline }) => {
                 <div className={styles.textContent}>
                     <h2 className={styles.title}>Nasik elfogadása</h2>
                     <p className={styles.subtitle}>
-                        Ha nem akarod mindig megadni itt a PIN-kódot, fogadd el
-                        a nasikat, hogy a szerver meg tudja jegyezni az
-                        eszközödet.
+                        A nasik elfogadása nagyban megkönnyíti a kitöltési folyamatot, mivel a szerver meg tudja így jegyezni az eszközt.
                     </p>
                     <div className={styles.buttonRow}>
                         <button
