@@ -11,7 +11,6 @@ const NotFound = () => {
 
     useEffect(() => {
         setIsNotFound(true);
-        return () => setIsNotFound(false);
     }, [setIsNotFound]);
 
     return (

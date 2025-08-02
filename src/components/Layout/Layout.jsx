@@ -31,7 +31,6 @@ const Layout = ({ children }) => {
     const [showConfettiWith, setShowConfettiWith] = useState(null);
 
     useEffect(() => {
-        console.log(isNotFound)
         // Reset isNotFound and isServerError on every route change
         setIsNotFound(false);
         setIsServerError(false);
