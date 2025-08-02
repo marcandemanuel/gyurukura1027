@@ -26,6 +26,20 @@
             }
         }
 
+        @keyframes shakeaxe {
+            0% {
+                transform: translateX(0px);
+            }
+
+            25% {
+                transform: translateX(-30px);
+            }
+
+            100% {
+                transform: translateX(0px);
+            }
+        }
+
         body {
             font-family: "Aniron";
             background-image: url("/images/lotr-img-1.jpg");
@@ -117,6 +131,22 @@
             z-index: 0;
             pointer-events: none;
             border-bottom-right-radius: 1vw;
+        }
+
+        button:hover {
+            border: 2px solid #9c8028;
+            cursor: url("/src/assets/images/gimli_esmall.png"), auto;
+            outline: none;
+        }
+
+        button:active {
+            cursor: url("/src/assets/images/gimli2_esmall.png"), auto;
+            animation: shakeaxe 0.2s ease-in-out;
+        }
+
+        button:focus-visible {
+            border: 2px solid #9c8028;
+            outline: none;
         }
     </style>
 </head>
