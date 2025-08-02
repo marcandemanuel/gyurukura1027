@@ -454,8 +454,8 @@ def health_check():
 config = config_service.get_config()
 
 emails_config = config['emails']
-td = config['timezone']
-schedule_emails_from_config(emails_config)
+td = int(config['timezone'])
+schedule_emails_from_config(td, emails_config)
 
 if __name__ == "__main__":
     print(f"[{get_time()}] - 🎬 GyűrűkUra 10-27 Backend Server")
