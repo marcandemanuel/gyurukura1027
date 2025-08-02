@@ -13,6 +13,7 @@ from services.config_service import ConfigService
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Response, abort
+import pytz
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
@@ -97,13 +98,16 @@ def send_emails(template):
         data_service.update_profile(profile['id'], profile, False)
 
 
-def schedule_emails_from_config(emails_config):
+def schedule_emails_from_config(td, emails_config):
     scheduler = BackgroundScheduler()
     for key, value in emails_config.items():
         try:
+            tz = timezone(timedelta(hours=td))
             send_time = parser.isoparse(value)
-            print(datetime.now(timezone.utc).astimezone(send_time.tzinfo))
-            if send_time > datetime.now(timezone.utc).astimezone(send_time.tzinfo):
+            send_time = send_time.astimezone(tz)
+            current_time = datetime.now(tz)
+            print(current_time)
+            if send_time > current_time:
                 scheduler.add_job(
                     send_emails,
                     'date',
