@@ -53,48 +53,45 @@ const Layout = ({ children }) => {
 
         let latestEvent = null;
         let latestEventTime = null;
-        let futureEvents = [];
+        let nextEvent = null;
+        let nextEventTime = null;
 
         emailKeys.forEach((key) => {
             const value = config.emails[key];
             if (!value) return;
             const send_time = getDateWithOffset(value, td);
 
-            const isSameDay =
-                now.getFullYear() === send_time.getFullYear() &&
-                now.getMonth() === send_time.getMonth() &&
-                now.getDate() === send_time.getDate();
-
-            if (isSameDay && confettiStatus === 0) {
-                if (send_time > now) {
-                    futureEvents.push({ key, send_time });
-                } else if (send_time <= now) {
-                    if (!latestEventTime || send_time > latestEventTime) {
-                        latestEventTime = send_time;
-                        latestEvent = key;
-                    }
+            if (send_time > now) {
+                // Find the soonest future event
+                if (!nextEventTime || send_time < nextEventTime) {
+                    nextEventTime = send_time;
+                    nextEvent = key;
+                }
+            } else {
+                // Find the latest past or current event
+                if (!latestEventTime || send_time > latestEventTime) {
+                    latestEventTime = send_time;
+                    latestEvent = key;
                 }
             }
         });
 
-        // If there are multiple events that already happened, show the latest one
-        if (latestEvent) {
+        if (nextEvent) {
+            // If there is a future event, schedule it as the latest event
+            const remainingMs = nextEventTime - now;
+            if (remainingMs > 0) {
+                const timeoutId = setTimeout(() => {
+                    setConfettiStatus(1);
+                    setShowConfetti(true);
+                    setShowConfettiWith(nextEvent);
+                }, remainingMs);
+                timeoutIds.push(timeoutId);
+            }
+        } else if (latestEvent) {
+            // If there are no future events, show the latest past/current event
             setConfettiStatus(1);
             setShowConfetti(true);
             setShowConfettiWith(latestEvent);
-        } else if (futureEvents.length > 0) {
-            // If there are multiple future events, schedule timers for all
-            futureEvents.forEach(({ key, send_time }) => {
-                const remainingMs = send_time - now;
-                if (remainingMs > 0) {
-                    const timeoutId = setTimeout(() => {
-                        setConfettiStatus(1);
-                        setShowConfetti(true);
-                        setShowConfettiWith(key);
-                    }, remainingMs);
-                    timeoutIds.push(timeoutId);
-                }
-            });
         }
 
         // Cleanup: clear all scheduled timeouts on unmount or config change
