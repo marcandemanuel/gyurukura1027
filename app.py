@@ -92,19 +92,23 @@ def send_emails(template):
 
         profile['notifications'].append([NOTIFICATIONS[template], get_time()])
 
-        if profile['admin'] == True:
-            profile['notifications'].append([f'{template} emailek elküldve.', get_time()])
-        
+        if 'admin' in profile.keys():
+            if profile['admin'] == True:
+                profile['notifications'].append([f'{template} emailek elküldve.', get_time()])
+
         data_service.update_profile(profile['id'], profile, False)
 
 
 def schedule_emails_from_config(td, emails_config):
     scheduler = BackgroundScheduler()
-    send_emails('nv_opened')
     for key, value in emails_config.items():
         try:
             tz = timezone(timedelta(hours=td))
             send_time = parser.isoparse(value)
+            if send_time.tzinfo is None:
+                send_time = send_time.replace(tzinfo=tz)
+            else:
+                send_time = send_time.astimezone(tz)
             current_time = datetime.now(tz)
             print(current_time)
             if send_time > current_time:
