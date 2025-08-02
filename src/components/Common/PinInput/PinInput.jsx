@@ -70,9 +70,7 @@ const PinInput = ({
         setPins(newPins);
         // Update hidden password input with the latest value
         const hiddenInput = document.querySelector('input[name="password"]');
-        console.log("Tabudi", hiddenInput);
         if (hiddenInput) {
-            console.log(newPins.join(""), "tabudi");
             hiddenInput.value = newPins.join("");
         }
         // Auto-focus next input
@@ -170,7 +168,6 @@ const PinInput = ({
                     name="password"
                     value={pins.join("")}
                     onChange={(e) => handleHiddenPasswordChange(e)}
-                    readOnly
                     className={styles.hiddenPasswordInput}
                     tabIndex={-1}
                     aria-hidden="true"
