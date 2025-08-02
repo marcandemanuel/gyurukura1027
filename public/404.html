@@ -128,7 +128,7 @@
             <div class="notFoundTextContent">
                 <h2 class="title">404</h2>
                 <h3 class="subtitle">A szerver nem találja ezt az oldalt.</h3>
-                <button class="homeButton">Kezdőlap</button>
+                <button class="homeButton" id="homeButton404">Kezdőlap</button>
             </div>
             <img src="/images/404_top.png" alt="404 illustration" class="notFoundImageRight">
         </div>
@@ -142,6 +142,9 @@
         });
         document.addEventListener('mouseleave', function () {
             document.body.classList.remove('cursor-gimli2');
+        });
+        document.getElementById('homeButton404').addEventListener('click', function () {
+            window.location.href = '/';
         });
     </script>
 </body>
