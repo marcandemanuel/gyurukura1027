@@ -12,6 +12,7 @@ from services.auth_service import AuthService
 from services.config_service import ConfigService
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask import Response, abort
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
@@ -116,9 +117,6 @@ def schedule_emails_from_config(emails_config):
     scheduler.start()
     return scheduler
 
-
-# --- AUDIO STREAMING ROUTE WITH RANGE SUPPORT ---
-from flask import Response, abort
 
 @app.route('/audio/<path:filename>')
 def serve_audio(filename):
