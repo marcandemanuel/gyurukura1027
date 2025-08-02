@@ -450,7 +450,11 @@ def health_check():
         'frontend_url': f"http://{IPAddr}:2006"
     })
 
-emails_config = config_service.get_config()['emails']
+
+config = config_service.get_config()
+
+emails_config = config['emails']
+td = config['timezone']
 schedule_emails_from_config(emails_config)
 
 if __name__ == "__main__":
