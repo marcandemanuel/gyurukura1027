@@ -17,10 +17,18 @@ const Layout = ({ children }) => {
     const { isPinRequestActive } = usePinRequest();
     const location = useLocation();
     const [showServerError, setShowServerError] = useState(false);
-    const { isLoading, setIsNotFound, setIsServerError, isNotFound, isServerError, confettiStatus, setConfettiStatus } = useApp();
+    const {
+        isLoading,
+        setIsNotFound,
+        setIsServerError,
+        isNotFound,
+        isServerError,
+        confettiStatus,
+        setConfettiStatus,
+    } = useApp();
     const { config } = useConfig();
     const [showConfetti, setShowConfetti] = useState(false);
-    const [showConfettiWith, setShowConfettiWith] = useState(null)
+    const [showConfettiWith, setShowConfettiWith] = useState(null);
 
     useEffect(() => {
         // Reset isNotFound and isServerError on every route change
@@ -28,84 +36,87 @@ const Layout = ({ children }) => {
         setIsServerError(false);
     }, [location.pathname, setIsNotFound, setIsServerError]);
 
+    // Check email keys for date logic
     useEffect(() => {
         if (!config || !config.emails) return;
 
+        // Specify the keys to check
         const emailKeys = [
             "nv_opened",
             "starts_today",
             "started",
             "ends_today",
-            "birthday"
+            "birthday",
         ];
 
-        const td = typeof config.timezone === "number" ? config.timezone : 0;
-
-        function getDateWithOffset(dateStr, offsetHours) {
-            const utcDate = new Date(dateStr + "Z");
-            return new Date(utcDate.getTime() + offsetHours * 60 * 60 * 1000);
-        }
-
-        const nowUTC = new Date();
-        const now = new Date(nowUTC.getTime() + td * 60 * 60 * 1000);
+        const now = new Date();
+        const timedelta = config.timezone;
+        const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+        const targetTime = new Date(utcTime + timedelta * 3600000);
 
         let timeoutIds = [];
 
         let latestEvent = null;
         let latestEventTime = null;
-        let nextEvent = null;
-        let nextEventTime = null;
+        let futureEvents = [];
 
         emailKeys.forEach((key) => {
-            const value = config.emails[key];
-            if (!value) return;
-            const send_time = getDateWithOffset(value, td);
+            const dateStr = config.emails[key];
+            if (!dateStr) return;
+            const dateObj = new Date(dateStr);
 
-            if (send_time > now) {
-                // Find the soonest future event
-                if (!nextEventTime || send_time < nextEventTime) {
-                    nextEventTime = send_time;
-                    nextEvent = key;
-                }
-            } else {
-                // Find the latest past or current event
-                if (!latestEventTime || send_time > latestEventTime) {
-                    latestEventTime = send_time;
-                    latestEvent = key;
+            // Check if same day
+            const isSameDay =
+                targetTime.getFullYear() === dateObj.getFullYear() &&
+                targetTime.getMonth() === dateObj.getMonth() &&
+                targetTime.getDate() === dateObj.getDate();
+
+            if (isSameDay && confettiStatus === 0) {
+                if (targetTime > dateObj) {
+                    // Track the latest event that already happened
+                    if (!latestEventTime || dateObj > latestEventTime) {
+                        latestEventTime = dateObj;
+                        latestEvent = key;
+                    }
+                } else if (targetTime < dateObj) {
+                    // Collect all future events for timer scheduling
+                    futureEvents.push({ key, dateObj });
                 }
             }
         });
 
-        if (nextEvent) {
-            // If there is a future event, schedule it as the latest event
-            const remainingMs = nextEventTime - now;
-            if (remainingMs > 0) {
-                const timeoutId = setTimeout(() => {
-                    setConfettiStatus(1);
-                    setShowConfetti(true);
-                    setShowConfettiWith(nextEvent);
-                }, remainingMs);
-                timeoutIds.push(timeoutId);
-            }
-        } else if (latestEvent) {
-            // If there are no future events, show the latest past/current event
+        // If there are multiple events that already happened, show the latest one
+        if (latestEvent) {
             setConfettiStatus(1);
             setShowConfetti(true);
             setShowConfettiWith(latestEvent);
+        } else if (futureEvents.length > 0) {
+            // If there are multiple future events, schedule timers for all
+            futureEvents.forEach(({ key, dateObj }) => {
+                const remainingMs = dateObj - targetTime;
+                if (remainingMs > 0) {
+                    const timeoutId = setTimeout(() => {
+                        setConfettiStatus(1);
+                        setShowConfetti(true);
+                        setShowConfettiWith(key);
+                    }, remainingMs);
+                    timeoutIds.push(timeoutId);
+                }
+            });
         }
 
         // Cleanup: clear all scheduled timeouts on unmount or config change
         return () => {
-            timeoutIds.forEach(id => clearTimeout(id));
+            timeoutIds.forEach((id) => clearTimeout(id));
         };
     }, [config, confettiStatus]);
 
     useEffect(() => {
         if (confettiStatus === 2) {
             setShowConfetti(false);
-            setShowConfettiWith(null)
+            setShowConfettiWith(null);
         }
-    }, [confettiStatus])
+    }, [confettiStatus]);
 
     useEffect(() => {
         // Add click tracking for collapse effect (from original)
@@ -211,10 +222,7 @@ const Layout = ({ children }) => {
     }
 
     const shouldShowFixedElements =
-        !isPinRequestActive &&
-        !isLoading &&
-        !isNotFound &&
-        !isServerError;
+        !isPinRequestActive && !isLoading && !isNotFound && !isServerError;
 
     return (
         <div
@@ -227,7 +235,7 @@ const Layout = ({ children }) => {
             {shouldShowFixedElements && <AudioIsland />}
             {shouldShowFixedElements && <FixedRightsBox />}
             {shouldShowFixedElements && <CountDownTitle />}
-            {(showConfetti && showConfettiWith) ? (
+            {showConfetti && showConfettiWith ? (
                 <ConfettiEvents eventName={showConfettiWith} />
             ) : (
                 children

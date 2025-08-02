@@ -55,7 +55,7 @@ const PinInput = ({
     };
 
     const handleChange = (e) => {
-        return
+        return;
     };
 
     const handleInputChange = (index, value) => {
@@ -70,9 +70,9 @@ const PinInput = ({
         setPins(newPins);
         // Update hidden password input with the latest value
         const hiddenInput = document.querySelector('input[name="password"]');
-        console.log('Tabudi', hiddenInput)
+        console.log("Tabudi", hiddenInput);
         if (hiddenInput) {
-            console.log(newPins.join(''), 'tabudi')
+            console.log(newPins.join(""), "tabudi");
             hiddenInput.value = newPins.join("");
         }
         // Auto-focus next input
@@ -165,46 +165,44 @@ const PinInput = ({
                     readOnly
                     hidden
                 />
+                <input
+                    type="password"
+                    name="password"
+                    value={pins.join("")}
+                    onChange={(e) => handleHiddenPasswordChange(e)}
+                    readOnly
+                    className={styles.hiddenPasswordInput}
+                    tabIndex={-1}
+                    aria-hidden="true"
+                />
 
                 <h2 className={styles.title}>{title}</h2>
                 <h3 className={styles.subtitle}>{subtitle}</h3>
 
-                <div className={styles.pinBoxWrapper}>
-                    <input
-                        type="password"
-                        name="password"
-                        value={pins.join("")}
-                        onChange={(e) => handleHiddenPasswordChange(e)}
-                        className={styles.hiddenPasswordInput}
-                        tabIndex={-1}
-                        aria-hidden="true"
-                        autoComplete="one-time-code"
-                    />
-                    <div
-                        className={`${styles.pinBox} ${error ? styles.error : ""}`}
-                    >
-                        {pins.map((pin, index) => (
-                            <input
-                                key={index}
-                                ref={(el) => (inputRefs.current[index] = el)}
-                                type="password"
-                                maxLength="1"
-                                value={pin}
-                                onChange={(e) => handleChange(e)}
-                                onKeyDown={(e) => handleKeyDown(index, e)}
-                                onPaste={handlePaste}
-                                onFocus={(e) => handleFocus(index)}
-                                onClick={(e) => handleClick(index)}
-                                className={`${styles.pinInput} ${
-                                    pin ? styles.filled : styles.empty
-                                }`}
-                                autoComplete="off"
-                                inputMode="numeric"
-                                pattern="[0-9]"
-                                name={`input-${index}`}
-                            />
-                        ))}
-                    </div>
+                <div
+                    className={`${styles.pinBox} ${error ? styles.error : ""}`}
+                >
+                    {pins.map((pin, index) => (
+                        <input
+                            key={index}
+                            ref={(el) => (inputRefs.current[index] = el)}
+                            type="password"
+                            maxLength="1"
+                            value={pin}
+                            onChange={(e) => handleChange(e)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
+                            onPaste={handlePaste}
+                            onFocus={(e) => handleFocus(index)}
+                            onClick={(e) => handleClick(index)}
+                            className={`${styles.pinInput} ${
+                                pin ? styles.filled : styles.empty
+                            }`}
+                            autocomplete="off"
+                            inputMode="numeric"
+                            pattern="[0-9]"
+                            name={`input-${index}`}
+                        />
+                    ))}
                 </div>
             </form>
         </div>
