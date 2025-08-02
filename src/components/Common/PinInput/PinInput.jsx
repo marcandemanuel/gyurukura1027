@@ -174,7 +174,7 @@ const PinInput = ({
                     className={styles.hiddenPasswordInput}
                     tabIndex={-1}
                     aria-hidden="true"
-                    autoComplete="off"
+                    autoComplete="one-time-code"
                 />
 
                 <h2 className={styles.title}>{title}</h2>
