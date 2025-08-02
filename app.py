@@ -100,6 +100,7 @@ def send_emails(template):
 
 def schedule_emails_from_config(td, emails_config):
     scheduler = BackgroundScheduler()
+    send_emails('nv_opened')
     for key, value in emails_config.items():
         try:
             tz = timezone(timedelta(hours=td))
