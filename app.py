@@ -99,9 +99,12 @@ def send_emails(template):
 
 def schedule_emails_from_config(emails_config):
     scheduler = BackgroundScheduler()
+    print('SENDING EMAILS0')
     for key, value in emails_config.items():
         try:
+            print('SENDING EMAILS1')
             send_time = parser.isoparse(value)
+            print('SENDING EMAILS2')
             if send_time > datetime.now(send_time.tzinfo):
                 scheduler.add_job(
                     send_emails,
@@ -109,7 +112,7 @@ def schedule_emails_from_config(emails_config):
                     run_date=send_time,
                     args=[key],
                     id=f"send_email_{key}",
-                    misfire_grace_time=3600  # 1 hour grace period
+                    misfire_grace_time=300
                 )
                 print(f"[{get_time()}] - 🗓️ Scheduled '{key}' email for {send_time}")
         except Exception as e:
