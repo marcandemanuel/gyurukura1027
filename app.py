@@ -104,7 +104,6 @@ def schedule_emails_from_config(td, emails_config):
         try:
             tz = timezone(timedelta(hours=td))
             send_time = parser.isoparse(value)
-            send_time = send_time.astimezone(tz)
             current_time = datetime.now(tz)
             print(current_time)
             if send_time > current_time:
