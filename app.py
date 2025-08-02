@@ -99,12 +99,9 @@ def send_emails(template):
 
 def schedule_emails_from_config(emails_config):
     scheduler = BackgroundScheduler()
-    print('SENDING EMAILS0')
     for key, value in emails_config.items():
         try:
-            print('SENDING EMAILS1')
             send_time = parser.isoparse(value)
-            print('SENDING EMAILS2')
             if send_time > datetime.now(send_time.tzinfo):
                 scheduler.add_job(
                     send_emails,
