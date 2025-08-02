@@ -325,7 +325,7 @@ const Timeline = ({ about }) => {
             {events
                 .slice(0, -1)
                 .map((event, idx) =>
-                    !onlyShowLastCard && entered[idx] ? (
+                    entered[idx] ? (
                         <InfoCard
                             key={event.name}
                             event={event}
