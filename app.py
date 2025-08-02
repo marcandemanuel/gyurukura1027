@@ -110,7 +110,6 @@ def schedule_emails_from_config(td, emails_config):
             else:
                 send_time = send_time.astimezone(tz)
             current_time = datetime.now(tz)
-            print(current_time)
             if send_time > current_time:
                 scheduler.add_job(
                     send_emails,
@@ -205,7 +204,7 @@ def serve_static_files(path):
 def get_config():
     config = config_service.get_config()
 
-    keys = ["count_down_title", "start_time", "birthday_on_movie_id", "year", "about", "about_current_text", "emails"]
+    keys = ["count_down_title", "start_time", "birthday_on_movie_id", "year", "about", "about_current_text", "emails", "timezone"]
     filtered = {k: config[k] for k in keys if k in config}
     return jsonify(filtered)
 

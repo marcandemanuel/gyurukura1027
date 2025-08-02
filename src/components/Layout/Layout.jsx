@@ -28,11 +28,9 @@ const Layout = ({ children }) => {
         setIsServerError(false);
     }, [location.pathname, setIsNotFound, setIsServerError]);
 
-    // Check email keys for date logic
     useEffect(() => {
         if (!config || !config.emails) return;
 
-        // Specify the keys to check
         const emailKeys = [
             "nv_opened",
             "starts_today",
@@ -41,36 +39,40 @@ const Layout = ({ children }) => {
             "birthday"
         ];
 
-        const now = new Date();
+        const td = typeof config.timezone === "number" ? config.timezone : 0;
+
+        function getDateWithOffset(dateStr, offsetHours) {
+            const utcDate = new Date(dateStr + "Z");
+            return new Date(utcDate.getTime() + offsetHours * 60 * 60 * 1000);
+        }
+
+        const nowUTC = new Date();
+        const now = new Date(nowUTC.getTime() + td * 60 * 60 * 1000);
+
         let timeoutIds = [];
 
-        // Track the latest event that already happened today
         let latestEvent = null;
         let latestEventTime = null;
-        // Track all future events on the same day
         let futureEvents = [];
 
         emailKeys.forEach((key) => {
-            const dateStr = config.emails[key];
-            if (!dateStr) return;
-            const dateObj = new Date(dateStr);
+            const value = config.emails[key];
+            if (!value) return;
+            const send_time = getDateWithOffset(value, td);
 
-            // Check if same day
             const isSameDay =
-                now.getFullYear() === dateObj.getFullYear() &&
-                now.getMonth() === dateObj.getMonth() &&
-                now.getDate() === dateObj.getDate();
+                now.getFullYear() === send_time.getFullYear() &&
+                now.getMonth() === send_time.getMonth() &&
+                now.getDate() === send_time.getDate();
 
             if (isSameDay && confettiStatus === 0) {
-                if (now > dateObj) {
-                    // Track the latest event that already happened
-                    if (!latestEventTime || dateObj > latestEventTime) {
-                        latestEventTime = dateObj;
+                if (send_time > now) {
+                    futureEvents.push({ key, send_time });
+                } else if (send_time <= now) {
+                    if (!latestEventTime || send_time > latestEventTime) {
+                        latestEventTime = send_time;
                         latestEvent = key;
                     }
-                } else if (now < dateObj) {
-                    // Collect all future events for timer scheduling
-                    futureEvents.push({ key, dateObj });
                 }
             }
         });
@@ -82,8 +84,8 @@ const Layout = ({ children }) => {
             setShowConfettiWith(latestEvent);
         } else if (futureEvents.length > 0) {
             // If there are multiple future events, schedule timers for all
-            futureEvents.forEach(({ key, dateObj }) => {
-                const remainingMs = dateObj - now;
+            futureEvents.forEach(({ key, send_time }) => {
+                const remainingMs = send_time - now;
                 if (remainingMs > 0) {
                     const timeoutId = setTimeout(() => {
                         setConfettiStatus(1);
