@@ -448,6 +448,9 @@ def health_check():
         'frontend_url': f"http://{IPAddr}:2006"
     })
 
+emails_config = config_service.get_config()['emails']
+schedule_emails_from_config(emails_config)
+
 if __name__ == "__main__":
     print(f"[{get_time()}] - 🎬 GyűrűkUra 10-27 Backend Server")
     print(f"[{get_time()}] - 🔗 API endpoints available at: http://{IPAddr}:2020/api/")
@@ -455,9 +458,6 @@ if __name__ == "__main__":
     print(f"[{get_time()}] - 🎯 Frontend should connect to: http://{IPAddr}:2006")
     print(f"\n\n{'='*20} Console {'='*20}\n\n")
 
-    # Schedule all emails at startup
-    emails_config = config_service.get_config()['emails']
-    schedule_emails_from_config(emails_config)
 
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host="0.0.0.0", port=port)
