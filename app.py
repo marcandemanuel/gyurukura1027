@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateutil import parser
 import threading
 import socket
@@ -102,7 +102,8 @@ def schedule_emails_from_config(emails_config):
     for key, value in emails_config.items():
         try:
             send_time = parser.isoparse(value)
-            if send_time > datetime.now(send_time.tzinfo):
+            print(datetime.now(timezone.utc).astimezone(send_time.tzinfo))
+            if send_time > datetime.now(timezone.utc).astimezone(send_time.tzinfo):
                 scheduler.add_job(
                     send_emails,
                     'date',
