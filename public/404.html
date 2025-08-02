@@ -36,6 +36,7 @@
             margin: 0;
             cursor: url("/images/gimli_esmall.png"), auto;
         }
+
         .cursor-gimli2 {
             cursor: url("/images/gimli2_esmall.png"), auto !important;
         }
@@ -79,12 +80,14 @@
         .title {
             font-size: 60px;
             color: #9c8028;
+            margin: 0;
         }
 
         .subtitle {
             font-size: 15px;
             color: #9c8028;
             font-family: 'Aniron', Arial, sans-serif;
+            margin: 0;
             margin-bottom: 20px;
         }
 
@@ -125,20 +128,18 @@
             <div class="notFoundTextContent">
                 <h2 class="title">404</h2>
                 <h3 class="subtitle">A szerver nem találja ezt az oldalt.</h3>
-                <a class="homeButton" href="/">Kezdőlap</a>
+                <button class="homeButton">Kezdőlap</button>
             </div>
-            <img src="/images/404_top.png" alt="404 illustration" class="notFoundImageRight" />
+            <img src="/images/404_top.png" alt="404 illustration" class="notFoundImageRight">
         </div>
     </div>
     <script>
-        // Change cursor to gimli2_esmall.png on mousedown, revert on mouseup
         document.addEventListener('mousedown', function () {
             document.body.classList.add('cursor-gimli2');
         });
         document.addEventListener('mouseup', function () {
             document.body.classList.remove('cursor-gimli2');
         });
-        // Also handle mouse leaving window while pressed
         document.addEventListener('mouseleave', function () {
             document.body.classList.remove('cursor-gimli2');
         });
