@@ -142,7 +142,7 @@ const MovieInfo = () => {
                     muted
                 >
                     <source
-                        src={`/src/assets/videos/${movieIndex}.mp4`}
+                        src={`videos/${movieIndex}.mp4`}
                         type="video/mp4"
                     />
                     A videó nem elérhető.
