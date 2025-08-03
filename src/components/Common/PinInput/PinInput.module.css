@@ -24,6 +24,7 @@
     margin-bottom: 0px;
     color: #9c8028;
     font-family: "Aniron";
+    text-align: center
 }
 
 .subtitle {
@@ -32,6 +33,7 @@
     color: #9c8028;
     font-family: "Aniron";
     margin: 0;
+    text-align: center
 }
 
 .pinBox {
