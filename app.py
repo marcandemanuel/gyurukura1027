@@ -428,23 +428,42 @@ def send_decline_emails():
 # File upload endpoint
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+    print(f"[{get_time()}] - 🔼 /api/upload endpoint called")
+    try:
+        if 'file' not in request.files:
+            print(f"[{get_time()}] - ❌ No file part in request")
+            return jsonify({'error': 'No file part'}), 400
+        file = request.files['file']
+        if file.filename == '':
+            print(f"[{get_time()}] - ❌ No selected file")
+            return jsonify({'error': 'No selected file'}), 400
 
-    upload_folder = '/data/uploads'
-    if not os.path.exists(upload_folder):
-        print('\n\n\nNot Exists\n\n\n')
-        os.makedirs(upload_folder)
+        # Use environment variable for upload folder, fallback to sensible default
+        upload_folder = os.environ.get('UPLOAD_FOLDER')
+        if not upload_folder:
+            # Use /data/uploads on Render, data/uploads locally
+            if os.environ.get('RENDER') or os.path.exists('/data'):
+                upload_folder = '/data/uploads'
+            else:
+                upload_folder = 'data/uploads'
 
+        print(f"[{get_time()}] - 📁 Using upload folder: {upload_folder}")
 
-    file_path = os.path.join(upload_folder, file.filename)
-    print('\n\n\nSaving file to', file_path, '\n\n\n')
-    file.save(file_path)
+        if not os.path.exists(upload_folder):
+            print(f"[{get_time()}] - 📁 Upload folder does not exist, creating: {upload_folder}")
+            os.makedirs(upload_folder, exist_ok=True)
 
-    return jsonify({'filename': file.filename})
+        file_path = os.path.join(upload_folder, file.filename)
+        print(f"[{get_time()}] - 💾 Saving file to: {file_path}")
+        file.save(file_path)
+        print(f"[{get_time()}] - ✅ File saved successfully")
+
+        return jsonify({'filename': file.filename})
+    except Exception as e:
+        print(f"[{get_time()}] - ❌ Exception during file upload: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
 
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
