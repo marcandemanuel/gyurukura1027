@@ -434,7 +434,7 @@ def upload_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    upload_folder = 'uploads'
+    upload_folder = '/data/uploads'
     if not os.path.exists(upload_folder):
         os.makedirs(upload_folder)
 
