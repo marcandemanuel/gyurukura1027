@@ -84,8 +84,8 @@ class ApiService {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post(
-            `${API_BASE}/upload`,
+        const response = await this.client.post(
+            "/upload",
             formData,
             {
                 headers: {
