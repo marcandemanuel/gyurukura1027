@@ -5,6 +5,8 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "/api";
 
+console.log("[apiService] API_BASE:", API_BASE);
+
 class ApiService {
     constructor() {
         this.client = axios.create({
@@ -84,8 +86,12 @@ class ApiService {
         const formData = new FormData();
         formData.append("file", file);
 
+        // Log the upload URL for debugging
+        const uploadUrl = "/upload";
+        console.log("[apiService] Uploading file to:", this.client.defaults.baseURL + uploadUrl);
+
         const response = await this.client.post(
-            "/upload",
+            uploadUrl,
             formData,
             {
                 headers: {
