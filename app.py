@@ -436,9 +436,12 @@ def upload_file():
 
     upload_folder = '/data/uploads'
     if not os.path.exists(upload_folder):
+        print('\n\n\nNot Exists\n\n\n')
         os.makedirs(upload_folder)
 
+
     file_path = os.path.join(upload_folder, file.filename)
+    print('\n\n\nSaving file to', file_path, '\n\n\n')
     file.save(file_path)
 
     return jsonify({'filename': file.filename})
