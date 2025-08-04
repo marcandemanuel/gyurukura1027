@@ -533,7 +533,11 @@ const DataTable = () => {
             });
             // Save all profiles using the saveAllProfiles API (like original saveJSON)
             await apiService.saveAllProfiles(updatedTableProfiles);
-            await uploadChangedFiles(changedFileIndexes);
+
+            // Defer uploadChangedFiles to next tick to ensure refs are attached
+            setTimeout(() => {
+                uploadChangedFiles(changedFileIndexes);
+            }, 0);
 
             setHasChanges(false);
             setOriginalProfiles(JSON.parse(JSON.stringify(tableProfiles)));
