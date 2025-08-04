@@ -216,10 +216,13 @@ const DataTable = () => {
         }
 
         // Ensure uploaderRefs is the correct length
-        if (uploaderRefs.current.length !== tableProfiles.length) {
-            uploaderRefs.current = Array(tableProfiles.length)
-                .fill()
-                .map((_, i) => uploaderRefs.current[i] || React.createRef());
+        // Only add new refs, never reassign the array or replace existing refs
+        while (uploaderRefs.current.length < tableProfiles.length) {
+            uploaderRefs.current.push(React.createRef());
+        }
+        // Optionally, trim if too long (shouldn't happen, but for safety)
+        if (uploaderRefs.current.length > tableProfiles.length) {
+            uploaderRefs.current.length = tableProfiles.length;
         }
 
         return (
