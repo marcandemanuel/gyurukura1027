@@ -84,11 +84,15 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
-                                        onMouseEnter={() =>
-                                            setHoverDrinkIndex(index)
+                                        onMouseEnter={() => {
+                                                console.log('onMouseEnter')
+                                                setHoverDrinkIndex(index)
+                                            }
                                         }
-                                        onMouseLeave={() =>
-                                            setHoverDrinkIndex(null)
+                                        onMouseLeave={() => {
+                                                console.log('onMouseLeave')
+                                                setHoverDrinkIndex(null)}
+
                                         }
                                         onClick={() =>
                                             drinkSelected(item, index)
