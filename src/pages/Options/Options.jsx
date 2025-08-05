@@ -31,6 +31,32 @@ const Options = () => {
         fetchOptions();
     }, []);
 
+    const drinkClicked = (item, index) => {
+        if (openDrinkIndex === index) {
+            const largest = item.amounts[item.amounts.length - 1];
+            navigator.clipboard.writeText(`${item.name} ${largest}l`);
+        }
+        setOpenDrinkIndex(index)
+    }
+
+    const chipsClicked = (item, index) => {
+        if (openChipsIndex === index) {
+            const largest = item.amounts[item.amounts.length - 1];
+            navigator.clipboard.writeText(`${item.name} ${largest}g`);
+        }
+        setOpenChipsIndex(index);
+    };
+
+    const copyDrinkAmount = (item, amount, e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(`${item.name} ${amount}l`);
+    };
+
+    const copyChipsAmount = (item, amount, e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(`${item.name} ${amount}g`);
+    };
+
     return (
         <div className={styles.container}>
             {loading ? (
@@ -55,11 +81,7 @@ const Options = () => {
                                             animationDelay: `${index * 0.1}s`,
                                         }}
                                         onClick={() =>
-                                            setOpenDrinkIndex(
-                                                openDrinkIndex === index
-                                                    ? null
-                                                    : index
-                                            )
+                                            drinkClicked(item, index)
                                         }
                                         tabIndex={0}
                                         onBlur={() => setOpenDrinkIndex(null)}
@@ -72,11 +94,17 @@ const Options = () => {
                                                 Elérhető mennyiségek:
                                             </h5>
                                             <p className={styles.amounts}>
-                                                {item.amounts
-                                                    .map(
-                                                        (amount) => `${amount}l`
-                                                    )
-                                                    .join(", ")}
+                                                {item.amounts.map((amount, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className={styles.amountClickable}
+                                                        onClick={(e) => copyDrinkAmount(item, amount, e)}
+                                                        tabIndex={0}
+                                                    >
+                                                        {amount}l
+                                                        {i !== item.amounts.length - 1 ? ", " : ""}
+                                                    </span>
+                                                ))}
                                             </p>
                                         </div>
                                     </div>
@@ -102,11 +130,7 @@ const Options = () => {
                                             }s`,
                                         }}
                                         onClick={() =>
-                                            setOpenChipsIndex(
-                                                openChipsIndex === index
-                                                    ? null
-                                                    : index
-                                            )
+                                            chipsClicked(item, index)
                                         }
                                         tabIndex={0}
                                         onBlur={() => setOpenChipsIndex(null)}
@@ -119,11 +143,17 @@ const Options = () => {
                                                 Elérhető mennyiségek:
                                             </h5>
                                             <p className={styles.amounts}>
-                                                {item.amounts
-                                                    .map(
-                                                        (amount) => `${amount}g`
-                                                    )
-                                                    .join(", ")}
+                                                {item.amounts.map((amount, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className={styles.amountClickable}
+                                                        onClick={(e) => copyChipsAmount(item, amount, e)}
+                                                        tabIndex={0}
+                                                    >
+                                                        {amount}g
+                                                        {i !== item.amounts.length - 1 ? ", " : ""}
+                                                    </span>
+                                                ))}
                                             </p>
                                         </div>
                                     </div>
