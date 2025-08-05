@@ -11,7 +11,9 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 const Options = () => {
     const [options, setOptions] = useState({ drink: [], chips: [] });
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
+    const [hoverDrinkIndex, setHoverDrinkIndex] = useState(null);
     const [openChipsIndex, setOpenChipsIndex] = useState(null);
+    const [hoverChipsIndex, setHoverChipsIndex] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -31,18 +33,18 @@ const Options = () => {
         fetchOptions();
     }, []);
 
-    const drinkClicked = (item, index) => {
+    const drinkSelected = (item, index) => {
         console.log(openDrinkIndex, index);
-        if (openDrinkIndex === index) {
+        if (openDrinkIndex === index || hoverDrinkIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}l`);
         }
         setOpenDrinkIndex(index);
     };
 
-    const chipsClicked = (item, index) => {
+    const chipsSelected = (item, index) => {
         console.log(openChipsIndex, index);
-        if (openChipsIndex === index) {
+        if (openChipsIndex === index || hoverChipsIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}g`);
         }
@@ -82,8 +84,14 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
+                                        onMouseEnter={() =>
+                                            setHoverDrinkIndex(index)
+                                        }
+                                        onMouseLeave={() =>
+                                            setHoverDrinkIndex(null)
+                                        }
                                         onClick={() =>
-                                            drinkClicked(item, index)
+                                            drinkSelected(item, index)
                                         }
                                         tabIndex={0}
                                         onBlur={() => setOpenDrinkIndex(null)}
@@ -96,17 +104,32 @@ const Options = () => {
                                                 Elérhető mennyiségek:
                                             </h5>
                                             <p className={styles.amounts}>
-                                                {item.amounts.map((amount, i) => (
-                                                    <span
-                                                        key={i}
-                                                        className={styles.amountClickable}
-                                                        onClick={(e) => copyDrinkAmount(item, amount, e)}
-                                                        tabIndex={0}
-                                                    >
-                                                        {amount}l
-                                                        {i !== item.amounts.length - 1 ? ", " : ""}
-                                                    </span>
-                                                ))}
+                                                {item.amounts.map(
+                                                    (amount, i) => (
+                                                        <span
+                                                            key={i}
+                                                            className={
+                                                                styles.amountClickable
+                                                            }
+                                                            onClick={(e) =>
+                                                                copyDrinkAmount(
+                                                                    item,
+                                                                    amount,
+                                                                    e
+                                                                )
+                                                            }
+                                                            tabIndex={0}
+                                                        >
+                                                            {amount}l
+                                                            {i !==
+                                                            item.amounts
+                                                                .length -
+                                                                1
+                                                                ? ", "
+                                                                : ""}
+                                                        </span>
+                                                    )
+                                                )}
                                             </p>
                                         </div>
                                     </div>
@@ -131,8 +154,14 @@ const Options = () => {
                                                 0.1
                                             }s`,
                                         }}
+                                        onMouseEnter={() =>
+                                            setHoverChipsIndex(index)
+                                        }
+                                        onMouseLeave={() =>
+                                            setHoverChipsIndex(null)
+                                        }
                                         onClick={() =>
-                                            chipsClicked(item, index)
+                                            chipsSelected(item, index)
                                         }
                                         tabIndex={0}
                                         onBlur={() => setOpenChipsIndex(null)}
@@ -145,17 +174,32 @@ const Options = () => {
                                                 Elérhető mennyiségek:
                                             </h5>
                                             <p className={styles.amounts}>
-                                                {item.amounts.map((amount, i) => (
-                                                    <span
-                                                        key={i}
-                                                        className={styles.amountClickable}
-                                                        onClick={(e) => copyChipsAmount(item, amount, e)}
-                                                        tabIndex={0}
-                                                    >
-                                                        {amount}g
-                                                        {i !== item.amounts.length - 1 ? ", " : ""}
-                                                    </span>
-                                                ))}
+                                                {item.amounts.map(
+                                                    (amount, i) => (
+                                                        <span
+                                                            key={i}
+                                                            className={
+                                                                styles.amountClickable
+                                                            }
+                                                            onClick={(e) =>
+                                                                copyChipsAmount(
+                                                                    item,
+                                                                    amount,
+                                                                    e
+                                                                )
+                                                            }
+                                                            tabIndex={0}
+                                                        >
+                                                            {amount}g
+                                                            {i !==
+                                                            item.amounts
+                                                                .length -
+                                                                1
+                                                                ? ", "
+                                                                : ""}
+                                                        </span>
+                                                    )
+                                                )}
                                             </p>
                                         </div>
                                     </div>
