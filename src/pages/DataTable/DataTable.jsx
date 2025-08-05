@@ -442,17 +442,12 @@ const DataTable = () => {
     const uploadChangedFiles = async (profileIndexes) => {
         for (const idx of profileIndexes) {
             const uploaderRef = uploaderRefs.current[idx];
-            console.log(`IDX: ${idx}; uploaderRefs.current:`, uploaderRefs.current);
-            console.log(`uploaderRef:`, uploaderRef);
-            console.log(`uploaderRef?.current:`, uploaderRef?.current);
             if (uploaderRef && uploaderRef.current) {
                 const file = uploaderRef.current.getSelectedFile();
-                console.log(`File: ${file}`)
                 if (file) {
                     try {
                         await apiService.uploadFile(file);
                     } catch (err) {
-                        console.error(err)
                     }
                 }
             }

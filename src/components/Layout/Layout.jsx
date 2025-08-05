@@ -129,8 +129,7 @@ const Layout = ({ children }) => {
 
         const handleClick = () => {
             clickCount++;
-            console.log(isNotFound, isServerError)
-            if (clickCount === evnu && !isNotFound && !isServerError) {
+            if (clickCount === evnu && !isNotFound && !isServerError && false) {
                 // Collapse effect
                 const duration = triggerCollapseEffect();
                 setTimeout(

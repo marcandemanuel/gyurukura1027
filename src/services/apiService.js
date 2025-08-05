@@ -5,7 +5,6 @@ const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
   "/api";
 
-console.log("[apiService] API_BASE:", API_BASE);
 
 class ApiService {
     constructor() {
@@ -88,7 +87,6 @@ class ApiService {
 
         // Log the upload URL for debugging
         const uploadUrl = "/upload";
-        console.log("[apiService] Uploading file to:", this.client.defaults.baseURL + uploadUrl);
 
         const response = await this.client.post(
             uploadUrl,

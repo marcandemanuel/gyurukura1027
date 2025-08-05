@@ -34,7 +34,6 @@ const Options = () => {
     }, []);
 
     const drinkSelected = (item, index) => {
-        console.log(openDrinkIndex, index);
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}l`);
@@ -43,7 +42,6 @@ const Options = () => {
     };
 
     const chipsSelected = (item, index) => {
-        console.log(openChipsIndex, index);
         if (openChipsIndex === index || hoverChipsIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}g`);
@@ -85,12 +83,10 @@ const Options = () => {
                                             animationDelay: `${index * 0.1}s`,
                                         }}
                                         onPointerEnter={() => {
-                                                console.log('onPointerEnter')
                                                 setHoverDrinkIndex(index)
                                             }
                                         }
                                         onMouseLeave={() => {
-                                                console.log('onMouseLeave')
                                                 setHoverDrinkIndex(null)}
 
                                         }
