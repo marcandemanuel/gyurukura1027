@@ -84,8 +84,8 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
-                                        onMouseEnter={() => {
-                                                console.log('onMouseEnter')
+                                        onPointerEnter={() => {
+                                                console.log('onPointerEnter')
                                                 setHoverDrinkIndex(index)
                                             }
                                         }
@@ -158,7 +158,7 @@ const Options = () => {
                                                 0.1
                                             }s`,
                                         }}
-                                        onMouseEnter={() =>
+                                        onPointerEnter={() =>
                                             setHoverChipsIndex(index)
                                         }
                                         onMouseLeave={() =>
