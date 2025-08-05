@@ -32,14 +32,16 @@ const Options = () => {
     }, []);
 
     const drinkClicked = (item, index) => {
+        console.log(openDrinkIndex, index);
         if (openDrinkIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}l`);
         }
-        setOpenDrinkIndex(index)
-    }
+        setOpenDrinkIndex(index);
+    };
 
     const chipsClicked = (item, index) => {
+        console.log(openChipsIndex, index);
         if (openChipsIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
             navigator.clipboard.writeText(`${item.name} ${largest}g`);
