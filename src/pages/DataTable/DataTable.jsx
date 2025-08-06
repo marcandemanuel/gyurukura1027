@@ -42,6 +42,8 @@ const DataTable = () => {
     // Use an object of refs, keyed by profile id
     const uploaderRefs = useRef([]);
     const [selectedFileName, setSelectedFileName] = useState("");
+    // Store selected files by profile id
+    const [selectedFiles, setSelectedFiles] = useState({});
 
     const statusKeys = ["Eldöntetlen", "Elfogadva", "Teljesítve", "Elutasítva"];
     const statusColors = [
@@ -374,6 +376,10 @@ const DataTable = () => {
                                             setSelectedFileName(
                                                 file?.name || ""
                                             );
+                                            setSelectedFiles((prev) => ({
+                                                ...prev,
+                                                [profile.id]: file
+                                            }));
                                             const updatedProfiles = [
                                                 ...tableProfiles,
                                             ];
@@ -450,8 +456,9 @@ const DataTable = () => {
             console.log("Uploader ref:", uploaderRef);
             if (uploaderRef && uploaderRef.current) {
                 console.log("Uploader ref is valid, getting selected file...");
-                const file = uploaderRef.current.getSelectedFile();
-                console.log("Selected file:", file);
+                // Use file from selectedFiles state
+                const file = selectedFiles[id];
+                console.log("Selected file from state:", file);
                 if (file) {
                     console.log("Uploading file:", file.name);
                     try {
