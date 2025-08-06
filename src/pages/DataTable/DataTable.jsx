@@ -40,7 +40,7 @@ const DataTable = () => {
     const navigate = useNavigate();
     const config = useConfig();
     // Use an object of refs, keyed by profile id
-    const uploaderRefs = useRef({});
+    const uploaderRefs = useRef([]);
     const [selectedFileName, setSelectedFileName] = useState("");
 
     const statusKeys = ["Eldöntetlen", "Elfogadva", "Teljesítve", "Elutasítva"];
@@ -538,7 +538,7 @@ const DataTable = () => {
             // Defer uploadChangedFiles to next tick to ensure refs are attached
             setTimeout(() => {
                 uploadChangedFiles(changedFileIds);
-            }, 0);
+            }, 100);
 
             setHasChanges(false);
             setOriginalProfiles(JSON.parse(JSON.stringify(tableProfiles)));
