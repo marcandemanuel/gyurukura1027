@@ -39,8 +39,8 @@ const DataTable = () => {
     const tableRef = useRef(null);
     const navigate = useNavigate();
     const config = useConfig();
-    // Use an array of refs, one per profile row
-    const uploaderRefs = useRef([]);
+    // Use an object of refs, keyed by profile id
+    const uploaderRefs = useRef({});
     const [selectedFileName, setSelectedFileName] = useState("");
 
     const statusKeys = ["Eldöntetlen", "Elfogadva", "Teljesítve", "Elutasítva"];
@@ -215,15 +215,18 @@ const DataTable = () => {
             tableKeys[config.birthday_on_movie_id + 1] += " 🎂";
         }
 
-        // Ensure uploaderRefs is the correct length
-        // Only add new refs, never reassign the array or replace existing refs
-        while (uploaderRefs.current.length < tableProfiles.length) {
-            uploaderRefs.current.push(React.createRef());
-        }
-        // Optionally, trim if too long (shouldn't happen, but for safety)
-        if (uploaderRefs.current.length > tableProfiles.length) {
-            uploaderRefs.current.length = tableProfiles.length;
-        }
+        // Ensure uploaderRefs has a ref for each profile id
+        tableProfiles.forEach((profile) => {
+            if (!uploaderRefs.current[profile.id]) {
+                uploaderRefs.current[profile.id] = React.createRef();
+            }
+        });
+        // Optionally, remove refs for profiles that no longer exist
+        Object.keys(uploaderRefs.current).forEach((id) => {
+            if (!tableProfiles.some((profile) => String(profile.id) === String(id))) {
+                delete uploaderRefs.current[id];
+            }
+        });
 
         return (
             <table className={styles.table} ref={tableRef}>
@@ -366,7 +369,7 @@ const DataTable = () => {
                                         </div>
                                     )}
                                     <FileUploader
-                                        ref={uploaderRefs.current[profileIndex]}
+                                        ref={uploaderRefs.current[profile.id]}
                                         onFileChange={(file) => {
                                             setSelectedFileName(
                                                 file?.name || ""
@@ -439,9 +442,9 @@ const DataTable = () => {
         );
     };
 
-    const uploadChangedFiles = async (profileIndexes) => {
-        for (const idx of profileIndexes) {
-            const uploaderRef = uploaderRefs.current[idx];
+    const uploadChangedFiles = async (profileIds) => {
+        for (const id of profileIds) {
+            const uploaderRef = uploaderRefs.current[id];
             if (uploaderRef && uploaderRef.current) {
                 const file = uploaderRef.current.getSelectedFile();
                 if (file) {
@@ -479,7 +482,7 @@ const DataTable = () => {
                 JSON.stringify(tableProfiles)
             );
 
-            const changedFileIndexes = [];
+            const changedFileIds = [];
 
             tableProfiles.forEach((tableProfile) => {
                 if (tableProfile.pin !== profiles[tableProfile.id].pin) {
@@ -516,7 +519,7 @@ const DataTable = () => {
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
                             "seat_created"
                         );
-                        changedFileIndexes.push(tableProfile.id)
+                        changedFileIds.push(tableProfile.id)
                     } else {
                         updatedTableProfiles[tableProfile.id].notifications.push([
                             "Az admin módosította az Ön ülőhelyét",
@@ -525,7 +528,7 @@ const DataTable = () => {
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
                             "seat_changed"
                         );
-                        changedFileIndexes.push(tableProfile.id)
+                        changedFileIds.push(tableProfile.id)
                     }
                 }
             });
@@ -534,7 +537,7 @@ const DataTable = () => {
 
             // Defer uploadChangedFiles to next tick to ensure refs are attached
             setTimeout(() => {
-                uploadChangedFiles(changedFileIndexes);
+                uploadChangedFiles(changedFileIds);
             }, 0);
 
             setHasChanges(false);
