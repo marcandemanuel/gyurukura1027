@@ -443,14 +443,23 @@ const DataTable = () => {
     };
 
     const uploadChangedFiles = async (profileIds) => {
+        console.log("Uploading changed files for profiles:", profileIds);
         for (const id of profileIds) {
+            console.log("Uploading file for profile ID:", id);
             const uploaderRef = uploaderRefs.current[id];
+            console.log("Uploader ref:", uploaderRef);
             if (uploaderRef && uploaderRef.current) {
+                console.log("Uploader ref is valid, getting selected file...");
                 const file = uploaderRef.current.getSelectedFile();
+                console.log("Selected file:", file);
                 if (file) {
+                    console.log("Uploading file:", file.name);
                     try {
+                        console.log("Calling apiService.uploadFile...");
                         await apiService.uploadFile(file);
                     } catch (err) {
+                        console.error("Error uploading file:", err);
+                        // Handle upload error if needed
                     }
                 }
             }
