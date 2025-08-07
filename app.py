@@ -476,6 +476,7 @@ def upload_file():
 # Serve uploaded files from /data/uploads
 @app.route('/data/uploads/<filename>')
 def uploaded_file(filename):
+    print(filename)
     return send_from_directory('data/uploads', filename)
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
