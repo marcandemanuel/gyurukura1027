@@ -183,6 +183,7 @@ def serve_react_app():
 
 @app.route('/<path:path>')
 def serve_static_files(path):
+    print('PATH:', path)
     if os.path.exists('build') and path.startswith('assets/'):
         return send_from_directory('build', path)
     elif os.path.exists('dist') and path.startswith('assets/'):
