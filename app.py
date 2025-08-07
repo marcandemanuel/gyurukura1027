@@ -443,7 +443,7 @@ def upload_file():
         if not upload_folder:
             # Use /data/uploads on Render, data/uploads locally
             if os.environ.get('RENDER') or os.path.exists('/data'):
-                upload_folder = '/data/uploads'
+                upload_folder = 'data/uploads'
             else:
                 upload_folder = 'data/uploads'
 
@@ -472,6 +472,10 @@ def upload_file():
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
+# Serve uploaded files from /data/uploads
+@app.route('/data/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory('/data/uploads', filename)
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
 def health_check():
