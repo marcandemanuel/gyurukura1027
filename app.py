@@ -453,9 +453,16 @@ def upload_file():
             print(f"[{get_time()}] - 📁 Upload folder does not exist, creating: {upload_folder}")
             os.makedirs(upload_folder, exist_ok=True)
 
+
         file_path = os.path.join(upload_folder, file.filename)
         print(f"[{get_time()}] - 💾 Saving file to: {file_path}")
-        file.save(file_path)
+        file_content = file.read()
+        with open(file_path, 'wb') as f:
+            f.write(file_content)
+            f.flush()
+            os.fsync(f.fileno())
+
+        print(os.listdir(upload_folder), 'Files inside upload folder')
         print(f"[{get_time()}] - ✅ File saved successfully")
 
         return jsonify({'filename': file.filename})
