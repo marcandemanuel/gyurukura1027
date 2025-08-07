@@ -181,6 +181,11 @@ def serve_react_app():
             "backend_url": f"http://{IPAddr}:2020"
         })
 
+@app.route('/data/uploads/<filename>')
+def uploaded_file(filename):
+    print(filename)
+    return send_from_directory('/data/uploads', filename)
+
 @app.route('/<path:path>')
 def serve_static_files(path):
     print('PATH:', path)
@@ -474,10 +479,6 @@ def upload_file():
         return jsonify({'error': str(e)}), 500
 
 # Serve uploaded files from /data/uploads
-@app.route('/data/uploads/<filename>')
-def uploaded_file(filename):
-    print(filename)
-    return send_from_directory('data/uploads', filename)
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
 def health_check():
