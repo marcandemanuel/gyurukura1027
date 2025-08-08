@@ -151,7 +151,7 @@ const MovieInfo = () => {
             <h3 className={styles.datasTitle}>Adatok</h3>
             <div className={styles.info}>
                 <div className={styles.side}>
-                    <p>Hossz: {runtime}</p>
+                    <p>Hossz: {runtime} perc</p>
                     <p>Ajánlott inni mennyiség: {amountDrink}</p>
                     <p>Ajánlott csipsz mennyiség: {amountChips}</p>
                 </div>
