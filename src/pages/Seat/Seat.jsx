@@ -50,7 +50,7 @@ const Seat = () => {
             </h1>
             <div className={styles.seatImageContainer}>
                 <img
-                    src={`/uploads/${profileData.seat_image}`}
+                    src={`https://gyurukura1027-backend.onrender.com/uploads/${profileData.seat_image}`}
                     alt="Seat"
                     className={styles.seatImage}
                 />
