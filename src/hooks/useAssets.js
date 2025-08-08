@@ -10,6 +10,11 @@ export const useAssets = () => {
     return `/images/${imageName}`
   }
 
+  const getUploadedImagePath = (imageName) => {
+    // For user-uploaded images served from backend
+    return `/uploads/${imageName}`
+  }
+
   const getAudioPath = (audioName) => {
     return `/audio/${audioName}`
   }
@@ -21,6 +26,7 @@ export const useAssets = () => {
   return {
     getImagePath,
     getPublicImagePath,
+    getUploadedImagePath,
     getAudioPath,
     getVideoPath,
   }

@@ -14,6 +14,7 @@ import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Response, abort
 import pytz
+from werkzeug.utils import secure_filename
 
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
@@ -30,6 +31,15 @@ CORS(app, origins=[
 app.config["STATIC_FOLDER"] = "static"
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["PREFERRED_URL_SCHEME"] = "https"
+
+@app.route('/uploads/<path:filename>')
+def serve_uploaded_file(filename):
+    safe_filename = secure_filename(filename)
+    uploads_dir = os.path.join('data', 'uploads')
+    file_path = os.path.join(uploads_dir, safe_filename)
+    if not os.path.exists(file_path):
+        return abort(404)
+    return send_from_directory(uploads_dir, safe_filename)
 
 # Services
 email_service = EmailService()
@@ -181,10 +191,10 @@ def serve_react_app():
             "backend_url": f"http://{IPAddr}:2020"
         })
 
-@app.route('/data/uploads/<filename>')
+@app.route('/uploads/<filename>')
 def uploaded_file(filename):
     print(filename)
-    return send_from_directory('/data/uploads', filename)
+    return send_from_directory('data/uploads', filename)
 
 @app.route('/<path:path>')
 def serve_static_files(path):

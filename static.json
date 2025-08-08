@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/uploads/(.*)",
+      "dest": "/data/uploads/$1"
+    },
+    {
       "src": "/(.*\\.(png|jpg|jpeg|svg|gif|ico|webp|mp3|mp4|wav|ogg|json|txt|pdf|csv|zip|rar|tar|gz|woff|woff2|ttf|eot|otf))",
       "dest": "/index.html",
       "status": 404
