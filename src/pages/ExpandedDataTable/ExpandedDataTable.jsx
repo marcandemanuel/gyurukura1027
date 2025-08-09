@@ -75,8 +75,8 @@ const ExpandedDataTable = () => {
     const { navigationPile } = useNavigation();
 
     const handleBack = () => {
-        if (navigationPile && navigationPile.length > 0) {
-            navigate(navigationPile[navigationPile.length - 1]);
+        if (navigationPile && navigationPile.length > 1) {
+            navigate(navigationPile[navigationPile.length - 2]);
         } else {
             navigate("/nasirend");
         }
