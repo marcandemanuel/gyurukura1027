@@ -35,7 +35,11 @@ app.config["PREFERRED_URL_SCHEME"] = "https"
 @app.route('/uploads/<path:filename>')
 def serve_uploaded_file(filename):
     safe_filename = secure_filename(filename)
-    uploads_dir = os.path.join('data', 'uploads')
+    # Use /data/uploads on Render, data/uploads locally
+    if os.environ.get('RENDER') or os.path.exists('/data'):
+        uploads_dir = '/data/uploads'
+    else:
+        uploads_dir = os.path.join('data', 'uploads')
     file_path = os.path.join(uploads_dir, safe_filename)
     if not os.path.exists(file_path):
         return abort(404)
@@ -194,7 +198,12 @@ def serve_react_app():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     print(filename)
-    return send_from_directory('data/uploads', filename)
+    # Use /data/uploads on Render, data/uploads locally
+    if os.environ.get('RENDER') or os.path.exists('/data'):
+        uploads_dir = '/data/uploads'
+    else:
+        uploads_dir = 'data/uploads'
+    return send_from_directory(uploads_dir, filename)
 
 @app.route('/<path:path>')
 def serve_static_files(path):
@@ -459,7 +468,7 @@ def upload_file():
         if not upload_folder:
             # Use /data/uploads on Render, data/uploads locally
             if os.environ.get('RENDER') or os.path.exists('/data'):
-                upload_folder = 'data/uploads'
+                upload_folder = '/data/uploads'
             else:
                 upload_folder = 'data/uploads'
 
