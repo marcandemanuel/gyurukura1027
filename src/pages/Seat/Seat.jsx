@@ -2,6 +2,7 @@
 
 import { useParams } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
+import { useNavigation } from "../../contexts/NavigationContext";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Seat.module.css";
@@ -9,6 +10,16 @@ import styles from "./Seat.module.css";
 const Seat = () => {
     const { userId } = useParams();
     const { user, profiles } = useApp();
+
+    const { navigationPile } = useNavigation();
+    
+    const handleBack = () => {
+        if (navigationPile && navigationPile.length > 0) {
+            navigate(navigationPile[navigationPile.length - 1]);
+        } else {
+            navigate("/");
+        }
+    }
 
     if (isNaN(userId)) {
         return (
@@ -32,7 +43,7 @@ const Seat = () => {
                 </p>
                 <button
                     className={styles.backButton}
-                    onClick={() => window.history.back()}
+                    onClick={handleBack}
                 >
                     Vissza
                 </button>
@@ -56,7 +67,7 @@ const Seat = () => {
                 />
                 <button
                     className={styles.backButton}
-                    onClick={() => window.history.back()}
+                    onClick={handleBack}
                 >
                     Vissza
                 </button>

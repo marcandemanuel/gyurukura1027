@@ -1,5 +1,6 @@
 import styles from "./BottomActions.module.css";
 import { useNavigate } from "react-router-dom";
+import { useNavigation } from "../../contexts/NavigationContext";
 import { useApp } from "../../contexts/AppContext";
 
 const BottomActions = () => {
@@ -10,6 +11,16 @@ const BottomActions = () => {
 
     const shouldShowOnlyBack = excludedRoutes.includes(normalizedPath);
     const backFromConfetti = confettiStatus === 1;
+
+    const { navigationPile } = useNavigation();
+
+    const handleBack = () => {
+        if (navigationPile && navigationPile.length > 0) {
+            navigate(navigationPile[navigationPile.length - 1]);
+        } else {
+            navigate("/");
+        }
+    }
 
     if (backFromConfetti) {
         return (
@@ -34,7 +45,7 @@ const BottomActions = () => {
                 <div className={styles.bottomActions}>
                     <button
                         className={styles.bottomButton}
-                        onClick={() => window.history.back()}
+                        onClick={handleBack}
                     >
                         Vissza
                     </button>

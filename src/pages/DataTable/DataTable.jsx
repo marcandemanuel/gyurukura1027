@@ -6,6 +6,7 @@ import { useApp } from "../../contexts/AppContext";
 import Loading from "../../components/Common/Loading/Loading";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { apiService } from "../../services/apiService";
+import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import FileUploader from "../../components/Common/FileUploader/FileUploader";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./DataTable.module.css";
@@ -52,6 +53,16 @@ const DataTable = () => {
         "rgba(44, 163, 11, 0.36)",
         "rgba(171, 36, 11, 0.36)",
     ];
+
+    const { navigationPile } = useNavigation();
+
+    const handleBack = () => {
+        if (navigationPile && navigationPile.length > 0) {
+            navigate(navigationPile[navigationPile.length - 1]);
+        } else {
+            navigate("/nasirend");
+        }
+    };
 
     useEffect(() => {
         if (isAdmin) {
@@ -563,10 +574,6 @@ const DataTable = () => {
             await refreshCurrentUser(isAdmin);
             navigate("/nasirend");
         }
-    };
-
-    const handleBack = () => {
-        window.history.back();
     };
 
     if (!user) {

@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
+import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./MovieInfo.module.css";
@@ -59,6 +60,16 @@ const MovieInfo = () => {
     const config = useConfig();
 
     MOVIE_TITLES[config.birthday_on_movie_id] += " 🎂";
+
+    const { navigationPile } = useNavigation();
+
+    const handleBack = () => {
+        if (navigationPile && navigationPile.length > 0) {
+            navigate(navigationPile[navigationPile.length - 1]);
+        } else {
+            navigate("/nasirend");
+        }
+    };
 
     // Compute stats from profiles
     const { amountDrink, amountChips, trendingDrink, trendingChips } =
@@ -165,7 +176,7 @@ const MovieInfo = () => {
             <div className={styles.actions}>
                 <button
                     className={styles.actionButton}
-                    onClick={() => window.history.back()}
+                    onClick={handleBack}
                 >
                     Vissza
                 </button>
