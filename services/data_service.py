@@ -8,7 +8,7 @@ class DataService:
     def __init__(self):
         self.lock = threading.Lock()
         self.data_file = os.environ.get("DATAS_PATH")
-        self.options_file = os.environ.get("OPTIONS_PATH")
+        self.options_file = "data/options.json"
         
         # Ensure directories exist
         os.makedirs('/data', exist_ok=True)
