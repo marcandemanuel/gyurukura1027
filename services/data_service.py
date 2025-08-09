@@ -11,7 +11,17 @@ class DataService:
         self.options_file = "data/options.json"
         
         # Ensure directories exist
-        os.makedirs('/data', exist_ok=True)
+        os.makedirs('data', exist_ok=True)
+
+        # If the data file does not exist, create it using data/data.json
+        if self.data_file and not os.path.exists(self.data_file):
+            try:
+                with open('data/data.json', 'r', encoding='utf-8') as src, open(self.data_file, 'w', encoding='utf-8') as dst:
+                    dst.write(src.read())
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 🆕 Created data file {self.data_file} from data/data.json")
+            except Exception as e:
+                print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - ❌ Failed to create data file {self.data_file} from data/data.json: {e}")
+
         print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] - 📁 DataService initialized with data_file: {self.data_file}")
     
     def _load_profiles_internal(self, with_pin: bool = False) -> List[Dict[str, Any]]:

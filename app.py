@@ -32,20 +32,6 @@ app.config["STATIC_FOLDER"] = "static"
 app.config["SESSION_COOKIE_SECURE"] = True
 app.config["PREFERRED_URL_SCHEME"] = "https"
 
-@app.route('/uploads/<path:filename>')
-def serve_uploaded_file(filename):
-    safe_filename = secure_filename(filename)
-    # Use /data/uploads on Render, data/uploads locally
-    if os.environ.get('RENDER') or os.path.exists('/data'):
-        uploads_dir = '/data/uploads'
-    else:
-        uploads_dir = os.path.join('data', 'uploads')
-    file_path = os.path.join(uploads_dir, safe_filename)
-# --- API endpoint to serve config with CORS ---
-    if not os.path.exists(file_path):
-        return abort(404)
-    return send_from_directory(uploads_dir, safe_filename)
-
 # Services
 email_service = EmailService()
 data_service = DataService()
@@ -196,10 +182,21 @@ def serve_react_app():
             "backend_url": f"http://{IPAddr}:2020"
         })
 
+@app.route('/uploads/<path:filename>')
+def serve_uploaded_file(filename):
+    safe_filename = secure_filename(filename)
+    if os.environ.get('RENDER') or os.path.exists('/data'):
+        uploads_dir = '/data/uploads'
+    else:
+        uploads_dir = os.path.join('data', 'uploads')
+    file_path = os.path.join(uploads_dir, safe_filename)
+    if not os.path.exists(file_path):
+        return abort(404)
+    return send_from_directory(uploads_dir, safe_filename)
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     print(filename)
-    # Use /data/uploads on Render, data/uploads locally
     if os.environ.get('RENDER') or os.path.exists('/data'):
         uploads_dir = '/data/uploads'
     else:
