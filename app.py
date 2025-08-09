@@ -42,15 +42,6 @@ def serve_uploaded_file(filename):
         uploads_dir = os.path.join('data', 'uploads')
     file_path = os.path.join(uploads_dir, safe_filename)
 # --- API endpoint to serve config with CORS ---
-@app.route('/api/config', methods=['GET'])
-def get_config():
-    # Always load config from project-local data/config.json
-    try:
-        with open('data/config.json', 'r', encoding='utf-8') as f:
-            config = json.load(f)
-        return jsonify(config)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
     if not os.path.exists(file_path):
         return abort(404)
     return send_from_directory(uploads_dir, safe_filename)
