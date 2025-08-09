@@ -3,6 +3,7 @@
 import { useParams } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useNavigation } from "../../contexts/NavigationContext";
+import { useNavigate } from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Seat.module.css";
@@ -12,6 +13,7 @@ const Seat = () => {
     const { user, profiles } = useApp();
 
     const { navigationPile } = useNavigation();
+    const navigate = useNavigate();
     
     const handleBack = () => {
         if (navigationPile && navigationPile.length > 1) {
