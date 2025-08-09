@@ -15,6 +15,7 @@ const BottomActions = () => {
     const { navigationPile } = useNavigation();
 
     const handleBack = () => {
+        console.log(navigationPile)
         if (navigationPile && navigationPile.length > 0) {
             navigate(navigationPile[navigationPile.length - 1]);
         } else {
