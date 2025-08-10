@@ -70,7 +70,9 @@
     background-color: rgba(0, 0, 0, 0.2);
     color: #9c8028;
     font-size: 14px;
-    width: 30vw;
+    width: 100%;
+    min-width: 30vw;
+    max-width: 90vw;
     padding: 15px 30px;
     border-radius: 100px;
     box-shadow: 0px 0px 6px #9c8028;
