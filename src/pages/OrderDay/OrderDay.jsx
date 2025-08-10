@@ -98,6 +98,7 @@ const OrderDay = () => {
         const newUser = JSON.parse(JSON.stringify(editedUser));
 
         diffs.forEach((diff) => {
+            console.log(diff, "diff");
             newUser[`acday${diff[0]}`][diff[1]] = "Eldöntetlen";
         });
 
