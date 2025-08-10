@@ -7,6 +7,7 @@ import Loading from "../../components/Common/Loading/Loading";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { apiService } from "../../services/apiService";
 import { useNavigation } from "../../contexts/NavigationContext.jsx";
+import { Trash2 } from "lucide-react";
 import FileUploader from "../../components/Common/FileUploader/FileUploader";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./DataTable.module.css";
@@ -30,7 +31,8 @@ function objectDiff(obj1, obj2) {
 }
 
 const DataTable = () => {
-    const { user, profiles, loadProfiles, refreshCurrentUser, updateProfile } = useApp();
+    const { user, profiles, loadProfiles, refreshCurrentUser, updateProfile } =
+        useApp();
     const isAdmin = user?.admin === true; // Get admin status directly from user
     const [tableProfiles, setTableProfiles] = useState([]);
     const [hasChanges, setHasChanges] = useState(false);
@@ -198,29 +200,29 @@ const DataTable = () => {
 
         const tableKeys = isAdmin
             ? [
-                "Név",
-                "ID",
-                "1. nap",
-                "2. nap",
-                "3. nap",
-                "4. nap",
-                "5. nap",
-                "6. nap",
-                "Ülőhely",
-                "PIN",
-                "Admin",
-            ]
+                  "Név",
+                  "ID",
+                  "1. nap",
+                  "2. nap",
+                  "3. nap",
+                  "4. nap",
+                  "5. nap",
+                  "6. nap",
+                  "Ülőhely",
+                  "PIN",
+                  "Admin",
+              ]
             : [
-                "Név",
-                "1. nap",
-                "2. nap",
-                "3. nap",
-                "4. nap",
-                "5. nap",
-                "6. nap",
-                "Ülőhely",
-                "Admin",
-            ];
+                  "Név",
+                  "1. nap",
+                  "2. nap",
+                  "3. nap",
+                  "4. nap",
+                  "5. nap",
+                  "6. nap",
+                  "Ülőhely",
+                  "Admin",
+              ];
 
         if (isAdmin) {
             tableKeys[config.birthday_on_movie_id + 2] += " 🎂";
@@ -236,7 +238,11 @@ const DataTable = () => {
         });
         // Optionally, remove refs for profiles that no longer exist
         Object.keys(uploaderRefs.current).forEach((id) => {
-            if (!tableProfiles.some((profile) => String(profile.id) === String(id))) {
+            if (
+                !tableProfiles.some(
+                    (profile) => String(profile.id) === String(id)
+                )
+            ) {
                 delete uploaderRefs.current[id];
             }
         });
@@ -370,17 +376,23 @@ const DataTable = () => {
                                 className={`${styles.dataCell} ${styles.fileUploadCell}`}
                             >
                                 <div className={styles.flexContainer}>
-                                    {(profiles[profileIndex].seat_image && profiles[profileIndex].seat_image === profile.seat_image) && (
-                                        <div
-                                            className={styles.imageBox}
-                                            onClick={() => navigate(`/ulohely/${profileIndex}`)}
-                                        >
-                                            <img
-                                                src="/images/arrow.png"
-                                                alt="arrow"
-                                            />
-                                        </div>
-                                    )}
+                                    {profiles[profileIndex].seat_image &&
+                                        profiles[profileIndex].seat_image ===
+                                            profile.seat_image && (
+                                            <div
+                                                className={styles.imageBox}
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/ulohely/${profileIndex}`
+                                                    )
+                                                }
+                                            >
+                                                <img
+                                                    src="/images/arrow.png"
+                                                    alt="arrow"
+                                                />
+                                            </div>
+                                        )}
                                     <FileUploader
                                         ref={uploaderRefs.current[profile.id]}
                                         onFileChange={(file) => {
@@ -389,18 +401,41 @@ const DataTable = () => {
                                             );
                                             setSelectedFiles((prev) => ({
                                                 ...prev,
-                                                [profile.id]: file
+                                                [profile.id]: file,
                                             }));
                                             const updatedProfiles = [
                                                 ...tableProfiles,
                                             ];
-                                            updatedProfiles[profileIndex].seat_image = file?.name || '';
-                                            setTableProfiles(updatedProfiles)
+                                            updatedProfiles[
+                                                profileIndex
+                                            ].seat_image = file?.name || "";
+                                            setTableProfiles(updatedProfiles);
                                         }}
                                         defaultFileName={
                                             profile.seat_image || ""
                                         }
                                     />
+                                    {profiles[profileIndex].seat_image &&
+                                        profiles[profileIndex].seat_image ===
+                                            profile.seat_image && (
+                                            <div
+                                                className={styles.imageBox}
+                                                onClick={() => {
+                                                    const updatedProfiles = [
+                                                        ...tableProfiles,
+                                                    ];
+                                                    updatedProfiles[
+                                                        profileIndex
+                                                    ].seat_image =
+                                                        file?.name || "";
+                                                    setTableProfiles(
+                                                        updatedProfiles
+                                                    );
+                                                }}
+                                            >
+                                                <Trash2 color="#9c8028" />
+                                            </div>
+                                        )}
                                 </div>
                             </td>
 
@@ -509,7 +544,9 @@ const DataTable = () => {
                         "Az admin módosította az Ön PIN-kódját",
                         date,
                     ]);
-                    updatedTableProfiles[tableProfile.id].sendEmails.push('pin_changed');
+                    updatedTableProfiles[tableProfile.id].sendEmails.push(
+                        "pin_changed"
+                    );
                     if (
                         tableProfile.pin === "" ||
                         tableProfile.pin === undefined
@@ -523,31 +560,35 @@ const DataTable = () => {
                         "Az admin módosította az Ön nevét",
                         date,
                     ]);
-                    updatedTableProfiles[
-                        tableProfile.id
-                    ].sendEmails.push('name_changed');
+                    updatedTableProfiles[tableProfile.id].sendEmails.push(
+                        "name_changed"
+                    );
                 } else if (
                     tableProfile.seat_image !==
                     profiles[tableProfile.id].seat_image
                 ) {
                     if (profiles.seat_image) {
-                        updatedTableProfiles[tableProfile.id].notifications.push([
+                        updatedTableProfiles[
+                            tableProfile.id
+                        ].notifications.push([
                             "Az admin feltöltötte az Ön ülőhelyét 🎉!",
                             date,
                         ]);
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
                             "seat_created"
                         );
-                        changedFileIds.push(tableProfile.id)
+                        changedFileIds.push(tableProfile.id);
                     } else {
-                        updatedTableProfiles[tableProfile.id].notifications.push([
+                        updatedTableProfiles[
+                            tableProfile.id
+                        ].notifications.push([
                             "Az admin módosította az Ön ülőhelyét",
                             date,
                         ]);
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
                             "seat_changed"
                         );
-                        changedFileIds.push(tableProfile.id)
+                        changedFileIds.push(tableProfile.id);
                     }
                 }
             });
