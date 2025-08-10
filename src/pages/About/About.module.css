@@ -435,3 +435,20 @@
         background: rgba(0, 0, 0, 0.15);
     }
 }
+
+@media (max-width: 600px) {
+  .aboutText {
+    width: 95vw;
+    font-size: 12px;
+    padding: 0 2vw;
+  }
+  .infoCard {
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto;
+    position: static;
+    width: 95vw;
+    max-width: 95vw;
+    min-width: unset;
+  }
+}
