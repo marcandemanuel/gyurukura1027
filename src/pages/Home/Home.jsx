@@ -1,6 +1,7 @@
 "use client";
  
 import React, { useState, useEffect } from "react";
+import ActionRow from "../../components/Common/ActionRow";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
@@ -299,7 +300,7 @@ const Home = () => {
                 ))}
             </div>
 
-            <div className={styles.actions}>
+            <ActionRow label="Action Row">
                 <button
                     className={styles.actionButton}
                     onClick={handleChangeProfile}
@@ -332,7 +333,7 @@ const Home = () => {
                         Ülőhely
                     </button>
                 )}
-            </div>
+            </ActionRow>
 
             {notifications && notifications.length > 0 && (
                 <div className={styles.notificationStack}>

@@ -55,6 +55,50 @@
     justify-content: center;
 }
 
+.actionRowWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 10px;
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: #9c8028;
+    font-size: 1.2em;
+    font-family: "Aniron", sans-serif;
+    padding: 8px 0;
+    margin-bottom: 4px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: color 0.2s;
+}
+
+.hamburger:active,
+.hamburger:focus {
+    color: #cbb05a;
+}
+
+.actionsOpen {
+    display: flex !important;
+}
+
+.actionsClosed {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .hamburger {
+        display: block;
+    }
+    .actions {
+        flex-wrap: wrap;
+    }
+}
+
 .actionButton {
     border: 2px solid transparent;
     background-color: rgb(0, 0, 0);
