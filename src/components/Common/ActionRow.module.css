@@ -4,25 +4,44 @@
     flex-direction: column;
     align-items: stretch;
     margin-bottom: 10px;
+    z-index: 100;
 }
 
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
+.fixedBottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background: rgba(30, 30, 30, 0.98);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+    padding: 0 0 8px 0;
+    margin-bottom: 0;
+}
+
+.collapsibleBox {
+    width: 100%;
+    background: #222;
     color: #9c8028;
-    font-size: 1.2em;
     font-family: "Aniron", sans-serif;
-    padding: 8px 0;
-    margin-bottom: 4px;
+    font-size: 1.2em;
+    padding: 10px 0;
+    text-align: center;
     cursor: pointer;
-    align-self: flex-start;
-    transition: color 0.2s;
+    border-top: 2px solid #9c8028;
+    border-bottom: 2px solid #9c8028;
+    user-select: none;
+    outline: none;
+    transition: background 0.2s, color 0.2s;
 }
 
-.hamburger:active,
-.hamburger:focus {
+.collapsibleBox:focus,
+.collapsibleBox:hover {
+    background: #333;
     color: #cbb05a;
+}
+
+.collapseLabel {
+    pointer-events: none;
 }
 
 .actions {
@@ -30,6 +49,7 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+    padding: 10px 0 0 0;
 }
 
 .actionsOpen {

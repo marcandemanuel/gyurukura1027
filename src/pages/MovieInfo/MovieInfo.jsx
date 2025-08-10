@@ -6,6 +6,7 @@ import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./MovieInfo.module.css";
+import ActionRow from "../../components/Common/ActionRow";
 
 // Movie titles for display
 const MOVIE_TITLES = [
@@ -173,7 +174,7 @@ const MovieInfo = () => {
                     </p>
                 </div>
             </div>
-            <div className={styles.actions}>
+            <ActionRow label="Action Row">
                 <button
                     className={styles.actionButton}
                     onClick={handleBack}
@@ -186,7 +187,7 @@ const MovieInfo = () => {
                 >
                     Nasi szerkesztése
                 </button>
-            </div>
+            </ActionRow>
             <BottomActions />
         </div>
     );

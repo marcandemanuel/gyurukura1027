@@ -9,6 +9,7 @@ import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./ExpandedDataTable.module.css";
+import ActionRow from "../../components/Common/ActionRow";
 
 function objectDiff(obj1, obj2) {
     const diff = {};
@@ -399,7 +400,7 @@ const ExpandedDataTable = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className={styles.actions}>
+                    <ActionRow label="Action Row">
                         <button
                             className={styles.backButton}
                             onClick={handleBack}
@@ -414,7 +415,7 @@ const ExpandedDataTable = () => {
                                 Mentés
                             </button>
                         )}
-                    </div>
+                    </ActionRow>
                     <BottomActions />
                 </>
             )}

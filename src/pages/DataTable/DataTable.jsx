@@ -11,6 +11,7 @@ import { Trash2 } from "lucide-react";
 import FileUploader from "../../components/Common/FileUploader/FileUploader";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./DataTable.module.css";
+import ActionRow from "../../components/Common/ActionRow";
 
 function objectDiff(obj1, obj2) {
     const diff = {};
@@ -632,7 +633,7 @@ const DataTable = () => {
                         {isAdmin ? "Kezelőpult" : "Mások választásai"}
                     </h2>
                     <div className={styles.tableContainer}>{createTable()}</div>
-                    <div className={styles.actions}>
+                    <ActionRow label="Action Row">
                         <button
                             className={styles.backButton}
                             onClick={handleBack}
@@ -647,7 +648,7 @@ const DataTable = () => {
                                 Mentés
                             </button>
                         )}
-                    </div>
+                    </ActionRow>
                     <BottomActions />
                 </>
             )}

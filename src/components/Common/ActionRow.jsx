@@ -13,6 +13,7 @@ const ActionRow = ({ label = "Action Row", children, className = "" }) => {
     const [showHamburger, setShowHamburger] = useState(false);
     const rowRef = useRef(null);
 
+    // Check for overflow on mount and resize
     useEffect(() => {
         function checkOverflow() {
             if (!rowRef.current) return;
@@ -27,24 +28,41 @@ const ActionRow = ({ label = "Action Row", children, className = "" }) => {
         return () => window.removeEventListener("resize", checkOverflow);
     }, []);
 
+    // If not overflowing, just show the row as normal
+    if (!showHamburger) {
+        return (
+            <div className={`${styles.actionRowWrapper} ${className}`}>
+                <div ref={rowRef} className={styles.actions} style={{ display: "flex" }}>
+                    {children}
+                </div>
+            </div>
+        );
+    }
+
+    // If overflowing, show collapsible box
     return (
-        <div className={`${styles.actionRowWrapper} ${className}`}>
-            {showHamburger && (
-                <button
-                    className={styles.hamburger}
-                    aria-label={`Toggle ${label}`}
-                    onClick={() => setOpen((o) => !o)}
-                >
-                    ≡ {label}
-                </button>
-            )}
+        <div className={`${styles.actionRowWrapper} ${styles.fixedBottom} ${className}`}>
+            <div
+                className={styles.collapsibleBox}
+                onClick={() => setOpen((o) => !o)}
+                tabIndex={0}
+                role="button"
+                aria-label={`Toggle ${label}`}
+                onKeyDown={e => {
+                    if (e.key === "Enter" || e.key === " ") setOpen(o => !o);
+                }}
+            >
+                {open ? (
+                    <span className={styles.collapseLabel}>Close</span>
+                ) : (
+                    <span className={styles.collapseLabel}>Action Row</span>
+                )}
+            </div>
             <div
                 ref={rowRef}
-                className={`${styles.actions} ${
-                    open ? styles.actionsOpen : styles.actionsClosed
-                }`}
+                className={`${styles.actions} ${open ? styles.actionsOpen : styles.actionsClosed}`}
                 style={{
-                    display: showHamburger && !open ? "none" : "flex",
+                    display: open ? "flex" : "none",
                 }}
             >
                 {children}

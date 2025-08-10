@@ -10,6 +10,7 @@ import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import Loading from "../../components/Common/Loading/Loading.jsx";
 import styles from "./OrderDay.module.css";
+import ActionRow from "../../components/Common/ActionRow";
 
 const TRANSLATIONS = {
     Elfogadva: "accepted",
@@ -134,14 +135,14 @@ const OrderDay = () => {
                     kérjük azt legyen szíves kitölteni, hogy rendelését
                     teljesíteni tudjuk.
                 </p>
-                <div className={styles.actions}>
+                <ActionRow label="Action Row">
                     <button
                         className={styles.actionButton}
                         onClick={handleBack}
                     >
                         Vissza
                     </button>
-                </div>
+                </ActionRow>
                 <BottomActions />
             </div>
         );
@@ -217,7 +218,7 @@ const OrderDay = () => {
                         </div>
                     </div>
 
-                    <div className={styles.actions}>
+                    <ActionRow label="Action Row">
                         <button
                             className={styles.actionButton}
                             onClick={handleBack}
@@ -250,7 +251,7 @@ const OrderDay = () => {
                         >
                             Mentés
                         </button>
-                    </div>
+                    </ActionRow>
                     <BottomActions />
                 </>
             )}

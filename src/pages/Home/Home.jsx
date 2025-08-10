@@ -8,6 +8,7 @@ import MovieCard from "./MovieCard";
 import PinInput from "../../components/Common/PinInput/PinInput";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./Home.module.css";
+import ActionRow from "../../components/Common/ActionRow";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -288,7 +289,7 @@ const Home = () => {
                 ))}
             </div>
 
-            <div className={styles.actions}>
+            <ActionRow label="Action Row">
                 <button
                     className={styles.actionButton}
                     onClick={handleChangeProfile}
@@ -321,7 +322,7 @@ const Home = () => {
                         Ülőhely
                     </button>
                 )}
-            </div>
+            </ActionRow>
 
             {notifications && notifications.length > 0 && (
                 <div className={styles.notificationStack}>
