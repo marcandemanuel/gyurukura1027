@@ -14,33 +14,13 @@ const BottomActions = () => {
 
     const { navigationPile } = useNavigation();
 
-    // Collapsible Bottom Actions State
-    const [bottomOpen, setBottomOpen] = React.useState(false);
-    const [showHamburger, setShowHamburger] = React.useState(false);
-    const actionsRef = React.useRef(null);
-
-    // Overflow detection logic
-    React.useEffect(() => {
-        function checkOverflow() {
-            if (!actionsRef.current) return;
-            const el = actionsRef.current;
-            // Count visible action buttons
-            const actionCount = el.querySelectorAll("button").length;
-            // Only show hamburger if more than 1 action and row overflows
-            setShowHamburger(actionCount > 1 && el.scrollWidth > el.clientWidth);
-        }
-        checkOverflow();
-        window.addEventListener("resize", checkOverflow);
-        return () => window.removeEventListener("resize", checkOverflow);
-    }, []);
-
     const handleBack = () => {
         if (navigationPile && navigationPile.length > 1) {
             navigate(navigationPile[navigationPile.length - 2]);
         } else {
             navigate("/");
         }
-    }
+    };
 
     if (backFromConfetti) {
         return (
@@ -49,7 +29,7 @@ const BottomActions = () => {
                     <button
                         className={styles.bottomButton}
                         onClick={() => {
-                            setConfettiStatus(2)
+                            setConfettiStatus(2);
                         }}
                     >
                         Vissza
@@ -73,25 +53,10 @@ const BottomActions = () => {
             </div>
         );
     }
-    
+
     return (
         <div className={styles.container}>
-            {showHamburger && (
-                <button
-                    className={styles.hamburger}
-                    aria-label="Toggle Bottom Actions"
-                    onClick={() => setBottomOpen((open) => !open)}
-                >
-                    ≡ Bottom Actions
-                </button>
-            )}
-            <div
-                ref={actionsRef}
-                className={`${styles.bottomActions} ${bottomOpen ? styles.bottomOpen : styles.bottomClosed}`}
-                style={{
-                    display: showHamburger && !bottomOpen ? "none" : "flex"
-                }}
-            >
+            <div className={styles.bottomActions}>
                 <button
                     className={styles.bottomButton}
                     onClick={() => navigate("/gyurukura1027")}

@@ -124,15 +124,3 @@
         transform: scale(1);
     }
 }
-
-@media (max-width: 600px) {
-  .profileButton {
-    width: 90vw;
-    font-size: 14px;
-    padding: 12px;
-    margin: 10px auto;
-  }
-  .container {
-    padding: 0 5vw;
-  }
-}

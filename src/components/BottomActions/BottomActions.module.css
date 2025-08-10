@@ -10,42 +10,6 @@
     margin-bottom: 20px;
 }
 
-.hamburger {
-    display: none;
-    background: none;
-    border: none;
-    color: #9c8028;
-    font-size: 1.2em;
-    font-family: "Aniron", sans-serif;
-    padding: 8px 0;
-    margin-bottom: 4px;
-    cursor: pointer;
-    align-self: flex-start;
-    transition: color 0.2s;
-}
-
-.hamburger:active,
-.hamburger:focus {
-    color: #cbb05a;
-}
-
-.bottomOpen {
-    display: flex !important;
-}
-
-.bottomClosed {
-    display: none !important;
-}
-
-@media (max-width: 600px) {
-    .hamburger {
-        display: block;
-    }
-    .bottomActions {
-        flex-wrap: wrap;
-    }
-}
-
 .bottomButton {
     background-color: transparent;
     color: #9c8028;

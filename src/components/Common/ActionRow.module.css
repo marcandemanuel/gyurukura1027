@@ -39,12 +39,3 @@
 .actionsClosed {
     display: none !important;
 }
-
-@media (max-width: 600px) {
-    .hamburger {
-        display: block;
-    }
-    .actions {
-        flex-wrap: wrap;
-    }
-}

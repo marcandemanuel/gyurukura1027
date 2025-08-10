@@ -1,7 +1,6 @@
 "use client";
- 
+
 import React, { useState, useEffect } from "react";
-import ActionRow from "../../components/Common/ActionRow";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
@@ -10,14 +9,12 @@ import PinInput from "../../components/Common/PinInput/PinInput";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import styles from "./Home.module.css";
 
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ||
-  "/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 const Home = () => {
     const [message, setMessage] = useState("Loading...");
     const [showPinChange, setShowPinChange] = useState(false);
-    const [pinChangeStep, setPinChangeStep] = useState("create"); 
+    const [pinChangeStep, setPinChangeStep] = useState("create");
     const [tempPin, setTempPin] = useState("");
     const [pinError, setPinError] = useState(false);
     const [pinChangeConfirmMissed, setPinChangeConfirmMissed] = useState(0);
@@ -27,7 +24,7 @@ const Home = () => {
         refreshCurrentUser,
         isAuthenticated,
         updateProfile,
-        logout
+        logout,
     } = useApp();
     const navigate = useNavigate();
     const config = useConfig();
@@ -43,18 +40,16 @@ const Home = () => {
 
     movies[config.birthday_on_movie_id] += " 🎂";
 
-    
     const isAdmin = user?.admin || false;
-    
+
     function mapNotifsWithUniqueIds(notifs, prev = []) {
-        
         const prevMap = {};
         for (const n of prev) {
             const key = `${n.msg}|${n.date}`;
             if (!prevMap[key]) prevMap[key] = [];
             prevMap[key].push(n.id);
         }
-        
+
         const idCounts = {};
         return (notifs || []).map(([msg, date]) => {
             const key = `${msg}|${date}`;
@@ -69,36 +64,32 @@ const Home = () => {
         });
     }
 
-    
     const [notifications, setNotifications] = useState([]);
-    const [dismissing, setDismissing] = useState([]); 
+    const [dismissing, setDismissing] = useState([]);
     const notifRefs = React.useRef({});
 
-    
     const notificationsCopiedRef = React.useRef(false);
 
     useEffect(() => {
-        if (!notificationsCopiedRef.current && user.notifications && user.notifications.length > 0) {
+        if (
+            !notificationsCopiedRef.current &&
+            user.notifications &&
+            user.notifications.length > 0
+        ) {
             setNotifications(mapNotifsWithUniqueIds(user.notifications));
             const updatedUser = { ...user, notifications: [] };
-            updateProfile(updatedUser, 'no_notifications').then(() => {
+            updateProfile(updatedUser, "no_notifications").then(() => {
                 refreshCurrentUser();
             });
             notificationsCopiedRef.current = true;
         }
-        
+
         if (user.notifications && user.notifications.length === 0) {
             notificationsCopiedRef.current = false;
         }
-        
     }, [user.notifications]);
 
-    
-
-    
-    
     const handleDismissNotification = (notifId) => {
-        
         const firstRects = {};
         Object.entries(notifRefs.current).forEach(([id, ref]) => {
             if (ref && ref.current) {
@@ -115,18 +106,19 @@ const Home = () => {
                 const updated = [...prevNotifs];
                 updated.splice(idx, 1);
 
-                
                 setTimeout(() => {
                     Object.entries(notifRefs.current).forEach(([id, ref]) => {
                         if (ref && ref.current && firstRects[id]) {
-                            const lastRect = ref.current.getBoundingClientRect();
+                            const lastRect =
+                                ref.current.getBoundingClientRect();
                             const dy = firstRects[id].top - lastRect.top;
                             if (dy !== 0) {
                                 ref.current.style.transition = "none";
                                 ref.current.style.transform = `translateY(${dy}px)`;
-                                
+
                                 void ref.current.offsetWidth;
-                                ref.current.style.transition = "transform 0.4s cubic-bezier(0.4,0,0.2,1)";
+                                ref.current.style.transition =
+                                    "transform 0.4s cubic-bezier(0.4,0,0.2,1)";
                                 ref.current.style.transform = "";
                             }
                         }
@@ -136,14 +128,12 @@ const Home = () => {
                 return updated;
             });
             setDismissing((prev) => prev.filter((k) => k !== notifId));
-        }, 400); 
+        }, 400);
     };
 
-    
     const firstMountRef = React.useRef(true);
 
     useEffect(() => {
-        
         fetch(`${API_BASE}/health`)
             .then((res) => res.json())
             .then((data) => {
@@ -157,14 +147,12 @@ const Home = () => {
                 );
             });
 
-        
         if (isAdmin) {
-            refreshCurrentUser(true); 
+            refreshCurrentUser(true);
         } else {
             refreshCurrentUser(false);
         }
 
-        
         if (firstMountRef.current) {
             firstMountRef.current = false;
         }
@@ -204,10 +192,10 @@ const Home = () => {
                 )}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(
                     now.getMinutes()
                 )}:${pad(now.getSeconds())}`;
-                
+
                 const updatedUser = { ...user, pin };
                 updatedUser.notifications.push(["PIN módosítva", date]);
-                const success = await updateProfile(updatedUser, 'pin_changed');
+                const success = await updateProfile(updatedUser, "pin_changed");
                 if (success) {
                     setShowPinChange(false);
                     setPinChangeStep("create");
@@ -300,7 +288,7 @@ const Home = () => {
                 ))}
             </div>
 
-            <ActionRow label="Action Row">
+            <div className={styles.actions}>
                 <button
                     className={styles.actionButton}
                     onClick={handleChangeProfile}
@@ -333,15 +321,23 @@ const Home = () => {
                         Ülőhely
                     </button>
                 )}
-            </ActionRow>
+            </div>
 
             {notifications && notifications.length > 0 && (
                 <div className={styles.notificationStack}>
                     {notifications.map((notif) => (
                         <div
-                            className={`${styles.notificationItem} ${dismissing.includes(notif.id) ? styles.dismissing : ""}`}
+                            className={`${styles.notificationItem} ${
+                                dismissing.includes(notif.id)
+                                    ? styles.dismissing
+                                    : ""
+                            }`}
                             key={notif.id}
-                            ref={notifRefs.current[notif.id] || (notifRefs.current[notif.id] = React.createRef())}
+                            ref={
+                                notifRefs.current[notif.id] ||
+                                (notifRefs.current[notif.id] =
+                                    React.createRef())
+                            }
                             onClick={() => handleDismissNotification(notif.id)}
                         >
                             <span className={styles.notification}>
