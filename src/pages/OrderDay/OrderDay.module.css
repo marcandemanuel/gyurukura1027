@@ -71,12 +71,21 @@
     color: #9c8028;
     font-size: 14px;
     width: 100%;
-    min-width: 30vw;
-    max-width: 90vw;
-    padding: 15px 30px;
     border-radius: 100px;
     box-shadow: 0px 0px 6px #9c8028;
-    margin: 10px;
+    padding: 15px 30px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+.inputFields {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 90vw;
+    max-width: 500px;
+    min-width: 250px;
+    box-sizing: border-box;
 }
 
 .inputContainer {

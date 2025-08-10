@@ -418,7 +418,8 @@ const DataTable = () => {
                                     />
                                     {profiles[profileIndex].seat_image &&
                                         profiles[profileIndex].seat_image ===
-                                            profile.seat_image && (
+                                            profile.seat_image &&
+                                        isAdmin && (
                                             <div
                                                 className={styles.imageBox}
                                                 onClick={() => {
@@ -434,7 +435,10 @@ const DataTable = () => {
                                                     );
                                                 }}
                                             >
-                                                <Trash2 color="#9c8028" />
+                                                <img
+                                                    src="/images/close.png"
+                                                    alt="delete"
+                                                />
                                             </div>
                                         )}
                                 </div>

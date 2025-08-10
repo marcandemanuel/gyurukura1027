@@ -13,7 +13,7 @@
     bottom: 0;
     width: 100vw;
     background: rgba(30, 30, 30, 0.98);
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
     padding: 0 0 8px 0;
     margin-bottom: 0;
 }
@@ -38,6 +38,30 @@
 .collapsibleBox:hover {
     background: #333;
     color: #cbb05a;
+
+    .hamburger {
+        display: block;
+        background: #222;
+        border: none;
+        color: #9c8028;
+        font-size: 1.2em;
+        font-family: "Aniron", sans-serif;
+        padding: 10px 0;
+        margin-bottom: 4px;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        border-top: 2px solid #9c8028;
+        border-bottom: 2px solid #9c8028;
+        transition: background 0.2s, color 0.2s;
+    }
+
+    .hamburger:active,
+    .hamburger:focus,
+    .hamburger:hover {
+        color: #cbb05a;
+        background: #333;
+    }
 }
 
 .collapseLabel {
