@@ -54,10 +54,10 @@ const ActionRow = ({ label = "Action Row", children, className = "" }) => {
     // If wrapped, show hamburger to toggle show/hide
     return (
         <div
-            className={`${styles.actionRowWrapper} ${styles.fixedBottom} ${className} ${open ? styles.wrapperOpen : styles.wrapperClosed}`}
+            className={`${styles.actionRowWrapper} ${className} ${open ? styles.wrapperOpen : styles.wrapperClosed}`}
         >
             <button
-                className={styles.openButton}
+                className={`${open ? styles.closeButton : styles.openButton}`}
                 onClick={() => setOpen((o) => !o)}
             >
                 Akciók
