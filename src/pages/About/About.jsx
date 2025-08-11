@@ -273,7 +273,12 @@ const Timeline = ({ about }) => {
 
             // Calculate scroll target (center + 20px)
             const rect = lastCardNode.getBoundingClientRect();
-            const scrollTarget = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2 + 30;
+            const scrollTarget =
+                window.scrollY +
+                rect.top +
+                rect.height / 2 -
+                window.innerHeight / 2 +
+                30;
 
             // Smooth scroll only (no scroll prevention, no forced reset)
             window.scrollTo({ top: scrollTarget, behavior: "smooth" });
@@ -384,7 +389,7 @@ const Timeline = ({ about }) => {
                     key={events[events.length - 1].name + "-last"}
                     event={events[events.length - 1]}
                     idx={events.length - 1}
-                    top={lastDotAbsoluteTop + window.innerHeight*0.5}
+                    top={lastDotAbsoluteTop + window.innerHeight * 0.5}
                     centered={true}
                     animate={lastCardAnimated}
                     onMount={setLastCardNode}
@@ -404,24 +409,8 @@ const Timeline = ({ about }) => {
  * @param {boolean} [props.centered]
  */
 const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
-    // Responsive: for width < 1200px, always use "right" (except centered)
-    const [windowWidth, setWindowWidth] = React.useState(
-        typeof window !== "undefined" ? window.innerWidth : 1920
-    );
-    React.useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    let side;
-    if (centered) {
-        side = "center";
-    } else if (windowWidth < 1200) {
-        side = "right";
-    } else {
-        side = idx % 2 === 0 ? "right" : "left";
-    }
+    // Alternate side: even = right, odd = left, unless centered
+    const side = centered ? "center" : idx % 2 === 0 ? "right" : "left";
     const year = event.date.split("-")[0];
 
     // Ref and state for dynamic height
@@ -442,13 +431,23 @@ const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
     useEffect(() => {
         if (!centered) return;
         function resizeLogoContainer() {
-            if (cardRef.current && contentRef.current && logoContainerRef.current) {
+            if (
+                cardRef.current &&
+                contentRef.current &&
+                logoContainerRef.current
+            ) {
                 const PADDING = 50;
                 const cardHeight = cardRef.current.offsetHeight;
                 const contentHeight = contentRef.current.offsetHeight;
                 const remaining = cardHeight - contentHeight - PADDING;
                 // Prevent negative or too small
-                logoContainerRef.current.style.height = `${(remaining > 0 ? remaining : 0) <= 200 ? (remaining > 0 ? remaining : 0) : 200}px`;
+                logoContainerRef.current.style.height = `${
+                    (remaining > 0 ? remaining : 0) <= 200
+                        ? remaining > 0
+                            ? remaining
+                            : 0
+                        : 200
+                }px`;
                 logoContainerRef.current.style.paddingTop = `${PADDING}px`;
             }
         }
@@ -510,7 +509,12 @@ const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
                         src="/favicon.png"
                         alt="Logo"
                         className={styles.infoCardLogo}
-                        style={{ height: "100%", width: "auto", maxWidth: "100%", objectFit: "contain" }}
+                        style={{
+                            height: "100%",
+                            width: "auto",
+                            maxWidth: "100%",
+                            objectFit: "contain",
+                        }}
                     />
                 </div>
             )}
