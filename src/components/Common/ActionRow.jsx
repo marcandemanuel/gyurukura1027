@@ -4,9 +4,8 @@ import styles from "./ActionRow.module.css";
 
 const ActionRow = ({ children, className = "" }) => {
     const [open, setOpen] = useState(false);
-    const [showHamburger, setShowHamburger] = useState(false);
+    const [wrapped, setWrapped] = useState(false);
     const rowRef = useRef(null);
-
 
     useEffect(() => {
         function checkWrapped() {
@@ -14,13 +13,13 @@ const ActionRow = ({ children, className = "" }) => {
             const el = rowRef.current;
             const buttons = Array.from(el.querySelectorAll("button"));
             if (buttons.length <= 1) {
-                setShowHamburger(false);
+                setWrapped(false);
                 setOpen(false);
                 return;
             }
             const firstTop = buttons[0]?.offsetTop;
             const isWrapped = buttons.some((btn) => btn.offsetTop !== firstTop);
-            setShowHamburger(isWrapped);
+            setWrapped(isWrapped);
             if (!isWrapped) setOpen(false);
         }
         checkWrapped();
@@ -29,7 +28,7 @@ const ActionRow = ({ children, className = "" }) => {
     }, [children]);
 
 
-    if (!showHamburger) {
+    if (!wrapped) {
         return (
             <div className={`${styles.actionRowWrapper} ${className}`}>
                 <div
@@ -59,9 +58,6 @@ const ActionRow = ({ children, className = "" }) => {
                 className={`${styles.actions} ${
                     open ? styles.actionsOpen : styles.actionsClosed
                 }`}
-                style={{
-                    display: open ? "flex" : "none",
-                }}
             >
                 {children}
             </div>

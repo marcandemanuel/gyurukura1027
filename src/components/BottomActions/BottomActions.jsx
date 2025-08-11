@@ -25,7 +25,6 @@ const BottomActions = () => {
 
     const [open, setOpen] = useState(false);
     const [wrapped, setWrapped] = useState(false);
-    const rowRef = useRef(null);
 
     const actionButtons = [
         <button
@@ -48,10 +47,11 @@ const BottomActions = () => {
             onClick={() => navigate("/nasiopciok")}
         >
             Nasi opciók
-        </button>
+        </button>,
     ];
 
-    // Detect if the row is wrapped (multi-line)
+    const rowRef = useRef(null);
+
     useEffect(() => {
         function checkWrapped() {
             if (!rowRef.current) return;
@@ -63,14 +63,14 @@ const BottomActions = () => {
                 return;
             }
             const firstTop = buttons[0]?.offsetTop;
-            const isWrapped = buttons.some(btn => btn.offsetTop !== firstTop);
+            const isWrapped = buttons.some((btn) => btn.offsetTop !== firstTop);
             setWrapped(isWrapped);
             if (!isWrapped) setOpen(false);
         }
         checkWrapped();
         window.addEventListener("resize", checkWrapped);
         return () => window.removeEventListener("resize", checkWrapped);
-    }, []);
+    }, [children]);
 
     if (backFromConfetti) {
         return (
@@ -107,8 +107,14 @@ const BottomActions = () => {
     if (!wrapped) {
         return (
             <div className={styles.container}>
-                <div ref={rowRef} className={styles.bottomActions} style={{ display: "flex" }}>
-                    {actionButtons}
+                <div className={`${styles.actionRowWrapper}`}>
+                    <div
+                        ref={rowRef}
+                        className={styles.bottomActions}
+                        style={{ display: "flex" }}
+                    >
+                        {actionButtons}
+                    </div>
                 </div>
             </div>
         );
@@ -116,21 +122,30 @@ const BottomActions = () => {
 
     return (
         <div className={styles.container}>
-            <div className={`${styles.actionRowWrapper} ${open ? styles.actionRowOpen : styles.actionRowClosed}`}>
+            <div
+                className={`${styles.actionRowWrapper} ${
+                    open ? styles.actionRowOpen : styles.actionRowClosed
+                }`}
+            >
                 <button
                     className={styles.actionButton}
                     onClick={() => setOpen((o) => !o)}
                     aria-label="Toggle Akciók"
                     style={{
                         minWidth: open ? "120px" : "80px",
-                        transition: "min-width 0.3s"
+                        transition: "min-width 0.3s",
                     }}
                 >
                     Akciók
                 </button>
                 <div
                     ref={rowRef}
-                    className={`${styles.bottomActions} ${open ? styles.actionsOpen : styles.actionsClosed}`}
+                    className={`${styles.bottomActions} ${
+                        open ? styles.actionsOpen : styles.actionsClosed
+                    }`}
+                    style={{
+                        display: open ? "flex" : "none",
+                    }}
                 >
                     {actionButtons}
                 </div>
