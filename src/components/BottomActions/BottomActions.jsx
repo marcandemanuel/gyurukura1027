@@ -54,16 +54,21 @@ const BottomActions = () => {
 
     useEffect(() => {
         function checkWrapped() {
+            console.log('rowRef.current:', rowRef, rowRef.current);
             if (!rowRef.current) return;
             const el = rowRef.current;
+            console.log('el:', el);
             const buttons = Array.from(el.querySelectorAll("button"));
             if (buttons.length <= 1) {
+                console.log('Not enough buttons to check wrapping');
                 setWrapped(false);
                 setOpen(false);
                 return;
             }
             const firstTop = buttons[0]?.offsetTop;
+            console.log('firstTop:', firstTop);
             const isWrapped = buttons.some((btn) => btn.offsetTop !== firstTop);
+            console.log('isWrapped:', isWrapped);
             setWrapped(isWrapped);
             if (!isWrapped) setOpen(false);
         }
