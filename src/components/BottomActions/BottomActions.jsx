@@ -70,7 +70,7 @@ const BottomActions = () => {
         checkWrapped();
         window.addEventListener("resize", checkWrapped);
         return () => window.removeEventListener("resize", checkWrapped);
-    }, [children]);
+    }, [actionButtons]);
 
     if (backFromConfetti) {
         return (
