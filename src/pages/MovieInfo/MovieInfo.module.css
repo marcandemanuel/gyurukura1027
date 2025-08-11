@@ -29,11 +29,11 @@
 }
 
 .title {
+    text-align: center;
     font-size: 30px;
     padding: 20px;
     padding-bottom: 0;
     color: #9c8028;
-    text-align: center;
 }
 
 .subtitle {

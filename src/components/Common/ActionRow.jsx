@@ -7,7 +7,7 @@ const ActionRow = ({ children, className = "" }) => {
     const [showHamburger, setShowHamburger] = useState(false);
     const rowRef = useRef(null);
 
-    // Detect if the row is wrapped (multi-line)
+
     useEffect(() => {
         function checkWrapped() {
             if (!rowRef.current) return;
@@ -15,22 +15,20 @@ const ActionRow = ({ children, className = "" }) => {
             const buttons = Array.from(el.querySelectorAll("button"));
             if (buttons.length <= 1) {
                 setShowHamburger(false);
-                setOpen(true);
+                setOpen(false);
                 return;
             }
-            // If any button is on a different line (offsetTop) than the first, it's wrapped
             const firstTop = buttons[0]?.offsetTop;
             const isWrapped = buttons.some((btn) => btn.offsetTop !== firstTop);
             setShowHamburger(isWrapped);
-            // If not wrapped, always show row
-            if (!isWrapped) setOpen(true);
+            if (!isWrapped) setOpen(false);
         }
         checkWrapped();
         window.addEventListener("resize", checkWrapped);
         return () => window.removeEventListener("resize", checkWrapped);
     }, [children]);
 
-    // If not wrapped, just show the row as normal
+
     if (!showHamburger) {
         return (
             <div className={`${styles.actionRowWrapper} ${className}`}>
@@ -45,7 +43,7 @@ const ActionRow = ({ children, className = "" }) => {
         );
     }
 
-    // If wrapped, show hamburger to toggle show/hide
+
     return (
         <div
             className={`${styles.actionRowWrapper} ${className} ${open ? styles.wrapperOpen : styles.wrapperClosed}`}

@@ -27,7 +27,6 @@ const BottomActions = () => {
     const [wrapped, setWrapped] = useState(false);
     const rowRef = useRef(null);
 
-    // The action buttons to render
     const actionButtons = [
         <button
             key="gyurukura"
@@ -60,13 +59,13 @@ const BottomActions = () => {
             const buttons = Array.from(el.querySelectorAll("button"));
             if (buttons.length <= 1) {
                 setWrapped(false);
-                setOpen(true);
+                setOpen(false);
                 return;
             }
             const firstTop = buttons[0]?.offsetTop;
             const isWrapped = buttons.some(btn => btn.offsetTop !== firstTop);
             setWrapped(isWrapped);
-            if (!isWrapped) setOpen(true);
+            if (!isWrapped) setOpen(false);
         }
         checkWrapped();
         window.addEventListener("resize", checkWrapped);
@@ -105,7 +104,6 @@ const BottomActions = () => {
         );
     }
 
-    // If not wrapped, just show the row as normal
     if (!wrapped) {
         return (
             <div className={styles.container}>
@@ -116,7 +114,6 @@ const BottomActions = () => {
         );
     }
 
-    // If wrapped, show Akciók button to toggle show/hide
     return (
         <div className={styles.container}>
             <div className={`${styles.actionRowWrapper} ${open ? styles.actionRowOpen : styles.actionRowClosed}`}>

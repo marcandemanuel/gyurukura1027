@@ -41,10 +41,10 @@
 }
 
 .title {
+    text-align: center;
     font-size: 30px;
     color: #9c8028;
     margin: 20px 0;
-    text-align: center;
 }
 
 .content {

@@ -18,13 +18,13 @@
 }
 
 .title {
+    text-align: center;
     font-size: 30px;
     padding: 20px;
     padding-bottom: 0px;
     margin-bottom: 0px;
     color: #9c8028;
     font-family: "Aniron";
-    text-align: center
 }
 
 .subtitle {
