@@ -404,8 +404,24 @@ const Timeline = ({ about }) => {
  * @param {boolean} [props.centered]
  */
 const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
-    // Alternate side: even = right, odd = left, unless centered
-    const side = centered ? "center" : idx % 2 === 0 ? "right" : "left";
+    // Responsive: for width < 1200px, always use "right" (except centered)
+    const [windowWidth, setWindowWidth] = React.useState(
+        typeof window !== "undefined" ? window.innerWidth : 1920
+    );
+    React.useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    let side;
+    if (centered) {
+        side = "center";
+    } else if (windowWidth < 1200) {
+        side = "right";
+    } else {
+        side = idx % 2 === 0 ? "right" : "left";
+    }
     const year = event.date.split("-")[0];
 
     // Ref and state for dynamic height

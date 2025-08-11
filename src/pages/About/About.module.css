@@ -330,6 +330,24 @@
     }
 }
 
+@media (max-width: 1200px) {
+    /* Force all infocards (except center) to the right side */
+    .infoCardLeft {
+        display: none !important;
+    }
+    .infoCardRight {
+        left: 70px !important;
+        right: auto !important;
+        min-width: 180px;
+        max-width: 90vw;
+    }
+    .timelineContainer {
+        width: 40px;
+        min-width: 40px;
+        max-width: 40px;
+    }
+}
+
 
 .timelineDot {
     position: absolute;
