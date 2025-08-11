@@ -2,11 +2,13 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin: 30px 0 20px;
 }
 
 .wrapperOpen {
     border: 2px solid #9c8028;
-    width: 90vw
+    width: 90vw;
+    border-radius: 30px
 }
 
 .actions {
@@ -14,15 +16,16 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    padding: 10px 0 0 0;
 }
 
 .actionsOpen {
     display: flex !important;
+    margin: 10px 0;
 }
 
 .actionsClosed {
     display: none !important;
+    margin: 0;
 }
 
 .openButton {
@@ -50,6 +53,10 @@
     font-family: "Aniron";
     position: relative;
     animation: none
+}
+
+.closeButton:hover {
+    border: 2px solid transparent;
 }
 
 .closeButton:active {
