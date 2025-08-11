@@ -92,13 +92,6 @@
     gap: 2vw;
 }
 
-@media (max-width: 1200px) {
-    .info {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
 .side {
     width: 30vw;
     box-shadow: 0px 0px 10px #9c8028;
@@ -127,8 +120,19 @@
 
 .videoPlayer {
     width: 90vw;
-    max-width: 1000px;
+    max-width: 1080px;
     aspect-ratio: 16 / 9;
     border-radius: 16px;
     background: #000;
+}
+
+@media (max-width: 1200px) {
+    .info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .side {
+        width: 90vw
+    }
 }
