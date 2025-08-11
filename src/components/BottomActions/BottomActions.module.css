@@ -84,9 +84,6 @@
     border: 2px solid #9c8028;
     position: relative;
     margin: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .bottomButton:hover {

@@ -80,7 +80,7 @@ const BottomActions = () => {
     if (backFromConfetti) {
         return (
             <div className={styles.container}>
-                <div className={styles.bottomActions}>
+                <div className={styles.actions}>
                     <button
                         className={styles.bottomButton}
                         onClick={() => {
@@ -97,7 +97,7 @@ const BottomActions = () => {
     if (shouldShowOnlyBack) {
         return (
             <div className={styles.container}>
-                <div className={styles.bottomActions}>
+                <div className={styles.actions}>
                     <button
                         className={styles.bottomButton}
                         onClick={handleBack}
@@ -115,7 +115,7 @@ const BottomActions = () => {
                 <div className={`${styles.actionRowWrapper}`}>
                     <div
                         ref={rowRef}
-                        className={styles.bottomActions}
+                        className={styles.actions}
                         style={{ display: "flex" }}
                     >
                         {actionButtons}
@@ -133,19 +133,14 @@ const BottomActions = () => {
                 }`}
             >
                 <button
-                    className={styles.actionButton}
+                    className={`${open ? styles.closeButton : styles.openButton}`}
                     onClick={() => setOpen((o) => !o)}
-                    aria-label="Toggle Akciók"
-                    style={{
-                        minWidth: open ? "120px" : "80px",
-                        transition: "min-width 0.3s",
-                    }}
                 >
                     Akciók
                 </button>
                 <div
                     ref={rowRef}
-                    className={`${styles.bottomActions} ${
+                    className={`${styles.actions} ${
                         open ? styles.actionsOpen : styles.actionsClosed
                     }`}
                     style={{
