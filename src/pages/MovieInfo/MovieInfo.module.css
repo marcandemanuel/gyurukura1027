@@ -130,10 +130,13 @@
     .info {
         flex-direction: column;
         align-items: center;
+        gap: 25px;
+        padding: 25px;
     }
 
     .side {
         width: 90vw;
         padding: 25px;
+        border-radius: 20px;
     }
 }
