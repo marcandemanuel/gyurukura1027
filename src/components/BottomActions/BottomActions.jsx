@@ -127,7 +127,7 @@ const BottomActions = () => {
         <div className={styles.container}>
             <div
                 className={`${styles.actionRowWrapper} ${
-                    open ? styles.actionRowOpen : styles.actionRowClosed
+                    open ? styles.wrapperOpen : styles.wrapperClosed
                 }`}
             >
                 <button
