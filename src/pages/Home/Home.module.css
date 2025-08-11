@@ -35,9 +35,8 @@
 }
 
 .movieList {
-    width: 100%;
-    min-width: 60vw;
-    max-width: 90vw;
+    width: 90vw;
+    max-width: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;
