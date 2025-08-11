@@ -4,10 +4,90 @@
     align-items: center;
 }
 
+/* Wrapper for animated open/close */
+.bottomActionsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    z-index: 100;
+    width: min(90vw, 800px);
+    min-width: 80px;
+    max-width: 90vw;
+    background: rgba(30, 30, 30, 0.98);
+    border-radius: 16px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+    transition:
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: visible;
+}
+
+.actionRowOpen {
+    width: min(90vw, 800px);
+    background: transparent;
+    transition:
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.actionRowClosed {
+    width: 80px;
+    background: rgba(30, 30, 30, 0.98);
+    transition:
+        width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Action button style for Akciók */
+.actionButton {
+    border: 2px solid transparent;
+    background-color: rgb(0, 0, 0);
+    color: #9c8028;
+    font-size: 12px;
+    border-radius: 25px;
+    padding: 10px 30px;
+    margin: 5px 0 5px 10px;
+    font-family: "Aniron";
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, min-width 0.3s;
+    z-index: 2;
+}
+
+.actionButton:active,
+.actionButton:focus,
+.actionButton:hover {
+    color: #cbb05a;
+    background: #333;
+}
+
 .bottomActions {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0 0 10px;
+    width: 100%;
+    opacity: 1;
+    max-height: 500px;
+    transition: opacity 0.3s, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     margin-bottom: 20px;
+}
+
+.actionsOpen {
+    opacity: 1;
+    max-height: 500px;
+    pointer-events: auto;
+    transition: opacity 0.3s, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.actionsClosed {
+    opacity: 0;
+    max-height: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bottomButton {
@@ -36,7 +116,6 @@
     0% {
         background-color: transparent;
     }
-
     100% {
         background-color: black;
     }
@@ -46,11 +125,9 @@
     0% {
         transform: translateX(0px);
     }
-
     25% {
         transform: translateX(-30px);
     }
-
     100% {
         transform: translateX(0px);
     }

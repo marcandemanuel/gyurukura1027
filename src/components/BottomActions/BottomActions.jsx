@@ -2,6 +2,7 @@ import styles from "./BottomActions.module.css";
 import { useNavigate } from "react-router-dom";
 import { useNavigation } from "../../contexts/NavigationContext";
 import { useApp } from "../../contexts/AppContext";
+import React, { useRef, useEffect, useState } from "react";
 
 const BottomActions = () => {
     const navigate = useNavigate();
@@ -21,6 +22,56 @@ const BottomActions = () => {
             navigate("/");
         }
     };
+
+    const [open, setOpen] = useState(false);
+    const [wrapped, setWrapped] = useState(false);
+    const rowRef = useRef(null);
+
+    // The action buttons to render
+    const actionButtons = [
+        <button
+            key="gyurukura"
+            className={styles.bottomButton}
+            onClick={() => navigate("/gyurukura1027")}
+        >
+            GyűrűkUra 10-27
+        </button>,
+        <button
+            key="visszaszamlalo"
+            className={styles.bottomButton}
+            onClick={() => navigate("/visszaszamlalo")}
+        >
+            Visszaszámláló
+        </button>,
+        <button
+            key="nasiopciok"
+            className={styles.bottomButton}
+            onClick={() => navigate("/nasiopciok")}
+        >
+            Nasi opciók
+        </button>
+    ];
+
+    // Detect if the row is wrapped (multi-line)
+    useEffect(() => {
+        function checkWrapped() {
+            if (!rowRef.current) return;
+            const el = rowRef.current;
+            const buttons = Array.from(el.querySelectorAll("button"));
+            if (buttons.length <= 1) {
+                setWrapped(false);
+                setOpen(true);
+                return;
+            }
+            const firstTop = buttons[0]?.offsetTop;
+            const isWrapped = buttons.some(btn => btn.offsetTop !== firstTop);
+            setWrapped(isWrapped);
+            if (!isWrapped) setOpen(true);
+        }
+        checkWrapped();
+        window.addEventListener("resize", checkWrapped);
+        return () => window.removeEventListener("resize", checkWrapped);
+    }, []);
 
     if (backFromConfetti) {
         return (
@@ -54,27 +105,38 @@ const BottomActions = () => {
         );
     }
 
+    // If not wrapped, just show the row as normal
+    if (!wrapped) {
+        return (
+            <div className={styles.container}>
+                <div ref={rowRef} className={styles.bottomActions} style={{ display: "flex" }}>
+                    {actionButtons}
+                </div>
+            </div>
+        );
+    }
+
+    // If wrapped, show Akciók button to toggle show/hide
     return (
         <div className={styles.container}>
-            <div className={styles.bottomActions}>
+            <div className={`${styles.bottomActionsWrapper} ${open ? styles.actionRowOpen : styles.actionRowClosed}`}>
                 <button
-                    className={styles.bottomButton}
-                    onClick={() => navigate("/gyurukura1027")}
+                    className={styles.actionButton}
+                    onClick={() => setOpen((o) => !o)}
+                    aria-label="Toggle Akciók"
+                    style={{
+                        minWidth: open ? "120px" : "80px",
+                        transition: "min-width 0.3s"
+                    }}
                 >
-                    GyűrűkUra 10-27
+                    Akciók
                 </button>
-                <button
-                    className={styles.bottomButton}
-                    onClick={() => navigate("/visszaszamlalo")}
+                <div
+                    ref={rowRef}
+                    className={`${styles.bottomActions} ${open ? styles.actionsOpen : styles.actionsClosed}`}
                 >
-                    Visszaszámláló
-                </button>
-                <button
-                    className={styles.bottomButton}
-                    onClick={() => navigate("/nasiopciok")}
-                >
-                    Nasi opciók
-                </button>
+                    {actionButtons}
+                </div>
             </div>
         </div>
     );

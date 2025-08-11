@@ -1,15 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import styles from "./ActionRow.module.css";
 
-/**
- * ActionRow: A reusable row for actions that collapses to a hamburger if it overflows.
- * Props:
- *   - label: string (label for hamburger, e.g. "Action Row")
- *   - children: action buttons (should be at least 2 for hamburger to appear)
- *   - className: additional class for the row (optional)
- */
-const ActionRow = ({ label = "Action Row", children, className = "" }) => {
-    const [open, setOpen] = useState(true);
+
+const ActionRow = ({ children, className = "" }) => {
+    const [open, setOpen] = useState(false);
     const [showHamburger, setShowHamburger] = useState(false);
     const rowRef = useRef(null);
 
