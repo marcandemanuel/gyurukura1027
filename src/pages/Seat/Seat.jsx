@@ -73,8 +73,8 @@ const Seat = () => {
                 >
                     Vissza
                 </button>
-                <BottomActions />
             </div>
+            <BottomActions />
         </div>
     );
 };

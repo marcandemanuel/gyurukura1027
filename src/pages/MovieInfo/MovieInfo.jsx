@@ -144,12 +144,7 @@ const MovieInfo = () => {
             <div className={styles.videoSection}>
                 <video
                     controls
-                    style={{
-                        width: "64vw",
-                        height: "36vw",
-                        borderRadius: "16px",
-                        background: "#000",
-                    }}
+                    className={styles.videoPlayer}
                     autoPlay
                     muted
                 >

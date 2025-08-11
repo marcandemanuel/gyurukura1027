@@ -119,7 +119,7 @@ const BottomActions = () => {
     // If wrapped, show Akciók button to toggle show/hide
     return (
         <div className={styles.container}>
-            <div className={`${styles.bottomActionsWrapper} ${open ? styles.actionRowOpen : styles.actionRowClosed}`}>
+            <div className={`${styles.actionRowWrapper} ${open ? styles.actionRowOpen : styles.actionRowClosed}`}>
                 <button
                     className={styles.actionButton}
                     onClick={() => setOpen((o) => !o)}
