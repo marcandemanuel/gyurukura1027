@@ -35,7 +35,7 @@ export const NavigationProvider = ({ children }) => {
     }, [location.pathname]);
 
     return (
-        <NavigationContext.Provider value={{ navigationPile }}>
+        <NavigationContext.Provider value={{ navigationPile, back }}>
             {children}
         </NavigationContext.Provider>
     );
