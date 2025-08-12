@@ -197,6 +197,9 @@ const Options = () => {
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
+                                        style={{
+                                            animationDelay: `${index * 0.1}s`,
+                                        }}
                                         onPointerEnter={() =>
                                             setHoverDrinkIndex(index)
                                         }
@@ -249,11 +252,6 @@ const Options = () => {
                                                     ? styles.open
                                                     : ""
                                             }`}
-                                            style={{
-                                                animationDelay: `${
-                                                    index * 0.1
-                                                }s`,
-                                            }}
                                             onClick={() =>
                                                 drinkSelected(item, index)
                                             }
@@ -315,6 +313,9 @@ const Options = () => {
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
+                                        style={{
+                                            animationDelay: `${index * 0.1}s`,
+                                        }}
                                         onPointerEnter={() =>
                                             setHoverChipsIndex(index)
                                         }
@@ -367,13 +368,6 @@ const Options = () => {
                                                     ? styles.open
                                                     : ""
                                             }`}
-                                            style={{
-                                                animationDelay: `${
-                                                    (options.drink.length +
-                                                        index) *
-                                                    0.1
-                                                }s`,
-                                            }}
                                             onClick={() =>
                                                 chipsSelected(item, index)
                                             }
