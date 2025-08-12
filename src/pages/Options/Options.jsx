@@ -15,6 +15,9 @@ const Options = () => {
     const [openChipsIndex, setOpenChipsIndex] = useState(null);
     const [hoverChipsIndex, setHoverChipsIndex] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [favoriteDrinkOptions, setFavoriteDrinkOptions] = useState([]);
+    const [favoriteChipsOptions, setFavoriteChipsOptions] = useState([]);
+    const { user, updateProfile } = useApp();
 
     useEffect(() => {
         const fetchOptions = () => {
@@ -32,6 +35,17 @@ const Options = () => {
         };
         fetchOptions();
     }, []);
+
+    useEffect(() => {
+        if (user && user.favorites) {
+            if (user.favorites.drinks) {
+                setFavoriteDrinkOptions(user.favorites.drinks);
+            }
+            if (user.favorites.chips) {
+                setFavoriteChips(user.favorites.chips);
+            }
+        }
+    }, [user]);
 
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
@@ -59,6 +73,78 @@ const Options = () => {
         navigator.clipboard.writeText(`${item.name} ${amount}g`);
     };
 
+    const favoriteDrink = (drinkName) => {
+        if (!user) return;
+        setLoading(true);
+        const isFavorite = !favoriteDrinkOptions.includes(drinkName);
+        const newUser = JSON.parse(JSON.stringify(user));
+        if (newUser.favorites) {
+            if (newUser.favorites.drinks) {
+                newUser.favorites.drinks = isFavorite
+                    ? [...newUser.favorites.drinks, drinkName]
+                    : newUser.favorites.drinks.filter((d) => d !== drinkName);
+            } else {
+                newUser.favorites.drinks = isFavorite ? [drinkName] : [];
+            }
+        } else {
+            newUser.favorites = isFavorite
+                ? { drinks: [drinkName], chips: [] }
+                : { drinks: [], chips: [] };
+        }
+
+        console.log(newUser.favorites);
+
+        const now = new Date();
+        const pad = (n) => n.toString().padStart(2, "0");
+        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+            now.getDate()
+        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+            now.getSeconds()
+        )}`;
+
+        newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
+
+        const success = updateProfile(newUser, "favorite");
+        setFavoriteDrinkOptions(newUser.favorites.drinks);
+        setLoading(false);
+    };
+
+    const favoriteChips = (chipsName) => {
+        if (!user) return;
+        setLoading(true);
+        const isFavorite = !favoriteChipsOptions.includes(chipsName);
+        const newUser = JSON.parse(JSON.stringify(user));
+        if (newUser.favorites) {
+            if (newUser.favorites.chips) {
+                newUser.favorites.chips = isFavorite
+                    ? [...newUser.favorites.chips, chipsName]
+                    : newUser.favorites.chips.filter((d) => d !== chipsName);
+            } else {
+                newUser.favorites.chips = isFavorite ? [chipsName] : [];
+            }
+        } else {
+            newUser.favorites = isFavorite
+                ? { drinks: [], chips: [chipsName] }
+                : { drinks: [], chips: [] };
+        }
+
+        console.log(newUser.favorites);
+
+        const now = new Date();
+        const pad = (n) => n.toString().padStart(2, "0");
+        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+            now.getDate()
+        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+            now.getSeconds()
+        )}`;
+
+        newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
+
+        const success = updateProfile(newUser, "favorite");
+        setFavoriteChipsOptions(newUser.favorites.chips);
+        setLoading(false);
+    };
+
     return (
         <div className={styles.container}>
             {loading ? (
@@ -83,19 +169,37 @@ const Options = () => {
                                             animationDelay: `${index * 0.1}s`,
                                         }}
                                         onPointerEnter={() => {
-                                                setHoverDrinkIndex(index)
-                                            }
-                                        }
+                                            setHoverDrinkIndex(index);
+                                        }}
                                         onMouseLeave={() => {
-                                                setHoverDrinkIndex(null)}
-
-                                        }
+                                            setHoverDrinkIndex(null);
+                                        }}
                                         onClick={() =>
                                             drinkSelected(item, index)
                                         }
                                         tabIndex={0}
                                         onBlur={() => setOpenDrinkIndex(null)}
                                     >
+                                        {(hoverDrinkIndex === index ||
+                                            openDrinkIndex === index) &&
+                                            user && (
+                                                <div
+                                                    onClick={() => {
+                                                        favoriteDrink(
+                                                            item.name
+                                                        );
+                                                    }}
+                                                    className={`${
+                                                        styles.favoriteButton
+                                                    } ${
+                                                        favoriteDrinkOptions.includes(
+                                                            item.name
+                                                        )
+                                                            ? styles.favorite
+                                                            : styles.notFavorite
+                                                    }`}
+                                                ></div>
+                                            )}
                                         <h4 className={styles.optionTitle}>
                                             {item.name}
                                         </h4>
@@ -166,6 +270,26 @@ const Options = () => {
                                         tabIndex={0}
                                         onBlur={() => setOpenChipsIndex(null)}
                                     >
+                                        {(hoverChipsIndex === index ||
+                                            openChipsIndex === index) &&
+                                            user && (
+                                                <div
+                                                    onClick={() => {
+                                                        favoriteChips(
+                                                            item.name
+                                                        );
+                                                    }}
+                                                    className={`${
+                                                        styles.favoriteButton
+                                                    } ${
+                                                        favoriteChipsOptions.includes(
+                                                            item.name
+                                                        )
+                                                            ? styles.favorite
+                                                            : styles.notFavorite
+                                                    }`}
+                                                ></div>
+                                            )}
                                         <h4 className={styles.optionTitle}>
                                             {item.name}
                                         </h4>
