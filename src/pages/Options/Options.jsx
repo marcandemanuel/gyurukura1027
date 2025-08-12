@@ -197,29 +197,18 @@ const Options = () => {
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
+                                        onPointerEnter={() => setHoverDrinkIndex(index)}
+                                        onPointerLeave={() => setHoverDrinkIndex(null)}
                                     >
                                         {(hoverDrinkIndex === index ||
                                             openDrinkIndex === index) &&
                                             user && (
                                                 <div
-                                                    onPointerEnter={() => {
-                                                        setHoverDrinkIndex(
-                                                            index
-                                                        );
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        favoriteDrink(item.name);
                                                     }}
-                                                    onMouseLeave={() => {
-                                                        setHoverDrinkIndex(
-                                                            null
-                                                        );
-                                                    }}
-                                                    onClick={() => {
-                                                        favoriteDrink(
-                                                            item.name
-                                                        );
-                                                    }}
-                                                    className={`${
-                                                        styles.favoriteButton
-                                                    } ${
+                                                    className={`${styles.favoriteButton} ${
                                                         favoriteDrinkOptions.includes(
                                                             item.name
                                                         )
@@ -239,12 +228,6 @@ const Options = () => {
                                                 animationDelay: `${
                                                     index * 0.1
                                                 }s`,
-                                            }}
-                                            onPointerEnter={() => {
-                                                setHoverDrinkIndex(index);
-                                            }}
-                                            onMouseLeave={() => {
-                                                setHoverDrinkIndex(null);
                                             }}
                                             onClick={() =>
                                                 drinkSelected(item, index)
@@ -307,27 +290,17 @@ const Options = () => {
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
+                                        onPointerEnter={() => setHoverChipsIndex(index)}
+                                        onPointerLeave={() => setHoverChipsIndex(null)}
                                     >
                                         {(hoverChipsIndex === index ||
-                                            openChipsIndex === index) &&
-                                            user && (
+                                            openChipsIndex === index) && user && (
                                                 <div
-                                                    onPointerEnter={() =>
-                                                        setHoverChipsIndex(
-                                                            index
-                                                        )
-                                                    }
-                                                    onMouseLeave={() =>
-                                                        setHoverChipsIndex(null)
-                                                    }
-                                                    onClick={() => {
-                                                        favoriteChips(
-                                                            item.name
-                                                        );
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        favoriteChips(item.name);
                                                     }}
-                                                    className={`${
-                                                        styles.favoriteButton
-                                                    } ${
+                                                    className={`${styles.favoriteButton} ${
                                                         favoriteChipsOptions.includes(
                                                             item.name
                                                         )
@@ -350,12 +323,6 @@ const Options = () => {
                                                     0.1
                                                 }s`,
                                             }}
-                                            onPointerEnter={() =>
-                                                setHoverChipsIndex(index)
-                                            }
-                                            onMouseLeave={() =>
-                                                setHoverChipsIndex(null)
-                                            }
                                             onClick={() =>
                                                 chipsSelected(item, index)
                                             }
