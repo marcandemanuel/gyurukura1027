@@ -16,7 +16,7 @@ const BottomActions = () => {
     const { back } = useNavigation();
 
     const handleBack = () => {
-        back('/')
+        back([], '/')
     };
 
     const [open, setOpen] = useState(false);

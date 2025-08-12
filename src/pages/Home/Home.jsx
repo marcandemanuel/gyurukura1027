@@ -294,7 +294,7 @@ const Home = () => {
                     className={styles.actionButton}
                     onClick={handleChangeProfile}
                 >
-                    Kijelentkezés
+                    Vissza
                 </button>
                 <button
                     className={styles.actionButton}

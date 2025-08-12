@@ -16,7 +16,7 @@ const Seat = () => {
     const navigate = useNavigate();
     
     const handleBack = () => {
-        back('/nasirend')
+        back([/^\/nasirend$/, /^\/adatok$/], '/nasirend');
     }
 
     if (isNaN(userId)) {

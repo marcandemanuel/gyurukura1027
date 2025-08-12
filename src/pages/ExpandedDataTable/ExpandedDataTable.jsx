@@ -76,7 +76,7 @@ const ExpandedDataTable = () => {
     const { back } = useNavigation();
 
     const handleBack = () => {
-        back("/nasirend");
+        back([/^\/adatok$/], '/adatok');
     };
 
     const handleStatusClick = (day, type) => {

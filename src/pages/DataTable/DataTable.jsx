@@ -60,7 +60,7 @@ const DataTable = () => {
     const { back } = useNavigation();
 
     const handleBack = () => {
-        back("/nasirend");
+        back([/^\/nasirend$/], '/nasirend');
     };
 
     useEffect(() => {

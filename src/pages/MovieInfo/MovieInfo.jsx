@@ -65,7 +65,7 @@ const MovieInfo = () => {
     const { back } = useNavigation();
 
     const handleBack = () => {
-        back('/nasirend');
+        back([/^\/nasirend$/, /^\/adatok\/\d+$/], '/nasirend');
     };
 
     // Compute stats from profiles

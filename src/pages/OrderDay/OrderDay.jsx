@@ -71,7 +71,7 @@ const OrderDay = () => {
     const chipsStatus = user[`acday${dayIdNumber}`][1];
 
     const handleBack = () => {
-        back('/nasirend')
+        back([/^\/nasirend$/, /^\/film\/\d+$/], '/nasirend');
     };
 
     const handleSave = () => {
