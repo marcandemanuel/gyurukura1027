@@ -178,3 +178,11 @@ class EmailService:
         success = self.send_email(TO, SUBJECT, NAME, 'nr_completed', app, url)
 
         return success
+    
+    def send_favorite_email(self, email, name, app, url="https://www.gyurukura1027.com"):
+        TO = email
+        SUBJECT = 'Kedvenc elmentve 🎉!'
+        NAME = name
+        success = self.send_email(TO, SUBJECT, NAME, 'favorite', app, url)
+
+        return success

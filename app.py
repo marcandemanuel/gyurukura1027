@@ -292,6 +292,8 @@ def update_profile(profile_id):
             success = email_service.send_pin_changed_email(profile_data['email'], profile_data['user'], app, "https://www.gyurukura1027.com")
         elif success and updateType == 'pin_created':
             success = email_service.send_pin_created_email(profile_data['email'], profile_data['user'], app, "https://www.gyurukura1027.com")
+        # elif success and updateType == 'favorite':
+        #     success = email_service.send_favorite_email(profile_data['email'], profile_data['user'], app, "https://www.gyurukura1027.com")
 
         return jsonify({'success': success})
     except Exception as e:

@@ -82,6 +82,14 @@
     }
 }
 
+.optionContainer {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    position: relative;
+}
+
 .option {
     width: 200px;
     height: 200px;
@@ -100,7 +108,6 @@
     transition: all 0.3s ease;
     opacity: 0;
     animation: swipeUpFadeIn 1s ease-out forwards;
-    position: relative;
 }
 
 .option:hover, .option.open {
@@ -233,4 +240,10 @@
 
 .notFavorite {
     background-color: grey;
+}
+
+.favoriteButton:hover,
+.favorite:hover,
+.notFavorite:hover {
+    background-color: white;
 }

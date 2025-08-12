@@ -138,7 +138,7 @@ const Options = () => {
             now.getSeconds()
         )}`;
 
-        newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
+        // newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
 
         const success = updateProfile(newUser, "favorite");
         setFavoriteChipsOptions(newUser.favorites.chips);
@@ -159,26 +159,8 @@ const Options = () => {
                             <div className={styles.grid}>
                                 {options.drink.map((item, index) => (
                                     <div
+                                        className={styles.optionContainer}
                                         key={index}
-                                        className={`${styles.option} ${
-                                            openDrinkIndex === index
-                                                ? styles.open
-                                                : ""
-                                        }`}
-                                        style={{
-                                            animationDelay: `${index * 0.1}s`,
-                                        }}
-                                        onPointerEnter={() => {
-                                            setHoverDrinkIndex(index);
-                                        }}
-                                        onMouseLeave={() => {
-                                            setHoverDrinkIndex(null);
-                                        }}
-                                        onClick={() =>
-                                            drinkSelected(item, index)
-                                        }
-                                        tabIndex={0}
-                                        onBlur={() => setOpenDrinkIndex(null)}
                                     >
                                         {(hoverDrinkIndex === index ||
                                             openDrinkIndex === index) &&
@@ -200,41 +182,71 @@ const Options = () => {
                                                     }`}
                                                 ></div>
                                             )}
-                                        <h4 className={styles.optionTitle}>
-                                            {item.name}
-                                        </h4>
-                                        <div className={styles.details}>
-                                            <h5 className={styles.availableIn}>
-                                                Elérhető mennyiségek:
-                                            </h5>
-                                            <p className={styles.amounts}>
-                                                {item.amounts.map(
-                                                    (amount, i) => (
-                                                        <span
-                                                            key={i}
-                                                            className={
-                                                                styles.amountClickable
-                                                            }
-                                                            onClick={(e) =>
-                                                                copyDrinkAmount(
-                                                                    item,
-                                                                    amount,
-                                                                    e
-                                                                )
-                                                            }
-                                                            tabIndex={0}
-                                                        >
-                                                            {amount}l
-                                                            {i !==
-                                                            item.amounts
-                                                                .length -
-                                                                1
-                                                                ? ", "
-                                                                : ""}
-                                                        </span>
-                                                    )
-                                                )}
-                                            </p>
+                                        <div
+                                            className={`${styles.option} ${
+                                                openDrinkIndex === index
+                                                    ? styles.open
+                                                    : ""
+                                            }`}
+                                            style={{
+                                                animationDelay: `${
+                                                    index * 0.1
+                                                }s`,
+                                            }}
+                                            onPointerEnter={() => {
+                                                setHoverDrinkIndex(index);
+                                            }}
+                                            onMouseLeave={() => {
+                                                setHoverDrinkIndex(null);
+                                            }}
+                                            onClick={() =>
+                                                drinkSelected(item, index)
+                                            }
+                                            tabIndex={0}
+                                            onBlur={() =>
+                                                setOpenDrinkIndex(null)
+                                            }
+                                        >
+                                            <h4 className={styles.optionTitle}>
+                                                {item.name}
+                                            </h4>
+                                            <div className={styles.details}>
+                                                <h5
+                                                    className={
+                                                        styles.availableIn
+                                                    }
+                                                >
+                                                    Elérhető mennyiségek:
+                                                </h5>
+                                                <p className={styles.amounts}>
+                                                    {item.amounts.map(
+                                                        (amount, i) => (
+                                                            <span
+                                                                key={i}
+                                                                className={
+                                                                    styles.amountClickable
+                                                                }
+                                                                onClick={(e) =>
+                                                                    copyDrinkAmount(
+                                                                        item,
+                                                                        amount,
+                                                                        e
+                                                                    )
+                                                                }
+                                                                tabIndex={0}
+                                                            >
+                                                                {amount}l
+                                                                {i !==
+                                                                item.amounts
+                                                                    .length -
+                                                                    1
+                                                                    ? ", "
+                                                                    : ""}
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
@@ -246,29 +258,8 @@ const Options = () => {
                             <div className={styles.grid}>
                                 {options.chips.map((item, index) => (
                                     <div
+                                        className={styles.optionContainer}
                                         key={index}
-                                        className={`${styles.option} ${
-                                            openChipsIndex === index
-                                                ? styles.open
-                                                : ""
-                                        }`}
-                                        style={{
-                                            animationDelay: `${
-                                                (options.drink.length + index) *
-                                                0.1
-                                            }s`,
-                                        }}
-                                        onPointerEnter={() =>
-                                            setHoverChipsIndex(index)
-                                        }
-                                        onMouseLeave={() =>
-                                            setHoverChipsIndex(null)
-                                        }
-                                        onClick={() =>
-                                            chipsSelected(item, index)
-                                        }
-                                        tabIndex={0}
-                                        onBlur={() => setOpenChipsIndex(null)}
                                     >
                                         {(hoverChipsIndex === index ||
                                             openChipsIndex === index) &&
@@ -290,41 +281,73 @@ const Options = () => {
                                                     }`}
                                                 ></div>
                                             )}
-                                        <h4 className={styles.optionTitle}>
-                                            {item.name}
-                                        </h4>
-                                        <div className={styles.details}>
-                                            <h5 className={styles.availableIn}>
-                                                Elérhető mennyiségek:
-                                            </h5>
-                                            <p className={styles.amounts}>
-                                                {item.amounts.map(
-                                                    (amount, i) => (
-                                                        <span
-                                                            key={i}
-                                                            className={
-                                                                styles.amountClickable
-                                                            }
-                                                            onClick={(e) =>
-                                                                copyChipsAmount(
-                                                                    item,
-                                                                    amount,
-                                                                    e
-                                                                )
-                                                            }
-                                                            tabIndex={0}
-                                                        >
-                                                            {amount}g
-                                                            {i !==
-                                                            item.amounts
-                                                                .length -
-                                                                1
-                                                                ? ", "
-                                                                : ""}
-                                                        </span>
-                                                    )
-                                                )}
-                                            </p>
+                                        <div
+                                            className={`${styles.option} ${
+                                                openChipsIndex === index
+                                                    ? styles.open
+                                                    : ""
+                                            }`}
+                                            style={{
+                                                animationDelay: `${
+                                                    (options.drink.length +
+                                                        index) *
+                                                    0.1
+                                                }s`,
+                                            }}
+                                            onPointerEnter={() =>
+                                                setHoverChipsIndex(index)
+                                            }
+                                            onMouseLeave={() =>
+                                                setHoverChipsIndex(null)
+                                            }
+                                            onClick={() =>
+                                                chipsSelected(item, index)
+                                            }
+                                            tabIndex={0}
+                                            onBlur={() =>
+                                                setOpenChipsIndex(null)
+                                            }
+                                        >
+                                            <h4 className={styles.optionTitle}>
+                                                {item.name}
+                                            </h4>
+                                            <div className={styles.details}>
+                                                <h5
+                                                    className={
+                                                        styles.availableIn
+                                                    }
+                                                >
+                                                    Elérhető mennyiségek:
+                                                </h5>
+                                                <p className={styles.amounts}>
+                                                    {item.amounts.map(
+                                                        (amount, i) => (
+                                                            <span
+                                                                key={i}
+                                                                className={
+                                                                    styles.amountClickable
+                                                                }
+                                                                onClick={(e) =>
+                                                                    copyChipsAmount(
+                                                                        item,
+                                                                        amount,
+                                                                        e
+                                                                    )
+                                                                }
+                                                                tabIndex={0}
+                                                            >
+                                                                {amount}g
+                                                                {i !==
+                                                                item.amounts
+                                                                    .length -
+                                                                    1
+                                                                    ? ", "
+                                                                    : ""}
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
