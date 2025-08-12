@@ -424,8 +424,7 @@ const DataTable = () => {
                                                     ];
                                                     updatedProfiles[
                                                         profileIndex
-                                                    ].seat_image =
-                                                        file?.name || "";
+                                                    ].seat_image = "";
                                                     setTableProfiles(
                                                         updatedProfiles
                                                     );
