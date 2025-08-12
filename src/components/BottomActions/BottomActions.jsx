@@ -13,14 +13,10 @@ const BottomActions = () => {
     const shouldShowOnlyBack = excludedRoutes.includes(normalizedPath);
     const backFromConfetti = confettiStatus === 1;
 
-    const { navigationPile } = useNavigation();
+    const { back } = useNavigation();
 
     const handleBack = () => {
-        if (navigationPile && navigationPile.length > 1) {
-            navigate(navigationPile[navigationPile.length - 2]);
-        } else {
-            navigate("/");
-        }
+        back('/')
     };
 
     const [open, setOpen] = useState(false);

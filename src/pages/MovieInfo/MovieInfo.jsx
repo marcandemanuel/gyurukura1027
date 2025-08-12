@@ -62,14 +62,10 @@ const MovieInfo = () => {
 
     MOVIE_TITLES[config.birthday_on_movie_id] += " 🎂";
 
-    const { navigationPile } = useNavigation();
+    const { back } = useNavigation();
 
     const handleBack = () => {
-        if (navigationPile && navigationPile.length > 1) {
-            navigate(navigationPile[navigationPile.length - 2]);
-        } else {
-            navigate("/nasirend");
-        }
+        back('/nasirend');
     };
 
     // Compute stats from profiles

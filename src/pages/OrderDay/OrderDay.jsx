@@ -49,7 +49,7 @@ const OrderDay = () => {
     const [showThankyou, setShowThankyou] = useState(false);
 
     // Access navigationPile from NavigationContext
-    const { navigationPile } = useNavigation();
+    const { back } = useNavigation();
 
     const movies = [
         "Váratlan Utazás",
@@ -71,13 +71,7 @@ const OrderDay = () => {
     const chipsStatus = user[`acday${dayIdNumber}`][1];
 
     const handleBack = () => {
-        Object.entries(navigationPile).reverse().forEach(([ind, route]) => {
-            if (!/^\/rendeles\/\d+$/.test(route)) {
-                navigate(route)
-            }
-        })
-
-        navigate('/nasirend')
+        back('/nasirend')
     };
 
     const handleSave = () => {

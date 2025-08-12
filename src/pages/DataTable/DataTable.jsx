@@ -57,14 +57,10 @@ const DataTable = () => {
         "rgba(171, 36, 11, 0.36)",
     ];
 
-    const { navigationPile } = useNavigation();
+    const { back } = useNavigation();
 
     const handleBack = () => {
-        if (navigationPile && navigationPile.length > 1) {
-            navigate(navigationPile[navigationPile.length - 2]);
-        } else {
-            navigate("/nasirend");
-        }
+        back("/nasirend");
     };
 
     useEffect(() => {

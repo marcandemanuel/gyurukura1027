@@ -12,15 +12,11 @@ const Seat = () => {
     const { userId } = useParams();
     const { user, profiles } = useApp();
 
-    const { navigationPile } = useNavigation();
+    const { back } = useNavigation();
     const navigate = useNavigate();
     
     const handleBack = () => {
-        if (navigationPile && navigationPile.length > 1) {
-            navigate(navigationPile[navigationPile.length - 2]);
-        } else {
-            navigate("/");
-        }
+        back('/nasirend')
     }
 
     if (isNaN(userId)) {
