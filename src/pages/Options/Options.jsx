@@ -17,7 +17,53 @@ const Options = () => {
     const [loading, setLoading] = useState(true);
     const [favoriteDrinkOptions, setFavoriteDrinkOptions] = useState([]);
     const [favoriteChipsOptions, setFavoriteChipsOptions] = useState([]);
-    const { user, updateProfile } = useApp();
+    const { profiles, user, updateProfile } = useApp();
+
+    const [mostFavoriteDrinks, setMostFavoriteDrinks] = useState([]);
+    const [mostFavoriteChips, setMostFavoriteChips] = useState([]);
+
+    const getFavorites = (profiles, type) => {
+        if (!Array.isArray(profiles)) return [];
+
+        return profiles.reduce((acc, profile) => {
+            const items = profile?.favorites?.[type];
+            return Array.isArray(items) ? [...acc, ...items] : acc;
+        }, []);
+    };
+
+    const getMostCommonItems = (items) => {
+        if (!Array.isArray(items) || !items.length) return [];
+
+        const frequency = items.reduce((acc, item) => {
+            if (typeof item === "string" && item.trim()) {
+                acc[item] = (acc[item] || 0) + 1;
+            }
+            return acc;
+        }, {});
+
+        if (!Object.keys(frequency).length) return [];
+
+        const maxFrequency = Math.max(...Object.values(frequency));
+
+        return Object.entries(frequency)
+            .filter(([_, count]) => count === maxFrequency)
+            .map(([item]) => item)
+            .sort();
+    };
+
+    useEffect(() => {
+        if (!Array.isArray(profiles)) {
+            setMostFavoriteDrinks([]);
+            setMostFavoriteChips([]);
+            return;
+        }
+
+        const drinkFavorites = getFavorites(profiles, "drinks");
+        const chipsFavorites = getFavorites(profiles, "chips");
+
+        setMostFavoriteDrinks(getMostCommonItems(drinkFavorites));
+        setMostFavoriteChips(getMostCommonItems(chipsFavorites));
+    }, [profiles]);
 
     useEffect(() => {
         const fetchOptions = () => {
@@ -37,13 +83,9 @@ const Options = () => {
     }, []);
 
     useEffect(() => {
-        if (user && user.favorites) {
-            if (user.favorites.drinks) {
-                setFavoriteDrinkOptions(user.favorites.drinks);
-            }
-            if (user.favorites.chips) {
-                setFavoriteChips(user.favorites.chips);
-            }
+        if (user) {
+            setFavoriteDrinkOptions(user?.favorites?.drinks ?? []);
+            setFavoriteChipsOptions(user?.favorites?.chips ?? []);
         }
     }, [user]);
 
@@ -78,19 +120,16 @@ const Options = () => {
         setLoading(true);
         const isFavorite = !favoriteDrinkOptions.includes(drinkName);
         const newUser = JSON.parse(JSON.stringify(user));
-        if (newUser.favorites) {
-            if (newUser.favorites.drinks) {
-                newUser.favorites.drinks = isFavorite
-                    ? [...newUser.favorites.drinks, drinkName]
-                    : newUser.favorites.drinks.filter((d) => d !== drinkName);
-            } else {
-                newUser.favorites.drinks = isFavorite ? [drinkName] : [];
-            }
-        } else {
-            newUser.favorites = isFavorite
-                ? { drinks: [drinkName], chips: [] }
-                : { drinks: [], chips: [] };
-        }
+
+        newUser.favorites = {
+            ...(newUser.favorites ?? {}),
+            drinks: isFavorite
+                ? [...(newUser.favorites?.drinks ?? []), drinkName]
+                : (newUser.favorites?.drinks ?? []).filter(
+                      (d) => d !== drinkName
+                  ),
+            chips: newUser.favorites?.chips ?? [],
+        };
 
         console.log(newUser.favorites);
 
@@ -114,19 +153,16 @@ const Options = () => {
         setLoading(true);
         const isFavorite = !favoriteChipsOptions.includes(chipsName);
         const newUser = JSON.parse(JSON.stringify(user));
-        if (newUser.favorites) {
-            if (newUser.favorites.chips) {
-                newUser.favorites.chips = isFavorite
-                    ? [...newUser.favorites.chips, chipsName]
-                    : newUser.favorites.chips.filter((d) => d !== chipsName);
-            } else {
-                newUser.favorites.chips = isFavorite ? [chipsName] : [];
-            }
-        } else {
-            newUser.favorites = isFavorite
-                ? { drinks: [], chips: [chipsName] }
-                : { drinks: [], chips: [] };
-        }
+
+        newUser.favorites = {
+            ...(newUser.favorites ?? {}),
+            drinks: newUser.favorites?.drinks ?? [],
+            chips: isFavorite
+                ? [...(newUser.favorites?.chips ?? []), chipsName]
+                : (newUser.favorites?.chips ?? []).filter(
+                      (c) => c !== chipsName
+                  ),
+        };
 
         console.log(newUser.favorites);
 
@@ -166,6 +202,16 @@ const Options = () => {
                                             openDrinkIndex === index) &&
                                             user && (
                                                 <div
+                                                    onPointerEnter={() => {
+                                                        setHoverDrinkIndex(
+                                                            index
+                                                        );
+                                                    }}
+                                                    onMouseLeave={() => {
+                                                        setHoverDrinkIndex(
+                                                            null
+                                                        );
+                                                    }}
                                                     onClick={() => {
                                                         favoriteDrink(
                                                             item.name
@@ -184,7 +230,8 @@ const Options = () => {
                                             )}
                                         <div
                                             className={`${styles.option} ${
-                                                openDrinkIndex === index
+                                                openDrinkIndex === index ||
+                                                hoverDrinkIndex === index
                                                     ? styles.open
                                                     : ""
                                             }`}
@@ -265,6 +312,14 @@ const Options = () => {
                                             openChipsIndex === index) &&
                                             user && (
                                                 <div
+                                                    onPointerEnter={() =>
+                                                        setHoverChipsIndex(
+                                                            index
+                                                        )
+                                                    }
+                                                    onMouseLeave={() =>
+                                                        setHoverChipsIndex(null)
+                                                    }
                                                     onClick={() => {
                                                         favoriteChips(
                                                             item.name
@@ -283,7 +338,8 @@ const Options = () => {
                                             )}
                                         <div
                                             className={`${styles.option} ${
-                                                openChipsIndex === index
+                                                openChipsIndex === index ||
+                                                hoverChipsIndex === index
                                                     ? styles.open
                                                     : ""
                                             }`}
