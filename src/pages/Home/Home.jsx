@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import MovieCard from "./MovieCard";
@@ -296,31 +296,34 @@ const Home = () => {
                 >
                     Vissza
                 </button>
-                <button
+                <Link
                     className={styles.actionButton}
-                    onClick={() => handleEdit(0)}
+                    to="/rendeles/0"
+                    tabIndex={0}
                 >
                     Szerkesztés
-                </button>
+                </Link>
                 <button
                     className={styles.actionButton}
                     onClick={handleChangePIN}
                 >
                     PIN megváltoztatása
                 </button>
-                <button
+                <Link
                     className={styles.actionButton}
-                    onClick={handleViewData}
+                    to="/adatok"
+                    tabIndex={0}
                 >
                     {isAdmin ? "Kezelőpult" : "Mások választásai"}
-                </button>
+                </Link>
                 {user.seat_image && (
-                    <button
+                    <Link
                         className={styles.actionButton}
-                        onClick={handleViewSeat}
+                        to={`/ulohely/${user.id}`}
+                        tabIndex={0}
                     >
                         Ülőhely
-                    </button>
+                    </Link>
                 )}
             </ActionRow>
 

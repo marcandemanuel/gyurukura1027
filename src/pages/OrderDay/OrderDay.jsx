@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { useApp } from "../../contexts/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
@@ -220,24 +220,22 @@ const OrderDay = () => {
                             Vissza
                         </button>
                         {dayId !== 0 && (
-                            <button
+                            <Link
                                 className={styles.actionButton}
-                                onClick={() =>
-                                    navigate(`/rendeles/${dayIdNumber - 1}`)
-                                }
+                                to={`/rendeles/${dayIdNumber - 1}`}
+                                tabIndex={0}
                             >
                                 Előző
-                            </button>
+                            </Link>
                         )}
                         {dayId !== 5 && (
-                            <button
+                            <Link
                                 className={styles.actionButton}
-                                onClick={() =>
-                                    navigate(`/rendeles/${dayIdNumber + 1}`)
-                                }
+                                to={`/rendeles/${dayIdNumber + 1}`}
+                                tabIndex={0}
                             >
                                 Következő
-                            </button>
+                            </Link>
                         )}
                         <button
                             className={styles.actionButton}

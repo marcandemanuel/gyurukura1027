@@ -1,6 +1,6 @@
 "use client";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useApp } from "../../contexts/AppContext";
 import styles from "./NotFound.module.css";
@@ -21,12 +21,13 @@ const NotFound = () => {
                     <h3 className={styles.subtitle}>
                         A szerver nem találja ezt az oldalt.
                     </h3>
-                    <button
+                    <Link
                         className={styles.homeButton}
-                        onClick={() => navigate("/")}
+                        to="/"
+                        tabIndex={0}
                     >
                         Kezdőlap
-                    </button>
+                    </Link>
                 </div>
                 <img
                     src="/images/404_top.png"

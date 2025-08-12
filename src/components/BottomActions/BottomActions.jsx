@@ -1,5 +1,5 @@
 import styles from "./BottomActions.module.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useNavigation } from "../../contexts/NavigationContext";
 import { useApp } from "../../contexts/AppContext";
 import React, { useRef, useEffect, useState } from "react";
@@ -23,27 +23,30 @@ const BottomActions = () => {
     const [wrapped, setWrapped] = useState(false);
 
     const actionButtons = [
-        <button
+        <Link
             key="gyurukura"
             className={styles.bottomButton}
-            onClick={() => navigate("/gyurukura1027")}
+            to="/gyurukura1027"
+            tabIndex={0}
         >
             GyűrűkUra 10-27
-        </button>,
-        <button
+        </Link>,
+        <Link
             key="visszaszamlalo"
             className={styles.bottomButton}
-            onClick={() => navigate("/visszaszamlalo")}
+            to="/visszaszamlalo"
+            tabIndex={0}
         >
             Visszaszámláló
-        </button>,
-        <button
+        </Link>,
+        <Link
             key="nasiopciok"
             className={styles.bottomButton}
-            onClick={() => navigate("/nasiopciok")}
+            to="/nasiopciok"
+            tabIndex={0}
         >
             Nasi opciók
-        </button>,
+        </Link>,
     ];
 
     const rowRef = useRef(null);

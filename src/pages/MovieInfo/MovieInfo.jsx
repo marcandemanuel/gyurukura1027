@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useApp } from "../../contexts/AppContext";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { useNavigation } from "../../contexts/NavigationContext.jsx";
@@ -172,12 +172,13 @@ const MovieInfo = () => {
                 >
                     Vissza
                 </button>
-                <button
+                <Link
                     className={styles.actionButton}
-                    onClick={() => navigate(`/rendeles/${movieIndex}`)}
+                    to={`/rendeles/${movieIndex}`}
+                    tabIndex={0}
                 >
                     Nasi szerkesztése
-                </button>
+                </Link>
             </ActionRow>
             <BottomActions />
         </div>
