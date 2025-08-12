@@ -74,7 +74,8 @@
     animation: none
 }
 
-.bottomButton {
+.bottomButton,
+a.bottomButton {
     background-color: transparent;
     color: #9c8028;
     font-size: 10px;
@@ -91,7 +92,8 @@
     background-color: black;
 }
 
-.bottomButton:active {
+.bottomButton:active,
+a.bottomButton:active {
     animation: shakeaxe 0.2s ease-in-out;
 }
 

@@ -33,6 +33,7 @@ h6 {
 
 input,
 button,
+a,
 select,
 textarea {
     font-family: "Aniron", sans-serif;
@@ -54,17 +55,20 @@ input:active {
     cursor: url("/src/assets/images/gimli2_esmall.png"), auto;
 }
 
+a:hover,
 button:hover {
     border: 2px solid #9c8028;
     cursor: url("/src/assets/images/gimli_esmall.png"), auto;
     outline: none;
 }
 
+a:active,
 button:active {
     cursor: url("/src/assets/images/gimli2_esmall.png"), auto;
     animation: shakeaxe 0.2s ease-in-out;
 }
 
+a:focus-visible,
 button:focus-visible {
     border: 2px solid #9c8028;
     outline: none;
