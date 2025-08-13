@@ -142,6 +142,8 @@ const AutoComplete = ({
                     );
                     const amountInDirectMatch = inputWords
                         .find((word) => !allWords.has(word));
+                    console.log('[AMOUNT] amountInDirectMatch', amountInDirectMatch);
+                    console.log("[AutoComplete] filter amount", amount);
                     return (
                         amountInDirectMatch &&
                         amount.startsWith(amountInDirectMatch)
