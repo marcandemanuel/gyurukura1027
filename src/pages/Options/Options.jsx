@@ -235,8 +235,8 @@ const Options = () => {
                                                             favoriteDrinkOptions.includes(
                                                                 item.name
                                                             )
-                                                                ? "favorite3"
-                                                                : "favorite1"
+                                                                ? "heart_filled"
+                                                                : "heart"
                                                         }.png`}
                                                         alt="favorite_image"
                                                         className={
@@ -351,8 +351,8 @@ const Options = () => {
                                                             favoriteChipsOptions.includes(
                                                                 item.name
                                                             )
-                                                                ? "favorite3"
-                                                                : "favorite1"
+                                                                ? "heart_filled"
+                                                                : "heart"
                                                         }.png`}
                                                         alt="favorite_image"
                                                         className={
