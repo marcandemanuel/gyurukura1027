@@ -26,9 +26,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.1242998"
-     inkscape:cx="304.18933"
-     inkscape:cy="340.21175"
+     inkscape:zoom="0.79500001"
+     inkscape:cx="337.10691"
+     inkscape:cy="161.63522"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="-9"
@@ -77,19 +77,19 @@
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="font-variation-settings:'wght' 700;fill:#af0000;fill-opacity:1;stroke:none;stroke-width:22.2213"
+       style="font-variation-settings:'wght' 700;fill:#bb1027;fill-opacity:1;stroke:none;stroke-width:22.2213"
        id="path1"
        cx="66.145836"
        cy="66.145836"
        r="66.145836" />
     <path
-       style="color:#000000;fill:#ff0000;-inkscape-stroke:none"
+       style="color:#000000;fill:#ff1027;-inkscape-stroke:none;fill-opacity:1"
        d="M 85.1873,33.072466 33.072466,85.1873 a 9.9218768,9.9218768 90.000005 0 0 -10e-7,14.031651 9.921592,9.921592 179.99838 0 0 14.031251,-3.96e-4 L 99.218555,47.103716 a 9.9218732,9.9218732 89.999995 0 0 -10e-7,-14.031649 9.9215956,9.9215956 179.99837 0 0 -14.031254,3.99e-4 z"
        id="path2"
        inkscape:path-effect="#path-effect5"
        inkscape:original-d="M 92.203125,26.056641 26.056641,92.203125 40.087891,106.23438 106.23438,40.087891 Z" />
     <path
-       style="color:#000000;fill:#ff0000;-inkscape-stroke:none"
+       style="color:#000000;fill:#ff1027;-inkscape-stroke:none;fill-opacity:1"
        d="m 33.072066,33.072466 a 9.9215924,9.9215924 89.998367 0 0 4e-4,14.03125 L 85.1873,99.218555 a 9.9218746,9.9218746 1.0827442e-6 0 0 14.03165,0 A 9.9215952,9.9215952 89.998385 0 0 99.218555,85.1873 L 47.103716,33.072466 a 9.9218754,9.9218754 180 0 0 -14.03165,0 z"
        id="path3"
        inkscape:path-effect="#path-effect4"
