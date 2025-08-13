@@ -37,6 +37,7 @@ a,
 select,
 textarea {
     font-family: "Aniron", sans-serif;
+    text-decoration: none;
 }
 
 .red {
