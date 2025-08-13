@@ -34,7 +34,7 @@ const expandOptionWithEmoji = (option) => {
     let expandedNames = [option.name];
 
     for (const [emoji, variations] of Object.entries(emojiMap)) {
-        if (option.name.includes(emoji)) {
+        if (option.name.split('').includes(emoji)) {
             const baseText = option.name.replace(emoji, "").trim();
             expandedNames = variations.map(
                 (variant) => `${baseText} ${variant}`
