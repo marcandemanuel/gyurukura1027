@@ -135,11 +135,9 @@ const AutoComplete = ({
                 .filter((amount) => {
                     const inputWords = normalizedInput
                         .split(" ")
-                    const allWords = new Set(
-                        expandOptionWithEmoji(directMatch.name).flatMap((s) =>
-                            s.split(" ")
-                        )
-                    );
+                    const allWords = expandOptionWithEmoji(directMatch.name).flatMap((s) =>
+                            s.toLowerCase().split(" ")
+                        );
                     console.log('[allWords]', allWords);
                     console.log("[inputWords]", inputWords);
                     const amountInDirectMatch = inputWords
