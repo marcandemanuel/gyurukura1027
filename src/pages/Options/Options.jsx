@@ -131,7 +131,6 @@ const Options = () => {
             chips: newUser.favorites?.chips ?? [],
         };
 
-        console.log(newUser.favorites);
 
         const now = new Date();
         const pad = (n) => n.toString().padStart(2, "0");
@@ -164,7 +163,6 @@ const Options = () => {
                   ),
         };
 
-        console.log(newUser.favorites);
 
         const now = new Date();
         const pad = (n) => n.toString().padStart(2, "0");
@@ -251,7 +249,7 @@ const Options = () => {
                                                 hoverDrinkIndex === index
                                                     ? styles.open
                                                     : ""
-                                            }`}
+                                            } ${mostFavoriteDrinks.includes(item.name) ? styles.favoriteItem : ''}`}
                                             onClick={() =>
                                                 drinkSelected(item, index)
                                             }
@@ -367,7 +365,7 @@ const Options = () => {
                                                 hoverChipsIndex === index
                                                     ? styles.open
                                                     : ""
-                                            }`}
+                                            } ${mostFavoriteChips.includes(item.name) ? styles.favoriteItem : ''}`}
                                             onClick={() =>
                                                 chipsSelected(item, index)
                                             }
