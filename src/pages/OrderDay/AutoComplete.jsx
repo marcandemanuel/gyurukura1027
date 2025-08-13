@@ -140,16 +140,17 @@ const AutoComplete = ({
                             s.split(" ")
                         )
                     );
+                    console.log('[allWords]', allWords);
+                    console.log("[inputWords]", inputWords);
                     const amountInDirectMatch = inputWords
-                        .find((word) => !allWords.has(word));
+                        .find((word) => !allWords.includes(word));
+                    console.log('[amountInDirectMatch]', amountInDirectMatch);
                     return (
                         amountInDirectMatch &&
                         `${amount}${unit}`.startsWith(amountInDirectMatch)
                     );
                 })
-                .map((amount) => {
-                    return `${directMatch.name} ${amount}${unit}`;
-                })
+                .map((amount) => `${directMatch.name} ${amount}${unit}`)
                 .reverse();
             console.log(
                 "[AutoComplete] matchedOptions (directMatch)",

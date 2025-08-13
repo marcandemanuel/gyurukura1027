@@ -7,12 +7,17 @@
     max-height: 300px;
     overflow: auto;
     background-color: black;
+    z-index: 10000
 }
 
 .suggestionItem {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.suggestionText {
+    color: #9c8028;
 }
 
 .favoriteButton {
