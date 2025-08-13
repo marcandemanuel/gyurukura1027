@@ -31,11 +31,11 @@ const normalizeText = (text) => {
 };
 
 const expandOptionWithEmoji = (option) => {
-    let expandedNames = [option.name];
+    let expandedNames = [option];
 
     for (const [emoji, variations] of Object.entries(emojiMap)) {
-        if (option.name.split('').includes(emoji)) {
-            const baseText = option.name.replace(emoji, "").trim();
+        if (option.includes(emoji)) {
+            const baseText = option.replace(emoji, "").trim();
             expandedNames = variations.map(
                 (variant) => `${baseText} ${variant}`
             );
