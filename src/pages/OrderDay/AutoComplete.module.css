@@ -1,0 +1,33 @@
+.autoCompleteContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90vw;
+    max-width: 500px;
+    max-height: 300px;
+    overflow: auto;
+    background-color: black;
+}
+
+.suggestionItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.favoriteButton {
+    border-radius: 10px;
+}
+
+.favoriteButton:hover,
+.favorite:hover,
+.notFavorite:hover {
+    background-color: rgba(156, 128, 40, 0.5);
+}
+
+.favoriteImage {
+    width: 30px;
+    height: 30px;
+    padding: 7.5px;
+    object-fit: contain;
+}

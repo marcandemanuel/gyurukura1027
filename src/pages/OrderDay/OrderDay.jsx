@@ -11,6 +11,7 @@ import BottomActions from "../../components/BottomActions/BottomActions.jsx";
 import Loading from "../../components/Common/Loading/Loading.jsx";
 import styles from "./OrderDay.module.css";
 import ActionRow from "../../components/Common/ActionRow";
+import AutoComplete from "./AutoComplete.jsx";
 
 const TRANSLATIONS = {
     Elfogadva: "accepted",
@@ -43,10 +44,18 @@ const OrderDay = () => {
         setEditedUser,
         isLoading,
         setIsLoading,
+        favoriteDrinkOptions,
+        favoriteChipsOptions,
+        mostFavoriteDrinks,
+        mostFavoriteChips,
+        options,
+        favoriteDrink,
+        favoriteChips,
     } = useApp();
-    const navigate = useNavigate();
     const config = useConfig();
     const [showThankyou, setShowThankyou] = useState(false);
+    const [isDrinkFocused, setIsDrinkFocused] = useState(false);
+    const [isChipsFocused, setIsChipsFocused] = useState(false);
 
     // Access navigationPile from NavigationContext
     const { back } = useNavigation();
@@ -71,7 +80,7 @@ const OrderDay = () => {
     const chipsStatus = user[`acday${dayIdNumber}`][1];
 
     const handleBack = () => {
-        back([/^\/nasirend$/, /^\/film\/\d+$/], '/nasirend');
+        back([/^\/nasirend$/, /^\/film\/\d+$/], "/nasirend");
     };
 
     const handleSave = () => {
@@ -171,6 +180,13 @@ const OrderDay = () => {
                                     newUser[`day${dayId}`][0] = newValue;
                                     setEditedUser(newUser);
                                 }}
+                                onFocus={() => setIsDrinkFocused(true)}
+                                onBlur={() => {
+                                    setTimeout(
+                                        () => setIsDrinkFocused(false),
+                                        200
+                                    );
+                                }}
                                 style={{ marginBottom: 20 }}
                             />
                             {drinkStatus !== "Eldöntetlen" && (
@@ -178,6 +194,22 @@ const OrderDay = () => {
                                     src={`/images/${TRANSLATIONS[drinkStatus]}.png`}
                                     alt={TRANSLATIONS[drinkStatus]}
                                     className={styles.statusImage}
+                                />
+                            )}
+                        </div>
+                        <div className={styles.autoComplete}>
+                            {isDrinkFocused && (
+                                <AutoComplete
+                                    currentInput={
+                                        editedUser
+                                            ? editedUser[`day${dayId}`][0]
+                                            : user[`day${dayId}`][0] || ""
+                                    }
+                                    options={options.drink}
+                                    favorites={favoriteDrinkOptions}
+                                    mostFavorites={mostFavoriteDrinks}
+                                    unit={"l"}
+                                    heartClicked={favoriteDrink}
                                 />
                             )}
                         </div>
@@ -201,12 +233,35 @@ const OrderDay = () => {
                                     newUser[`day${dayId}`][1] = newValue;
                                     setEditedUser(newUser);
                                 }}
+                                onFocus={() => setIsChipsFocused(true)}
+                                onBlur={() => {
+                                    setTimeout(
+                                        () => setIsChipsFocused(false),
+                                        200
+                                    );
+                                }}
                             />
                             {chipsStatus !== "Eldöntetlen" && (
                                 <img
                                     src={`/images/${TRANSLATIONS[chipsStatus]}.png`}
                                     alt={TRANSLATIONS[chipsStatus]}
                                     className={styles.statusImage}
+                                />
+                            )}
+                        </div>
+                        <div className={styles.autoComplete}>
+                            {isChipsFocused && (
+                                <AutoComplete
+                                    currentInput={
+                                        editedUser
+                                            ? editedUser[`day${dayId}`][1]
+                                            : user[`day${dayId}`][1] || ""
+                                    }
+                                    options={options.chips}
+                                    favorites={favoriteChipsOptions}
+                                    mostFavorites={mostFavoriteChips}
+                                    unit={"g"}
+                                    heartClicked={favoriteChips}
                                 />
                             )}
                         </div>

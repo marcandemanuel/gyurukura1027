@@ -9,85 +9,21 @@ import styles from "./Options.module.css";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 const Options = () => {
-    const [options, setOptions] = useState({ drink: [], chips: [] });
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
     const [hoverDrinkIndex, setHoverDrinkIndex] = useState(null);
     const [openChipsIndex, setOpenChipsIndex] = useState(null);
     const [hoverChipsIndex, setHoverChipsIndex] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [favoriteDrinkOptions, setFavoriteDrinkOptions] = useState([]);
-    const [favoriteChipsOptions, setFavoriteChipsOptions] = useState([]);
-    const { profiles, user, updateProfile } = useApp();
-
-    const [mostFavoriteDrinks, setMostFavoriteDrinks] = useState([]);
-    const [mostFavoriteChips, setMostFavoriteChips] = useState([]);
-
-    const getFavorites = (profiles, type) => {
-        if (!Array.isArray(profiles)) return [];
-
-        return profiles.reduce((acc, profile) => {
-            const items = profile?.favorites?.[type];
-            return Array.isArray(items) ? [...acc, ...items] : acc;
-        }, []);
-    };
-
-    const getMostCommonItems = (items) => {
-        if (!Array.isArray(items) || !items.length) return [];
-
-        const frequency = items.reduce((acc, item) => {
-            if (typeof item === "string" && item.trim()) {
-                acc[item] = (acc[item] || 0) + 1;
-            }
-            return acc;
-        }, {});
-
-        if (!Object.keys(frequency).length) return [];
-
-        const maxFrequency = Math.max(...Object.values(frequency));
-
-        return Object.entries(frequency)
-            .filter(([_, count]) => count === maxFrequency)
-            .map(([item]) => item)
-            .sort();
-    };
-
-    useEffect(() => {
-        if (!Array.isArray(profiles)) {
-            setMostFavoriteDrinks([]);
-            setMostFavoriteChips([]);
-            return;
-        }
-
-        const drinkFavorites = getFavorites(profiles, "drinks");
-        const chipsFavorites = getFavorites(profiles, "chips");
-
-        setMostFavoriteDrinks(getMostCommonItems(drinkFavorites));
-        setMostFavoriteChips(getMostCommonItems(chipsFavorites));
-    }, [profiles]);
-
-    useEffect(() => {
-        const fetchOptions = () => {
-            setLoading(true);
-            fetch(`${API_BASE}/options?t=${Date.now()}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    setOptions(data.options || { drink: [], chips: [] });
-                    setLoading(false);
-                })
-                .catch((err) => {
-                    setOptions({ drink: [], chips: [] });
-                    setLoading(false);
-                });
-        };
-        fetchOptions();
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            setFavoriteDrinkOptions(user?.favorites?.drinks ?? []);
-            setFavoriteChipsOptions(user?.favorites?.chips ?? []);
-        }
-    }, [user]);
+    const {
+        user,
+        favoriteDrinkOptions,
+        favoriteChipsOptions,
+        mostFavoriteDrinks,
+        mostFavoriteChips,
+        options,
+        favoriteChips,
+        favoriteDrink,
+    } = useApp();
 
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
@@ -113,70 +49,6 @@ const Options = () => {
     const copyChipsAmount = (item, amount, e) => {
         e.stopPropagation();
         navigator.clipboard.writeText(`${item.name} ${amount}g`);
-    };
-
-    const favoriteDrink = (drinkName) => {
-        if (!user) return;
-        setLoading(true);
-        const isFavorite = !favoriteDrinkOptions.includes(drinkName);
-        const newUser = JSON.parse(JSON.stringify(user));
-
-        newUser.favorites = {
-            ...(newUser.favorites ?? {}),
-            drinks: isFavorite
-                ? [...(newUser.favorites?.drinks ?? []), drinkName]
-                : (newUser.favorites?.drinks ?? []).filter(
-                      (d) => d !== drinkName
-                  ),
-            chips: newUser.favorites?.chips ?? [],
-        };
-
-
-        const now = new Date();
-        const pad = (n) => n.toString().padStart(2, "0");
-        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
-            now.getDate()
-        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
-            now.getSeconds()
-        )}`;
-
-        newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
-
-        const success = updateProfile(newUser, "favorite");
-        setFavoriteDrinkOptions(newUser.favorites.drinks);
-        setLoading(false);
-    };
-
-    const favoriteChips = (chipsName) => {
-        if (!user) return;
-        setLoading(true);
-        const isFavorite = !favoriteChipsOptions.includes(chipsName);
-        const newUser = JSON.parse(JSON.stringify(user));
-
-        newUser.favorites = {
-            ...(newUser.favorites ?? {}),
-            drinks: newUser.favorites?.drinks ?? [],
-            chips: isFavorite
-                ? [...(newUser.favorites?.chips ?? []), chipsName]
-                : (newUser.favorites?.chips ?? []).filter(
-                      (c) => c !== chipsName
-                  ),
-        };
-
-
-        const now = new Date();
-        const pad = (n) => n.toString().padStart(2, "0");
-        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
-            now.getDate()
-        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
-            now.getSeconds()
-        )}`;
-
-        // newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
-
-        const success = updateProfile(newUser, "favorite");
-        setFavoriteChipsOptions(newUser.favorites.chips);
-        setLoading(false);
     };
 
     return (
@@ -249,7 +121,13 @@ const Options = () => {
                                                 hoverDrinkIndex === index
                                                     ? styles.open
                                                     : ""
-                                            } ${mostFavoriteDrinks.includes(item.name) ? styles.favoriteItem : ''}`}
+                                            } ${
+                                                mostFavoriteDrinks.includes(
+                                                    item.name
+                                                )
+                                                    ? styles.favoriteItem
+                                                    : ""
+                                            }`}
                                             onClick={() =>
                                                 drinkSelected(item, index)
                                             }
@@ -365,7 +243,13 @@ const Options = () => {
                                                 hoverChipsIndex === index
                                                     ? styles.open
                                                     : ""
-                                            } ${mostFavoriteChips.includes(item.name) ? styles.favoriteItem : ''}`}
+                                            } ${
+                                                mostFavoriteChips.includes(
+                                                    item.name
+                                                )
+                                                    ? styles.favoriteItem
+                                                    : ""
+                                            }`}
                                             onClick={() =>
                                                 chipsSelected(item, index)
                                             }

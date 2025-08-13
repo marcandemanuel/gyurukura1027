@@ -28,6 +28,80 @@ export const AppProvider = ({ children }) => {
     const USER_ID_COOKIE_KEY = "user_id";
     const USER_ID_COOKIE_DAYS = 1;
 
+    const [favoriteDrinkOptions, setFavoriteDrinkOptions] = useState([]);
+    const [favoriteChipsOptions, setFavoriteChipsOptions] = useState([]);
+
+    const [mostFavoriteDrinks, setMostFavoriteDrinks] = useState([]);
+    const [mostFavoriteChips, setMostFavoriteChips] = useState([]);
+    const [options, setOptions] = useState({ drink: [], chips: [] });
+
+    const getFavorites = (profiles, type) => {
+        if (!Array.isArray(profiles)) return [];
+
+        return profiles.reduce((acc, profile) => {
+            const items = profile?.favorites?.[type];
+            return Array.isArray(items) ? [...acc, ...items] : acc;
+        }, []);
+    };
+
+    const getMostCommonItems = (items) => {
+        if (!Array.isArray(items) || !items.length) return [];
+
+        const frequency = items.reduce((acc, item) => {
+            if (typeof item === "string" && item.trim()) {
+                acc[item] = (acc[item] || 0) + 1;
+            }
+            return acc;
+        }, {});
+
+        if (!Object.keys(frequency).length) return [];
+
+        const maxFrequency = Math.max(...Object.values(frequency));
+
+        return Object.entries(frequency)
+            .filter(([_, count]) => count === maxFrequency)
+            .map(([item]) => item)
+            .sort();
+    };
+
+    useEffect(() => {
+        if (!Array.isArray(profiles)) {
+            setMostFavoriteDrinks([]);
+            setMostFavoriteChips([]);
+            return;
+        }
+
+        const drinkFavorites = getFavorites(profiles, "drinks");
+        const chipsFavorites = getFavorites(profiles, "chips");
+
+        setMostFavoriteDrinks(getMostCommonItems(drinkFavorites));
+        setMostFavoriteChips(getMostCommonItems(chipsFavorites));
+    }, [profiles]);
+
+    useEffect(() => {
+        const fetchOptions = () => {
+            setIsLoading(true);
+            fetch(`${API_BASE}/options?t=${Date.now()}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setOptions(data.options || { drink: [], chips: [] });
+                    setIsLoading(false);
+                })
+                .catch((err) => {
+                    setOptions({ drink: [], chips: [] });
+                    setIsLoading(false);
+                });
+        };
+        fetchOptions();
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            setFavoriteDrinkOptions(user?.favorites?.drinks ?? []);
+            setFavoriteChipsOptions(user?.favorites?.chips ?? []);
+        }
+    }, [user]);
+
     useEffect(() => {
         const initializeUser = async () => {
             try {
@@ -36,7 +110,8 @@ export const AppProvider = ({ children }) => {
                     .find((row) => row.startsWith(`${USER_ID_COOKIE_KEY}=`));
                 if (cookieString) {
                     const value = cookieString.split("=")[1];
-                    const rememberedUserID = value === "none" ? null : parseInt(value);
+                    const rememberedUserID =
+                        value === "none" ? null : parseInt(value);
                     if (rememberedUserID) {
                         const currentProfiles = await apiService.getProfiles(
                             false
@@ -44,7 +119,6 @@ export const AppProvider = ({ children }) => {
                         const userExists = currentProfiles.find(
                             (p) => p.id === rememberedUserID
                         );
-
 
                         if (userExists) {
                             setUser(userExists);
@@ -145,8 +219,71 @@ export const AppProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
-        setIsAuthenticated(false)
-    }
+        setIsAuthenticated(false);
+    };
+
+
+    const favoriteDrink = (drinkName) => {
+        if (!user) return;
+        setIsLoading(true);
+        const isFavorite = !favoriteDrinkOptions.includes(drinkName);
+        const newUser = JSON.parse(JSON.stringify(user));
+
+        newUser.favorites = {
+            ...(newUser.favorites ?? {}),
+            drinks: isFavorite
+                ? [...(newUser.favorites?.drinks ?? []), drinkName]
+                : (newUser.favorites?.drinks ?? []).filter(
+                      (d) => d !== drinkName
+                  ),
+            chips: newUser.favorites?.chips ?? [],
+        };
+
+        const now = new Date();
+        const pad = (n) => n.toString().padStart(2, "0");
+        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+            now.getDate()
+        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+            now.getSeconds()
+        )}`;
+
+        newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
+
+        const success = updateProfile(newUser, "favorite");
+        setFavoriteDrinkOptions(newUser.favorites.drinks);
+        setIsLoading(false);
+    };
+
+    const favoriteChips = (chipsName) => {
+        if (!user) return;
+        setIsLoading(true);
+        const isFavorite = !favoriteChipsOptions.includes(chipsName);
+        const newUser = JSON.parse(JSON.stringify(user));
+
+        newUser.favorites = {
+            ...(newUser.favorites ?? {}),
+            drinks: newUser.favorites?.drinks ?? [],
+            chips: isFavorite
+                ? [...(newUser.favorites?.chips ?? []), chipsName]
+                : (newUser.favorites?.chips ?? []).filter(
+                      (c) => c !== chipsName
+                  ),
+        };
+
+        const now = new Date();
+        const pad = (n) => n.toString().padStart(2, "0");
+        const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+            now.getDate()
+        )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+            now.getSeconds()
+        )}`;
+
+        // newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
+
+        const success = updateProfile(newUser, "favorite");
+        setFavoriteChipsOptions(newUser.favorites.chips);
+        setIsLoading(false);
+    };
 
     const value = {
         user,
@@ -159,6 +296,11 @@ export const AppProvider = ({ children }) => {
         confettiStatus,
         editedUser,
         consentAccepted,
+        favoriteDrinkOptions,
+        favoriteChipsOptions,
+        mostFavoriteDrinks,
+        mostFavoriteChips,
+        options,
         loadProfiles,
         refreshCurrentUser,
         selectUser,
@@ -171,7 +313,9 @@ export const AppProvider = ({ children }) => {
         setEditedUser,
         setConsentAccepted,
         setUserIDCookie,
-        logout
+        logout,
+        favoriteDrink,
+        favoriteChips,
     };
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
