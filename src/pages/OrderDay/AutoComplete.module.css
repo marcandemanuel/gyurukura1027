@@ -1,27 +1,45 @@
 .autoCompleteContainer {
     position: absolute;
-    top: 0;
+    top: 10px;
     left: 0;
     width: 90vw;
     max-width: 500px;
     max-height: 300px;
     overflow: auto;
     background-color: black;
-    z-index: 10000
+    z-index: 10000;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
 }
 
 .suggestionItem {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
+    min-height: 50px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+.suggestionItem:hover {
+    background-color: rgba(156, 128, 40, 0.2);
 }
 
 .suggestionText {
     color: #9c8028;
+    font-family: Aniron;
+    font-size: 12px;
 }
 
 .favoriteButton {
     border-radius: 10px;
+    height: 30px;
+    width: 30px;
+    margin-left: auto
 }
 
 .favoriteButton:hover,
