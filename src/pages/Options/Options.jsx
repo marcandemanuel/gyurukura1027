@@ -6,8 +6,6 @@ import Loading from "../../components/Common/Loading/Loading";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Options.module.css";
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
-
 const Options = () => {
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
     const [hoverDrinkIndex, setHoverDrinkIndex] = useState(null);

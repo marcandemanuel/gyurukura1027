@@ -5,6 +5,7 @@ import { apiService } from "../services/apiService";
 
 const AppContext = createContext();
 const USER_ID_COOKIE_KEY = "user_id";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
 export const useApp = () => {
     const context = useContext(AppContext);
