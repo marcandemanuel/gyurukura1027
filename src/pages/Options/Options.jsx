@@ -23,6 +23,12 @@ const Options = () => {
         favoriteDrink,
     } = useApp();
 
+    useEffect(() => {
+        if (options) {
+            setLoading(false);
+        }
+    }, [options])
+
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
             const largest = item.amounts[item.amounts.length - 1];
