@@ -7,6 +7,7 @@ const AppContext = createContext();
 const USER_ID_COOKIE_KEY = "user_id";
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
+
 export const useApp = () => {
     const context = useContext(AppContext);
     if (!context) {
@@ -141,6 +142,7 @@ export const AppProvider = ({ children }) => {
         try {
             const profilesData = await apiService.getProfiles(withPin);
             setProfiles(profilesData);
+            // Always update the current user to the latest from profiles if logged in
             if (user && profilesData.length > 0) {
                 const updatedUser = profilesData.find((p) => p.id === user.id);
                 if (updatedUser) {
@@ -180,6 +182,7 @@ export const AppProvider = ({ children }) => {
         }
     };
 
+    // Updates a profile, then always updates both profiles and the current user (if affected)
     const updateProfile = async (updatedUser, updateType = "") => {
         try {
             const result = await apiService.updateProfile(
@@ -188,11 +191,13 @@ export const AppProvider = ({ children }) => {
                 updateType
             );
 
+            // Update profiles list for everyone
             const updatedProfiles = profiles.map((p) =>
                 p.id === updatedUser.id ? updatedUser : p
             );
             setProfiles(updatedProfiles);
 
+            // Always update the current user context if the updated profile is the logged-in user
             if (user && updatedUser.id === user.id) {
                 setUser(updatedUser);
             }
@@ -203,6 +208,7 @@ export const AppProvider = ({ children }) => {
         }
     };
 
+    // Refreshes the current user from the latest profiles (fetches and updates both)
     const refreshCurrentUser = async (withPin = false) => {
         const profilesData = await loadProfiles(withPin);
         if (user && profilesData.length > 0) {
@@ -217,6 +223,7 @@ export const AppProvider = ({ children }) => {
         setUser(null);
         setIsAuthenticated(false);
     };
+
 
     const favoriteDrink = (drinkName) => {
         if (!user) return;
@@ -241,6 +248,8 @@ export const AppProvider = ({ children }) => {
         )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
             now.getSeconds()
         )}`;
+
+        // newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
 
         const success = updateProfile(newUser, "favorite");
         setFavoriteDrinkOptions(newUser.favorites.drinks);
@@ -270,6 +279,8 @@ export const AppProvider = ({ children }) => {
         )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
             now.getSeconds()
         )}`;
+
+        // newUser.notifications.push(["Kedvenc elmentve 🎉!", date]);
 
         const success = updateProfile(newUser, "favorite");
         setFavoriteChipsOptions(newUser.favorites.chips);
