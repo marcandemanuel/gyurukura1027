@@ -23,6 +23,7 @@ const emojiMap = {
         "kecsapos",
     ],
     "🌶️": ["chili", "csili", "chilis", "csilis", "csípős"],
+    "🥓": ["bacon", "baconös", "békön", "békönös"],
 };
 
 const normalizeText = (text) => {
@@ -47,8 +48,8 @@ const expandOptionWithEmoji = (option) => {
 const AutoComplete = ({
     currentInput,
     options,
-    favorites,
-    mostFavorites,
+    favorites = [],
+    mostFavorites = [],
     unit,
     heartClicked,
 }) => {

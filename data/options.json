@@ -111,7 +111,7 @@
             ]
         },
         {
-            "name": "Cappy Narancs",
+            "name": "Cappy 🍊",
             "amounts": [
                 1.5
             ]
@@ -187,7 +187,7 @@
     ],
     "chips": [
         {
-            "name": "Sós Lay's",
+            "name": "Lay's 🧂",
             "amounts": [
                 60,
                 125,
@@ -195,7 +195,7 @@
             ]
         },
         {
-            "name": "Sajtos Lay's",
+            "name": "Lay's 🧀",
             "amounts": [
                 60,
                 125,
@@ -227,7 +227,15 @@
             ]
         },
         {
-            "name": "Paradicsomos Lay's",
+            "name": "Lay's 🥓",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
+            "name": "Lay's 🍅",
             "amounts": [
                 60,
                 125,
@@ -241,7 +249,7 @@
             ]
         },
         {
-            "name": "Chilis Lay's Maxx",
+            "name": "Lay's Maxx 🌶️",
             "amounts": [
                 130
             ]
@@ -253,7 +261,7 @@
             ]
         },
         {
-            "name": "Sós Pringles",
+            "name": "Pringles 🧂",
             "amounts": [
                 40,
                 165
@@ -274,7 +282,7 @@
             ]
         },
         {
-            "name": "Ketchupos Cheetos",
+            "name": "Cheetos 🍅",
             "amounts": [
                 30,
                 43,
@@ -282,7 +290,7 @@
             ]
         },
         {
-            "name": "Sajtos Cheetos",
+            "name": "Cheetos 🧀",
             "amounts": [
                 30,
                 43,
@@ -290,7 +298,7 @@
             ]
         },
         {
-            "name": "Pizzás Cheetos",
+            "name": "Cheetos 🍕",
             "amounts": [
                 30,
                 43,
@@ -298,7 +306,7 @@
             ]
         },
         {
-            "name": "Sós Chio",
+            "name": "Chio 🧂",
             "amounts": [
                 60,
                 125,
@@ -314,6 +322,14 @@
             ]
         },
         {
+            "name": "Chio 🥓",
+            "amounts": [
+                60,
+                125,
+                170
+            ]
+        },
+        {
             "name": "Fokhagymás-Tejfölös Chio",
             "amounts": [
                 60,
@@ -322,7 +338,7 @@
             ]
         },
         {
-            "name": "Sajtos Chio",
+            "name": "Chio 🧀",
             "amounts": [
                 60,
                 125,
