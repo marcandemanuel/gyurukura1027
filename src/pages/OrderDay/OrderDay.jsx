@@ -209,6 +209,15 @@ const OrderDay = () => {
                                     favorites={favoriteDrinkOptions}
                                     mostFavorites={mostFavoriteDrinks}
                                     unit={"l"}
+                                    suggestionClicked={(suggestion) => {
+                                        const newUser = JSON.parse(
+                                            JSON.stringify(
+                                                editedUser ? editedUser : user
+                                            )
+                                        );
+                                        newUser[`day${dayId}`][0] = suggestion;
+                                        setEditedUser(newUser);
+                                    }}
                                     heartClicked={favoriteDrink}
                                 />
                             )}
@@ -261,6 +270,15 @@ const OrderDay = () => {
                                     favorites={favoriteChipsOptions}
                                     mostFavorites={mostFavoriteChips}
                                     unit={"g"}
+                                    suggestionClicked={(suggestion) => {
+                                        const newUser = JSON.parse(
+                                            JSON.stringify(
+                                                editedUser ? editedUser : user
+                                            )
+                                        );
+                                        newUser[`day${dayId}`][1] = suggestion;
+                                        setEditedUser(newUser);
+                                    }}
                                     heartClicked={favoriteChips}
                                 />
                             )}
