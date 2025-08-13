@@ -67,6 +67,7 @@ const AutoComplete = ({
 
         const directMatch = options.find((option) => {
             const expandedNames = expandOptionWithEmoji(option.name);
+            if (expandedNames.some((name) => normalizeText(name) === normalizedInput)) return false;
             const inputWords = normalizedInput.split(" ");
 
             return (
@@ -101,7 +102,7 @@ const AutoComplete = ({
                     const inputWords = normalizedInput.split(" ");
                     const allWords = expandOptionWithEmoji(
                         directMatch.name
-                    ).flatMap((s) => s.toLowerCase().split(" "));
+                    ).flatMap((s) => normalizeText(s).split(" "));
                     const amountInDirectMatch = inputWords.find(
                         (word) => !allWords.includes(word)
                     );
@@ -167,17 +168,17 @@ const AutoComplete = ({
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
-                                heartClicked(item?.name);
+                                heartClicked(suggestion);
                             }}
                             className={`${styles.favoriteButton} ${
-                                favorites.includes(item.name)
+                                favorites.includes(suggestion)
                                     ? styles.favorite
                                     : styles.notFavorite
                             }`}
                         >
                             <img
                                 src={`/images/${
-                                    favorites.includes(item.name)
+                                    favorites.includes(suggestion)
                                         ? "heart_filled"
                                         : "heart"
                                 }.png`}
