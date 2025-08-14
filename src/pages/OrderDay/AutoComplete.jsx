@@ -112,7 +112,7 @@ const AutoComplete = ({
                         `${amount}${unit}`.startsWith(amountInDirectMatch)
                     );
                 })
-                .map((amount) => `${directMatch.name} ${amount}${unit}`)
+                .map((amount) => ({suggestion: `${directMatch.name} ${amount}${unit}`, name: directMatch.name}))
                 .reverse();
         }
 
@@ -128,20 +128,20 @@ const AutoComplete = ({
                     );
                 });
             })
-            .map((option) => option.name)
+            .map((option) => ({suggestion: option.name, name: option.name}))
             .sort((a, b) => {
-                const scoreA = favorites.includes(a)
+                const scoreA = favorites.includes(a.suggestion)
                     ? 2
-                    : 0 + mostFavorites.includes(a)
+                    : 0 + mostFavorites.includes(a.suggestion)
                     ? 1
                     : 0;
-                const scoreB = favorites.includes(b)
+                const scoreB = favorites.includes(b.suggestion)
                     ? 2
-                    : 0 + mostFavorites.includes(b)
+                    : 0 + mostFavorites.includes(b.suggestion)
                     ? 1
                     : 0;
 
-                return scoreA - scoreB || a.localeCompare(b);
+                return scoreA - scoreB || a.suggestion.localeCompare(b.suggestion);
             });
 
         let allSuggestions = [
@@ -160,57 +160,57 @@ const AutoComplete = ({
         setSuggestions(allSuggestions);
     }, [currentInput, options, favorites, mostFavorites, unit]);
 
+    if (!suggestions || suggestions.length === 0) {
+        return null;
+    }
+    
     return (
-        <>
-            {suggestions && suggestions.length && (
-                <div className={styles.autoCompleteContainer}>
-                    {suggestions.map((suggestion, index) => (
+        <div className={styles.autoCompleteContainer}>
+            {suggestions.map((suggestion, index) => (
+                <div
+                    key={index}
+                    className={`${styles.suggestionItem} ${
+                        mostFavorites.includes(suggestion.name)
+                            ? styles.favoriteItem
+                            : ""
+                    }`}
+                    onPointerEnter={() => setHoverIndex(index)}
+                    onPointerLeave={() => setHoverIndex(null)}
+                    onClick={() => {
+                        if (suggestionClicked)
+                            suggestionClicked(suggestion.suggestion);
+                    }}
+                >
+                    <span className={styles.suggestionText}>
+                        {suggestion.suggestion}
+                    </span>
+                    {(hoverIndex === index ||
+                        favorites.includes(suggestion.name)) && (
                         <div
-                            key={index}
-                            className={`${styles.suggestionItem} ${
-                                mostFavorites.includes(suggestion)
-                                    ? styles.favoriteItem
-                                    : ""
-                            }`}
-                            onPointerEnter={() => setHoverIndex(index)}
-                            onPointerLeave={() => setHoverIndex(null)}
-                            onClick={() => {
-                                if (suggestionClicked)
-                                    suggestionClicked(suggestion);
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                heartClicked(suggestion.name);
                             }}
+                            className={`${styles.favoriteButton} ${
+                                favorites.includes(suggestion.name)
+                                    ? styles.favorite
+                                    : styles.notFavorite
+                            }`}
                         >
-                            <span className={styles.suggestionText}>
-                                {suggestion}
-                            </span>
-                            {(hoverIndex === index ||
-                                favorites.includes(suggestion)) && (
-                                <div
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        heartClicked(suggestion);
-                                    }}
-                                    className={`${styles.favoriteButton} ${
-                                        favorites.includes(suggestion)
-                                            ? styles.favorite
-                                            : styles.notFavorite
-                                    }`}
-                                >
-                                    <img
-                                        src={`/images/${
-                                            favorites.includes(suggestion)
-                                                ? "heart_filled"
-                                                : "heart"
-                                        }.png`}
-                                        alt="favorite_image"
-                                        className={styles.favoriteImage}
-                                    />
-                                </div>
-                            )}
+                            <img
+                                src={`/images/${
+                                    favorites.includes(suggestion.name)
+                                        ? "heart_filled"
+                                        : "heart"
+                                }.png`}
+                                alt="favorite_image"
+                                className={styles.favoriteImage}
+                            />
                         </div>
-                    ))}
+                    )}
                 </div>
-            )}
-        </>
+            ))}
+        </div>
     );
 };
 
