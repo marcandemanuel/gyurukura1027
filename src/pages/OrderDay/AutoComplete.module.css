@@ -47,7 +47,8 @@
     width: 30px;
     margin-left: auto;
     animation: none;
-    border: 0
+    border: 0;
+    background-color: transparent;
 }
 
 .favoriteButton:hover,

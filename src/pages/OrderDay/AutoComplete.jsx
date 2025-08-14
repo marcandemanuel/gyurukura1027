@@ -76,23 +76,22 @@ const AutoComplete = ({
             return (
                 expandedNames.some((name) => {
                     const words = normalizeText(name).split(" ");
-                    console.log('[AutoComplete] words, inputWords', words, inputWords, words.length, inputWords.length)
 
                     return (
-                        ((inputWords.every((inputWord) =>
+                        (inputWords.every((inputWord) =>
                             words.some((word) => word === inputWord)
                         ) &&
                             words.length === inputWords.length) ||
-                            inputWords.every(
-                                (inputWord) =>
-                                    words.some((word) => word === inputWord) ||
-                                    option.amounts.some((amount) => {
-                                        return `${amount}${unit}`.startsWith(
-                                            inputWord
-                                        );
-                                    })
-                            )) &&
-                        words.length === inputWords.length - 1
+                        (inputWords.every(
+                            (inputWord) =>
+                                words.some((word) => word === inputWord) ||
+                                option.amounts.some((amount) => {
+                                    return `${amount}${unit}`.startsWith(
+                                        inputWord
+                                    );
+                                })
+                        ) &&
+                            words.length === inputWords.length - 1)
                     );
                 }) &&
                 (option.name.split(" ").length === inputWords.length ||
