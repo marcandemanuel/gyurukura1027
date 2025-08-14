@@ -178,6 +178,11 @@ const AutoComplete = ({
                     onClick={() => {
                         if (suggestionClicked) {
                             const text = inputText.slice(0, -(splittedInput.at(-1).length))
+                            console.log(
+                                "text",
+                                text,
+                                `${text}${suggestion.suggestion}`
+                            );
                             suggestionClicked(`${text}${suggestion.suggestion}`)
                         }
                     }}
