@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { useApp } from "../../contexts/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
@@ -56,6 +56,9 @@ const OrderDay = () => {
     const [showThankyou, setShowThankyou] = useState(false);
     const [isDrinkFocused, setIsDrinkFocused] = useState(false);
     const [isChipsFocused, setIsChipsFocused] = useState(false);
+    
+    const drinkInputRef = useRef(null);
+    const chipsInputRef = useRef(null);
 
     // Access navigationPile from NavigationContext
     const { back } = useNavigation();
@@ -162,6 +165,7 @@ const OrderDay = () => {
                     <div className={styles.inputFields}>
                         <div className={styles.inputContainer}>
                             <input
+                                ref={drinkInputRef}
                                 className={styles.inputField}
                                 type="text"
                                 placeholder="Inni"
@@ -216,6 +220,11 @@ const OrderDay = () => {
                                         );
                                         newUser[`day${dayId}`][0] = suggestion;
                                         setEditedUser(newUser);
+                                        setTimeout(() => {
+                                            if (drinkInputRef.current) {
+                                                drinkInputRef.current.focus();
+                                            }
+                                        }, 0);
                                     }}
                                     heartClicked={favoriteDrink}
                                 />
@@ -226,6 +235,7 @@ const OrderDay = () => {
                             style={{ marginTop: 30 }}
                         >
                             <input
+                                ref={chipsInputRef}
                                 className={styles.inputField}
                                 type="text"
                                 placeholder="Csipsz"
@@ -280,6 +290,11 @@ const OrderDay = () => {
                                         );
                                         newUser[`day${dayId}`][1] = suggestion;
                                         setEditedUser(newUser);
+                                        setTimeout(() => {
+                                            if (chipsInputRef.current) {
+                                                chipsInputRef.current.focus();
+                                            }
+                                        }, 0);
                                     }}
                                     heartClicked={favoriteChips}
                                 />
