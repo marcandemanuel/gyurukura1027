@@ -65,6 +65,7 @@ const AutoComplete = ({
 
         const normalizedInput = normalizeText(currentInput);
 
+
         const directMatch = options.find((option) => {
             const expandedNames = expandOptionWithEmoji(option.name);
             const inputWords = normalizedInput.split(" ");
@@ -95,8 +96,9 @@ const AutoComplete = ({
             );
         });
 
+        let matchedAmounts = [];
         if (directMatch) {
-            const matchedAmounts = directMatch.amounts
+            matchedAmounts = directMatch.amounts
                 .filter((amount) => {
                     const inputWords = normalizedInput.split(" ");
                     const allWords = expandOptionWithEmoji(
@@ -107,16 +109,13 @@ const AutoComplete = ({
                     );
                     return (
                         amountInDirectMatch &&
-                        `${amount}${unit}`.startsWith(amountInDirectMatch) &&
-                        normalizeText(
-                            `${directMatch.name} ${amount}${unit}`
-                        ) !== normalizedInput
+                        `${amount}${unit}`.startsWith(amountInDirectMatch)
                     );
                 })
                 .map((amount) => `${directMatch.name} ${amount}${unit}`)
                 .reverse();
-            setSuggestions(matchedAmounts);
         }
+
         const matchedOptions = options
             .filter((option) => {
                 const expandedNames = expandOptionWithEmoji(option.name);
@@ -144,7 +143,21 @@ const AutoComplete = ({
 
                 return scoreA - scoreB || a.localeCompare(b);
             });
-        setSuggestions([...suggestions, ...matchedOptions]);
+
+        let allSuggestions = [
+            ...matchedAmounts,
+            ...matchedOptions
+        ];
+
+        const seen = new Set();
+        allSuggestions = allSuggestions.filter((item) => {
+            const key = item.toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+
+        setSuggestions(allSuggestions);
     }, [currentInput, options, favorites, mostFavorites, unit]);
 
     return (

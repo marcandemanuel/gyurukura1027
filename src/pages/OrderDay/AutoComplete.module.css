@@ -12,7 +12,13 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 5px
+    gap: 5px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.autoCompleteContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .suggestionItem {

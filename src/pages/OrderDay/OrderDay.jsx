@@ -187,7 +187,6 @@ const OrderDay = () => {
                                         200
                                     );
                                 }}
-                                style={{ marginBottom: 20 }}
                             />
                             {drinkStatus !== "Eldöntetlen" && (
                                 <img
@@ -249,6 +248,7 @@ const OrderDay = () => {
                                         200
                                     );
                                 }}
+                                style={{ marginTop: 20 }}
                             />
                             {chipsStatus !== "Eldöntetlen" && (
                                 <img
