@@ -67,7 +67,6 @@ const AutoComplete = ({
 
         const directMatch = options.find((option) => {
             const expandedNames = expandOptionWithEmoji(option.name);
-            if (expandedNames.some((name) => normalizeText(name) === normalizedInput)) return false;
             const inputWords = normalizedInput.split(" ");
 
             return (
@@ -97,7 +96,7 @@ const AutoComplete = ({
         });
 
         if (directMatch) {
-            const matchedOptions = directMatch.amounts
+            const matchedAmounts = directMatch.amounts
                 .filter((amount) => {
                     const inputWords = normalizedInput.split(" ");
                     const allWords = expandOptionWithEmoji(
@@ -108,88 +107,97 @@ const AutoComplete = ({
                     );
                     return (
                         amountInDirectMatch &&
-                        `${amount}${unit}`.startsWith(amountInDirectMatch)
+                        `${amount}${unit}`.startsWith(amountInDirectMatch) &&
+                        normalizeText(
+                            `${directMatch.name} ${amount}${unit}`
+                        ) !== normalizedInput
                     );
                 })
                 .map((amount) => `${directMatch.name} ${amount}${unit}`)
                 .reverse();
-            setSuggestions(matchedOptions);
-        } else {
-            const matchedOptions = options
-                .filter((option) => {
-                    const expandedNames = expandOptionWithEmoji(option.name);
-
-                    return expandedNames.some((name) => {
-                        const words = normalizeText(name).split(" ");
-                        const inputWords = normalizedInput.split(" ");
-                        return inputWords.every((inputWord) =>
-                            words.some((word) => word.startsWith(inputWord))
-                        );
-                    });
-                })
-                .map((option) => option.name)
-                .sort((a, b) => {
-                    const scoreA = favorites.includes(a)
-                        ? 2
-                        : 0 + mostFavorites.includes(a)
-                        ? 1
-                        : 0;
-                    const scoreB = favorites.includes(b)
-                        ? 2
-                        : 0 + mostFavorites.includes(b)
-                        ? 1
-                        : 0;
-
-                    return scoreA - scoreB || a.localeCompare(b);
-                });
-            setSuggestions(matchedOptions);
+            setSuggestions(matchedAmounts);
         }
+        const matchedOptions = options
+            .filter((option) => {
+                const expandedNames = expandOptionWithEmoji(option.name);
+
+                return expandedNames.some((name) => {
+                    const words = normalizeText(name).split(" ");
+                    const inputWords = normalizedInput.split(" ");
+                    return inputWords.every((inputWord) =>
+                        words.some((word) => word.startsWith(inputWord))
+                    );
+                });
+            })
+            .map((option) => option.name)
+            .sort((a, b) => {
+                const scoreA = favorites.includes(a)
+                    ? 2
+                    : 0 + mostFavorites.includes(a)
+                    ? 1
+                    : 0;
+                const scoreB = favorites.includes(b)
+                    ? 2
+                    : 0 + mostFavorites.includes(b)
+                    ? 1
+                    : 0;
+
+                return scoreA - scoreB || a.localeCompare(b);
+            });
+        setSuggestions([...suggestions, ...matchedOptions]);
     }, [currentInput, options, favorites, mostFavorites, unit]);
 
     return (
-        <div className={styles.autoCompleteContainer}>
-            {suggestions.map((suggestion, index) => (
-                <div
-                    key={index}
-                    className={`${styles.suggestionItem} ${
-                        mostFavorites.includes(suggestion)
-                            ? styles.favoriteItem
-                            : ""
-                    }`}
-                    onPointerEnter={() => setHoverIndex(index)}
-                    onPointerLeave={() => setHoverIndex(null)}
-                    onClick={() => {
-                        if (suggestionClicked) suggestionClicked(suggestion);
-                    }}
-                >
-                    <span className={styles.suggestionText}>{suggestion}</span>
-                    {(hoverIndex === index ||
-                        favorites.includes(suggestion)) && (
+        <>
+            {suggestions && suggestions.length && (
+                <div className={styles.autoCompleteContainer}>
+                    {suggestions.map((suggestion, index) => (
                         <div
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                heartClicked(suggestion);
-                            }}
-                            className={`${styles.favoriteButton} ${
-                                favorites.includes(suggestion)
-                                    ? styles.favorite
-                                    : styles.notFavorite
+                            key={index}
+                            className={`${styles.suggestionItem} ${
+                                mostFavorites.includes(suggestion)
+                                    ? styles.favoriteItem
+                                    : ""
                             }`}
+                            onPointerEnter={() => setHoverIndex(index)}
+                            onPointerLeave={() => setHoverIndex(null)}
+                            onClick={() => {
+                                if (suggestionClicked)
+                                    suggestionClicked(suggestion);
+                            }}
                         >
-                            <img
-                                src={`/images/${
-                                    favorites.includes(suggestion)
-                                        ? "heart_filled"
-                                        : "heart"
-                                }.png`}
-                                alt="favorite_image"
-                                className={styles.favoriteImage}
-                            />
+                            <span className={styles.suggestionText}>
+                                {suggestion}
+                            </span>
+                            {(hoverIndex === index ||
+                                favorites.includes(suggestion)) && (
+                                <div
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        heartClicked(suggestion);
+                                    }}
+                                    className={`${styles.favoriteButton} ${
+                                        favorites.includes(suggestion)
+                                            ? styles.favorite
+                                            : styles.notFavorite
+                                    }`}
+                                >
+                                    <img
+                                        src={`/images/${
+                                            favorites.includes(suggestion)
+                                                ? "heart_filled"
+                                                : "heart"
+                                        }.png`}
+                                        alt="favorite_image"
+                                        className={styles.favoriteImage}
+                                    />
+                                </div>
+                            )}
                         </div>
-                    )}
+                    ))}
                 </div>
-            ))}
-        </div>
+            )}
+        </>
     );
 };
 
