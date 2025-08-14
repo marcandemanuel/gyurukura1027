@@ -297,10 +297,12 @@ const OrderDay = () => {
                                                 suggestion;
                                             setEditedUser(newUser);
                                             setTimeout(() => {
+                                                console.log('[OrderDay] chipsInputRef', chipsInputRef)
+                                                setIsChipsFocused(true)
                                                 if (chipsInputRef.current) {
                                                     chipsInputRef.current.focus();
                                                 }
-                                            }, 0);
+                                            }, 100);
                                         }}
                                         heartClicked={favoriteChips}
                                     />
