@@ -62,7 +62,7 @@ const AutoComplete = ({
     useEffect(() => {
         setInputText(currentInput);
         const splitted = currentInput.split(/, | és /);
-        if (normalizeText(currentInput).endsWith(' és') || normalizeText(currentInput).endsWith(',')) splitted.push('')
+        if (currentInput.endsWith(' és ') || currentInput.endsWith(', ')) splitted.push('')
         setSplittedInput(splitted);
         console.log('[AutoComplete] currentInput, splitted', currentInput , ',', splitted)
         const normalizedInput = splitted && splitted.length ? normalizeText(splitted.at(-1)) : '';
@@ -178,8 +178,13 @@ const AutoComplete = ({
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
                     onClick={() => {
+                        console.log('suggestionClicked', suggestionClicked)
                         if (suggestionClicked) {
-                            const text = inputText.slice(0, -(splittedInput.at(-1).length))
+                            console.log('[AutoComplete] splittedInput', splittedInput)
+                            console.log('[AutoComplete] inputText', inputText)
+                            const lengthOfLast = splittedInput.at(-1).length;
+                            const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText
+                            console.log('[AutoComplete] text', text)
                             suggestionClicked(`${text}${suggestion.suggestion}`)
                         }
                     }}
