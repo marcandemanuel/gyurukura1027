@@ -116,11 +116,11 @@
 }
 
 .option.favoriteItem {
-    box-shadow: 0px 0px 6px red;
+    box-shadow: 0px 0px 6px #ff1027;
 }
 
 .option.favoriteItem:hover, .option.open.favoriteItem {
-    border: 2px solid red;
+    border: 2px solid #ff1027;
 }
 
 .optionTitle {

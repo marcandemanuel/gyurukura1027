@@ -86,7 +86,7 @@
 }
 
 .red {
-    color: rgba(255, 0, 0, 0.8);
+    color: rgba(255, 16, 39, 0.8);
 }
 
 .table input[type="text"] {
@@ -183,7 +183,7 @@
     right: 0px;
     width: 10px;
     height: 10px;
-    background-color: red;
+    background-color: #ff1027;
 }
 
 .Elfogadva,
@@ -196,15 +196,15 @@
 }
 
 .Elfogadva {
-    background-color: green;
+    background-color: #10bb27;
 }
 
 .Elutasítva {
-    background-color: rgb(150, 0, 0);
+    background-color: #bb1027;
 }
 
 .Teljesítve {
-    background-color: green;
+    background-color: #10bb27;
 }
 
 .completedImage {

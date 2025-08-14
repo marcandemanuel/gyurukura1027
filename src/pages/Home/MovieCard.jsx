@@ -1,20 +1,6 @@
 "use client"
 import styles from "./MovieCard.module.css"
 
-const STATUS_COLORS = {
-  Eldöntetlen: "rgba(0, 0, 0, 0.2)",
-  Elfogadva: "rgba(0, 75, 0, 0.2)",
-  Teljesítve: "rgba(0, 75, 0, 0.2)",
-  Elutasítva: "rgba(75, 0, 0, 0.2)",
-}
-
-const STATUS_BORDER_COLORS = {
-  Eldöntetlen: "#9C8028",
-  Elfogadva: "rgb(0, 200, 0)",
-  Teljesítve: "rgb(0, 200, 0)",
-  Elutasítva: "rgb(200, 0, 0)",
-}
-
 const TRANSLATIONS = {
     Elfogadva: "accepted",
     Teljesítve: "completed",
@@ -42,11 +28,6 @@ const MovieCard = ({ id, movie, userProfile, onEdit, onInfo }) => {
   }
 
   const overallStatus = getOverallStatus()
-
-  const cardStyle = {
-      backgroundColor: STATUS_COLORS["Eldöntetlen"], // can be changed to overallStatus
-      boxShadow: `0px 0px 6px ${STATUS_BORDER_COLORS["Eldöntetlen"]}`, // can be changed to overallStatus
-  };
 
   const renderContent = () => {
     if (isEmpty) {
@@ -93,7 +74,7 @@ const MovieCard = ({ id, movie, userProfile, onEdit, onInfo }) => {
   }
 
   return (
-      <button className={styles.movieCard} style={cardStyle} onClick={onEdit}>
+      <button className={styles.movieCard} onClick={onEdit}>
           {renderContent()}
           {overallStatus !== "Eldöntetlen" && (
               <img

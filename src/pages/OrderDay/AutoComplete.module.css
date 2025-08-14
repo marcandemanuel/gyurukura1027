@@ -26,13 +26,19 @@
     justify-content: flex-start;
     align-items: center;
     min-height: 50px;
-    padding: 10px 20px;
+    padding: 9px 20px;
     border-radius: 10px;
     background-color: transparent;
+    border: 1px solid transparent
 }
 
 .suggestionItem:hover {
     background-color: rgba(156, 128, 40, 0.2);
+    border: 1px solid rgba(156, 128, 40, 0.2)
+}
+
+.favoriteItem, .favoriteItem:hover {
+    border: 1px solid #ff1027;
 }
 
 .suggestionText {
