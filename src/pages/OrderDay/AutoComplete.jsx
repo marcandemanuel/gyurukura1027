@@ -151,7 +151,7 @@ const AutoComplete = ({
 
         const seen = new Set();
         allSuggestions = allSuggestions.filter((item) => {
-            const key = item.toLowerCase();
+            const key = normalizeText(item.suggestion);
             if (seen.has(key)) return false;
             seen.add(key);
             return true;

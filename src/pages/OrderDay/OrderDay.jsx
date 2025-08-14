@@ -221,7 +221,10 @@ const OrderDay = () => {
                                 />
                             )}
                         </div>
-                        <div className={styles.inputContainer}>
+                        <div
+                            className={styles.inputContainer}
+                            style={{ marginTop: 30 }}
+                        >
                             <input
                                 className={styles.inputField}
                                 type="text"
@@ -248,7 +251,6 @@ const OrderDay = () => {
                                         200
                                     );
                                 }}
-                                style={{ marginTop: 20 }}
                             />
                             {chipsStatus !== "Eldöntetlen" && (
                                 <img
