@@ -135,8 +135,8 @@ const AutoComplete = ({
                     const words = normalizeText(name).split(" ");
                     const inputWords = normalizedInput.split(" ");
                     return inputWords.every((inputWord) =>
-                        words.some((word) => word.startsWith(inputWord) && word !== inputWord)
-                    );
+                        words.some((word) => word.startsWith(inputWord))
+                    ) && normalizedInput !== normalizeText(name)
                 });
             })
             .map((option) => ({suggestion: option.name, name: option.name}))
