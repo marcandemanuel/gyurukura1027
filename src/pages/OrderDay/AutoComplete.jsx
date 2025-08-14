@@ -62,7 +62,9 @@ const AutoComplete = ({
     useEffect(() => {
         setInputText(currentInput);
         const splitted = currentInput.split(/, | és /);
+        if (normalizeText(currentInput).endsWith(' és') || normalizeText(currentInput).endsWith(',')) splitted.push('')
         setSplittedInput(splitted);
+        console.log('[AutoComplete] currentInput, splitted', currentInput , ',', splitted)
         const normalizedInput = splitted && splitted.length ? normalizeText(splitted.at(-1)) : '';
 
         const directMatch = options.find((option) => {
