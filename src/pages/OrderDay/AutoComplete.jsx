@@ -56,15 +56,14 @@ const AutoComplete = ({
 }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
+    const [splittedInput, setSplittedInput] = useState([]);
+    const [inputText, setInputText] = useState('')
 
     useEffect(() => {
-        if (!currentInput?.trim()) {
-            setSuggestions([]);
-            return;
-        }
-
-        const normalizedInput = normalizeText(currentInput);
-
+        setInputText(currentInput);
+        const splitted = currentInput.split(/,| és /);
+        setSplittedInput(splitted);
+        const normalizedInput = splitted && splitted.length ? normalizeText(splitted.at(-1)) : '';
 
         const directMatch = options.find((option) => {
             const expandedNames = expandOptionWithEmoji(option.name);
@@ -177,8 +176,10 @@ const AutoComplete = ({
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
                     onClick={() => {
-                        if (suggestionClicked)
-                            suggestionClicked(suggestion.suggestion);
+                        if (suggestionClicked) {
+                            const text = inputText.slice(0, -(splittedInput.at(-1).length))
+                            suggestionClicked(`${text}${suggestion.suggestion}`)
+                        }
                     }}
                 >
                     <span className={styles.suggestionText}>
