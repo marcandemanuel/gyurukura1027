@@ -66,7 +66,6 @@ const AutoComplete = ({
         const splitted = currentInput.split(/, | és /);
         if (currentInput.endsWith(' és ') || currentInput.endsWith(', ')) splitted.push('')
         setSplittedInput(splitted);
-        console.log('[AutoComplete] currentInput, splitted', currentInput , ',', splitted)
         const normalizedInput = splitted && splitted.length ? normalizeText(splitted.at(-1)) : '';
 
         const directMatch = options.find((option) => {
@@ -110,16 +109,12 @@ const AutoComplete = ({
                     const amountInDirectMatch = inputWords.find(
                         (word) => !allWords.includes(word)
                     );
-                    console.log(
-                        "[AutoComplete] amountInDirectMatch",
-                        amountInDirectMatch,
-                        `${amount}${unit}`,
-                        `${amount}${unit}`.startsWith(amountInDirectMatch)
-                    );
                     if (amountInDirectMatch) {
-                        return `${amount}${unit}`.startsWith(
-                            amountInDirectMatch
-                        )
+                        return (
+                            `${amount}${unit}`.startsWith(
+                                amountInDirectMatch
+                            ) && `${amount}${unit}` !== amountInDirectMatch
+                        );
                     }
                     return true                    
                 })
@@ -188,13 +183,9 @@ const AutoComplete = ({
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
                     onClick={() => {
-                        console.log('suggestionClicked', suggestionClicked)
                         if (suggestionClicked) {
-                            console.log('[AutoComplete] splittedInput', splittedInput)
-                            console.log('[AutoComplete] inputText', inputText)
                             const lengthOfLast = splittedInput.at(-1).length;
-                            const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText
-                            console.log('[AutoComplete] text', text)
+                            const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
                             suggestionClicked(`${text}${suggestion.suggestion}`)
                         }
                     }}

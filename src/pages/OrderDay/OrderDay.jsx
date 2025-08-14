@@ -213,7 +213,6 @@ const OrderDay = () => {
                                     mostFavorites={mostFavoriteDrinks}
                                     unit={"l"}
                                     suggestionClicked={(suggestion) => {
-                                        console.log("[OrderDay]", suggestion);
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
@@ -285,10 +284,6 @@ const OrderDay = () => {
                                     mostFavorites={mostFavoriteChips}
                                     unit={"g"}
                                     suggestionClicked={(suggestion) => {
-                                        console.log(
-                                            "[OrderDay] suggestion",
-                                            suggestion
-                                        );
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
@@ -297,10 +292,6 @@ const OrderDay = () => {
                                         newUser[`day${dayId}`][1] = suggestion;
                                         setEditedUser(newUser);
                                         setTimeout(() => {
-                                            console.log(
-                                                "[OrderDay] chipsInputRef",
-                                                chipsInputRef
-                                            );
                                             setIsChipsFocused(true);
                                             if (chipsInputRef.current) {
                                                 chipsInputRef.current.focus();
