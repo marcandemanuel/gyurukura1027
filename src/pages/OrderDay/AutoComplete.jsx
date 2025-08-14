@@ -109,10 +109,19 @@ const AutoComplete = ({
                     ).flatMap((s) => normalizeText(s).split(" "));
                     const amountInDirectMatch = inputWords.find(
                         (word) => !allWords.includes(word)
-                    ) || '';
-                    return (
+                    );
+                    console.log(
+                        "[AutoComplete] amountInDirectMatch",
+                        amountInDirectMatch,
+                        `${amount}${unit}`,
                         `${amount}${unit}`.startsWith(amountInDirectMatch)
                     );
+                    if (amountInDirectMatch) {
+                        return `${amount}${unit}`.startsWith(
+                            amountInDirectMatch
+                        )
+                    }
+                    return true                    
                 })
                 .map((amount) => ({suggestion: `${directMatch.name} ${amount}${unit}`, name: directMatch.name}))
                 .reverse();
@@ -126,7 +135,7 @@ const AutoComplete = ({
                     const words = normalizeText(name).split(" ");
                     const inputWords = normalizedInput.split(" ");
                     return inputWords.every((inputWord) =>
-                        words.some((word) => word.startsWith(inputWord))
+                        words.some((word) => word.startsWith(inputWord) && word !== inputWord)
                     );
                 });
             })
