@@ -213,6 +213,7 @@ const OrderDay = () => {
                                     mostFavorites={mostFavoriteDrinks}
                                     unit={"l"}
                                     suggestionClicked={(suggestion) => {
+                                        console.log('[OrderDay]', suggestion)
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
@@ -221,6 +222,7 @@ const OrderDay = () => {
                                         newUser[`day${dayId}`][0] = suggestion;
                                         setEditedUser(newUser);
                                         setTimeout(() => {
+                                            console.log('[OrderDay] drinkInputRef', drinkInputRef)
                                             if (drinkInputRef.current) {
                                                 drinkInputRef.current.focus();
                                             }
