@@ -31,7 +31,7 @@ const normalizeText = (text) => {
 };
 
 const expandOptionWithEmoji = (option) => {
-    let expandedNames = [option];
+    let expandedNames = [];
 
     for (const [emoji, variations] of Object.entries(emojiMap)) {
         if (option.includes(emoji)) {
@@ -41,6 +41,8 @@ const expandOptionWithEmoji = (option) => {
             );
         }
     }
+
+    expandedNames.push(option)
 
     return expandedNames;
 };
@@ -107,9 +109,8 @@ const AutoComplete = ({
                     ).flatMap((s) => normalizeText(s).split(" "));
                     const amountInDirectMatch = inputWords.find(
                         (word) => !allWords.includes(word)
-                    );
+                    ) || '';
                     return (
-                        amountInDirectMatch &&
                         `${amount}${unit}`.startsWith(amountInDirectMatch)
                     );
                 })
@@ -142,7 +143,7 @@ const AutoComplete = ({
                     ? 1
                     : 0;
 
-                return scoreA - scoreB || a.suggestion.localeCompare(b.suggestion);
+                return scoreB - scoreA || a.suggestion.localeCompare(b.suggestion);
             });
 
         let allSuggestions = [

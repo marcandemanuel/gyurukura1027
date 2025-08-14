@@ -56,7 +56,7 @@ const OrderDay = () => {
     const [showThankyou, setShowThankyou] = useState(false);
     const [isDrinkFocused, setIsDrinkFocused] = useState(false);
     const [isChipsFocused, setIsChipsFocused] = useState(false);
-    
+
     const drinkInputRef = useRef(null);
     const chipsInputRef = useRef(null);
 
@@ -222,7 +222,7 @@ const OrderDay = () => {
                                         newUser[`day${dayId}`][0] = suggestion;
                                         setEditedUser(newUser);
                                         setTimeout(() => {
-                                            setIsDrinkFocused(true)
+                                            setIsDrinkFocused(true);
                                             if (drinkInputRef.current) {
                                                 drinkInputRef.current.focus();
                                             }
@@ -274,41 +274,41 @@ const OrderDay = () => {
                         </div>
                         <div className={styles.autoComplete}>
                             {isChipsFocused && (
-                                <>
-                                    <h2>Tabudi</h2>
-                                    <AutoComplete
-                                        currentInput={
-                                            editedUser
-                                                ? editedUser[`day${dayId}`][1]
-                                                : user[`day${dayId}`][1] || ""
-                                        }
-                                        options={options.chips}
-                                        favorites={favoriteChipsOptions}
-                                        mostFavorites={mostFavoriteChips}
-                                        unit={"g"}
-                                        suggestionClicked={(suggestion) => {
-                                            console.log('[OrderDay] suggestion', suggestion)
-                                            const newUser = JSON.parse(
-                                                JSON.stringify(
-                                                    editedUser
-                                                        ? editedUser
-                                                        : user
-                                                )
+                                <AutoComplete
+                                    currentInput={
+                                        editedUser
+                                            ? editedUser[`day${dayId}`][1]
+                                            : user[`day${dayId}`][1] || ""
+                                    }
+                                    options={options.chips}
+                                    favorites={favoriteChipsOptions}
+                                    mostFavorites={mostFavoriteChips}
+                                    unit={"g"}
+                                    suggestionClicked={(suggestion) => {
+                                        console.log(
+                                            "[OrderDay] suggestion",
+                                            suggestion
+                                        );
+                                        const newUser = JSON.parse(
+                                            JSON.stringify(
+                                                editedUser ? editedUser : user
+                                            )
+                                        );
+                                        newUser[`day${dayId}`][1] = suggestion;
+                                        setEditedUser(newUser);
+                                        setTimeout(() => {
+                                            console.log(
+                                                "[OrderDay] chipsInputRef",
+                                                chipsInputRef
                                             );
-                                            newUser[`day${dayId}`][1] =
-                                                suggestion;
-                                            setEditedUser(newUser);
-                                            setTimeout(() => {
-                                                console.log('[OrderDay] chipsInputRef', chipsInputRef)
-                                                setIsChipsFocused(true)
-                                                if (chipsInputRef.current) {
-                                                    chipsInputRef.current.focus();
-                                                }
-                                            }, 100);
-                                        }}
-                                        heartClicked={favoriteChips}
-                                    />
-                                </>
+                                            setIsChipsFocused(true);
+                                            if (chipsInputRef.current) {
+                                                chipsInputRef.current.focus();
+                                            }
+                                        }, 100);
+                                    }}
+                                    heartClicked={favoriteChips}
+                                />
                             )}
                         </div>
                     </div>
