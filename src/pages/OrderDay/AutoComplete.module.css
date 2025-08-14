@@ -55,7 +55,7 @@
 .favorite:hover,
 .notFavorite:hover {
     background-color: rgba(156, 128, 40, 0.5);
-    border: 0
+    border: 0;
 }
 
 .favoriteButton:active,
