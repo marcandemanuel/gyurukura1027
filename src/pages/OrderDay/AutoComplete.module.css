@@ -45,13 +45,22 @@
     border-radius: 10px;
     height: 30px;
     width: 30px;
-    margin-left: auto
+    margin-left: auto;
+    animation: none;
+    border: 0
 }
 
 .favoriteButton:hover,
 .favorite:hover,
 .notFavorite:hover {
     background-color: rgba(156, 128, 40, 0.5);
+    border: 0
+}
+
+.favoriteButton:active,
+.favorite:active,
+.notFavorite:active {
+    animation: none
 }
 
 .favoriteImage {

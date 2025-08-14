@@ -76,6 +76,7 @@ const AutoComplete = ({
             return (
                 expandedNames.some((name) => {
                     const words = normalizeText(name).split(" ");
+                    console.log('[AutoComplete] words, inputWords', words, inputWords, words.length, inputWords.length)
 
                     return (
                         ((inputWords.every((inputWord) =>
@@ -204,7 +205,10 @@ const AutoComplete = ({
                     </span>
                     {(hoverIndex === index ||
                         favorites.includes(suggestion.name)) && (
-                        <div
+                        <button
+                            type="button"
+                            tabIndex={-1}
+                            onMouseDown={e => e.preventDefault()}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 heartClicked(suggestion.name);
@@ -224,7 +228,7 @@ const AutoComplete = ({
                                 alt="favorite_image"
                                 className={styles.favoriteImage}
                             />
-                        </div>
+                        </button>
                     )}
                 </div>
             ))}
