@@ -183,9 +183,12 @@ const AutoComplete = ({
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
                     onClick={() => {
+                        console.log('[suggestionClicked]', suggestionClicked)
                         if (suggestionClicked) {
                             const lengthOfLast = splittedInput.at(-1).length;
+                            console.log('[lengthOfLast]', lengthOfLast)
                             const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
+                            console.log('[text]', text)
                             suggestionClicked(`${text}${suggestion.suggestion}`)
                         }
                     }}
