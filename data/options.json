@@ -179,6 +179,12 @@
             ]
         },
         {
+            "name": "Márka Szőlő",
+            "amounts": [
+                2
+            ]
+        },
+        {
             "name": "Levek",
             "amounts": [
                 1
@@ -227,7 +233,7 @@
             ]
         },
         {
-            "name": "Lay's 🥓",
+            "name": "Lay's 🍅",
             "amounts": [
                 60,
                 125,
@@ -235,11 +241,19 @@
             ]
         },
         {
-            "name": "Lay's 🍅",
+            "name": "Tejfölös-zöldfűszeres Lay's",
             "amounts": [
                 60,
-                125,
-                170
+                130,
+                250
+            ]
+        },
+        {
+            "name": "Újhagymás Lay's",
+            "amounts": [
+                60,
+                130,
+                250
             ]
         },
         {
@@ -276,6 +290,13 @@
         },
         {
             "name": "Texas BBQ-s Pringles",
+            "amounts": [
+                40,
+                165
+            ]
+        },
+        {
+            "name": "Pringles 🥓",
             "amounts": [
                 40,
                 165
@@ -359,6 +380,102 @@
                 60,
                 125,
                 170
+            ]
+        },
+        {
+            "name": "Chio Master Crok 🍕",
+            "amounts": [
+                40
+            ]
+        },
+        {
+            "name": "Chio Master Crok 🧀",
+            "amounts": [
+                40
+            ]
+        },
+        {
+            "name": "Hagymás-tejfölös Chio Master Crok",
+            "amounts": [
+                40
+            ]
+        },
+        {
+            "name": "Doritos 🌶️",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "Doritos 🧀",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "Barbecue-s Doritos",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "El Sabor Nacho 🧂",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "El Sabor Nacho 🧀",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "El Sabor Nacho 🌶️",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "El Sabor Dip Salsa",
+            "amounts": [
+                300
+            ]
+        },
+        {
+            "name": "El Sabor Dip 🧀",
+            "amounts": [
+                300
+            ]
+        },
+        {
+            "name": "El Sabor Dip Salsa 🌶️",
+            "amounts": [
+                40
+            ]
+        },
+        {
+            "name": "Pom-Bär 🧂",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "Pom-Bär 🧀",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "Pom-Bär 🍅",
+            "amounts": [
+                100
+            ]
+        },
+        {
+            "name": "Hagymás-tejfölös Pom-Bär",
+            "amounts": [
+                100
             ]
         },
         {
