@@ -55,6 +55,7 @@ const AutoComplete = ({
     unit,
     suggestionClicked,
     heartClicked,
+    trending=null
 }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
@@ -150,10 +151,9 @@ const AutoComplete = ({
                 return scoreB - scoreA || a.suggestion.localeCompare(b.suggestion);
             });
 
-        let allSuggestions = [
-            ...matchedAmounts,
-            ...matchedOptions
-        ];
+        let allSuggestions = trending
+            ? [...matchedAmounts, ...matchedOptions]
+            : [{ suggestion: `${trending} - Top választás`, name: trending }, ...matchedAmounts, ...matchedOptions];
 
         const seen = new Set();
         allSuggestions = allSuggestions.filter((item) => {
@@ -183,12 +183,9 @@ const AutoComplete = ({
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
                     onClick={() => {
-                        console.log('[suggestionClicked]', suggestionClicked)
                         if (suggestionClicked) {
                             const lengthOfLast = splittedInput.at(-1).length;
-                            console.log('[lengthOfLast]', lengthOfLast)
                             const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
-                            console.log('[text]', text)
                             suggestionClicked(`${text}${suggestion.suggestion}`)
                         }
                     }}

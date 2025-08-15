@@ -132,11 +132,7 @@ const ExpandedDataTable = () => {
             ).forEach(([key, value]) => {
                 const type = key.slice(0, -1);
                 const ind = Number(key.slice(-1));
-                const notif = type === 'comment' ? (`Az adminisztrátor megjegyzést adott hozzá ${
-                        [1, 5].includes(ind + 1) ? "az" : "a"
-                    } ${ind + 1}. napi nasiválasztásodhoz.`) : (type === 'acday' ? `Az adminisztrátor megváltoztatta ${
-                        [1, 5].includes(ind + 1) ? "az" : "a"
-                    } ${ind + 1}. napi nasirendelésed állapotát.` : '')
+                const notif = type === 'comment' ? (`Az adminisztrátor megjegyzést adott hozzá az Ön ${ind + 1}. napi nasiválasztásához.`) : (type === 'acday' ? `Az adminisztrátor megváltoztatta az Ön ${ind + 1}. napi nasirendelésének az állapotát.` : '')
 
                 if (notif) {
                     const now = new Date();

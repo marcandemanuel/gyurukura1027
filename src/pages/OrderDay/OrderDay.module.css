@@ -21,6 +21,7 @@
     text-align: center;
     font-size: 30px;
     padding: 20px;
+    padding-bottom: 0px;
     margin-bottom: 0px;
     color: #9c8028;
     font-family: "Aniron";
@@ -28,10 +29,11 @@
 
 .subtitle {
     font-size: 15px;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     color: #9c8028;
     font-family: "Aniron";
     margin: 0;
+    text-align: center
 }
 
 .statusImage {

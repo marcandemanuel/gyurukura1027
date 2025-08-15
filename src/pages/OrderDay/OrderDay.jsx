@@ -19,6 +19,33 @@ const TRANSLATIONS = {
     Elutasítva: "declined",
 };
 
+const RUNTIMES = [182, 186, 164, 208, 235, 263];
+const RATIO_DRINK = 2.25 / 263;
+const RATIO_CHIPS = 280 / 263;
+
+function getTrending(arr) {
+    if (!arr.length) return "";
+    const freq = {};
+    const original = {};
+    arr.forEach((item) => {
+        if (!item) return;
+        const norm = item.replace(/\s+/g, "").toLowerCase();
+        if (!(norm in original)) {
+            original[norm] = item; // store first appearance for display
+        }
+        freq[norm] = (freq[norm] || 0) + 1;
+    });
+    let max = 0;
+    let trendingNorm = "";
+    Object.entries(freq).forEach(([norm, count]) => {
+        if (count > max) {
+            max = count;
+            trendingNorm = norm;
+        }
+    });
+    return original[trendingNorm] || null;
+}
+
 const objectDiff = (dict1, dict2) => {
     const diffs = [];
     for (let i = 0; i < 6; i++) {
@@ -38,6 +65,7 @@ const OrderDay = () => {
     const { dayId } = useParams();
     const dayIdNumber = Number(dayId);
     const {
+        profiles,
         user,
         updateProfile,
         editedUser,
@@ -81,6 +109,29 @@ const OrderDay = () => {
 
     const drinkStatus = user[`acday${dayIdNumber}`][0];
     const chipsStatus = user[`acday${dayIdNumber}`][1];
+
+    const { amountDrink, amountChips, trendingDrink, trendingChips } =
+        useMemo(() => {
+            const drinks = [];
+            const chips = [];
+            profiles.forEach((profile) => {
+                const day = profile[`day${dayId}`];
+                if (Array.isArray(day)) {
+                    if (day[0]) drinks.push(day[0]);
+                    if (day[1]) chips.push(day[1]);
+                }
+            });
+            return {
+                amountDrink: `${
+                    Math.round(RUNTIMES[dayId] * RATIO_DRINK * 10) / 10
+                }l`,
+                amountChips: `${
+                    Math.round((RUNTIMES[dayId] * RATIO_CHIPS) / 5) * 5
+                }g`,
+                trendingDrink: getTrending(drinks),
+                trendingChips: getTrending(chips),
+            };
+        }, [profiles, dayId]);
 
     const handleBack = () => {
         back([/^\/nasirend$/, /^\/film\/\d+$/], "/nasirend");
@@ -161,6 +212,7 @@ const OrderDay = () => {
             ) : (
                 <>
                     <h2 className={styles.title}>{movie}</h2>
+                    <h3 className={styles.subtitle}>Ajánlott mennyiségek: {amountDrink}l inni és {amountChips}g csipsz</h3>
 
                     <div className={styles.inputFields}>
                         <div className={styles.inputContainer}>
@@ -228,6 +280,7 @@ const OrderDay = () => {
                                         }, 100);
                                     }}
                                     heartClicked={favoriteDrink}
+                                    trending={trendingDrink}
                                 />
                             )}
                         </div>
@@ -299,6 +352,7 @@ const OrderDay = () => {
                                         }, 100);
                                     }}
                                     heartClicked={favoriteChips}
+                                    trending={trendingChips}
                                 />
                             )}
                         </div>
