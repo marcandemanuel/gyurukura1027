@@ -214,16 +214,13 @@ const OrderDay = () => {
             ) : (
                 <>
                     <h2 className={styles.title}>{movie}</h2>
-                    <h3 className={styles.subtitle}>
-                        <p className={styles.subtitleRow}>
-                            Ajánlott mennyiségek: {amountDrink} inni és{" "}
-                            {amountChips} csipsz
-                        </p>
-                        <br />
-                        <p className={styles.subtitleRow}>
-                            Top választások: {trendingDrink} és {trendingChips}
-                        </p>
-                    </h3>
+                    <p className={styles.subtitleRow}>
+                        Ajánlott mennyiségek: {amountDrink} inni és{" "}
+                        {amountChips} csipsz
+                    </p>
+                    <p className={styles.subtitleRow}>
+                        Top választások: {trendingDrink} és {trendingChips}
+                    </p>
 
                     <div className={styles.inputFields}>
                         <div className={styles.inputContainer}>
