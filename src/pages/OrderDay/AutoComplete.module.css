@@ -55,6 +55,12 @@
     animation: none;
     border: 0;
     background-color: transparent;
+    display: none;
+}
+
+.suggestionItem:hover .favoriteButton,
+.favoriteButton.favorite {
+    display: block;
 }
 
 .favoriteButton:hover,

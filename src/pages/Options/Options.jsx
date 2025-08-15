@@ -10,7 +10,6 @@ const Options = () => {
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
     const [hoverDrinkIndex, setHoverDrinkIndex] = useState(null);
     const [openChipsIndex, setOpenChipsIndex] = useState(null);
-    const [hoverChipsIndex, setHoverChipsIndex] = useState(null);
     const [loading, setLoading] = useState(true);
     const {
         user,
@@ -207,57 +206,43 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
-                                        onPointerEnter={() => {
-                                            if (isHoverable)
-                                                setHoverChipsIndex(index);
-                                        }}
-                                        onPointerLeave={() => {
-                                            if (isHoverable)
-                                                setHoverChipsIndex(null);
-                                        }}
                                     >
-                                        {(hoverChipsIndex === index ||
-                                            openChipsIndex === index ||
-                                            favoriteChipsOptions.includes(
-                                                item.name
-                                            )) &&
-                                            user && (
-                                                <div
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        favoriteChips(
-                                                            item.name
-                                                        );
-                                                    }}
-                                                    className={`${
-                                                        styles.favoriteButton
-                                                    } ${
+                                        {user && (
+                                            <div
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    favoriteChips(
+                                                        item.name
+                                                    );
+                                                }}
+                                                className={`${
+                                                    styles.favoriteButton
+                                                } ${
+                                                    favoriteChipsOptions.includes(
+                                                        item.name
+                                                    )
+                                                        ? styles.favorite
+                                                        : styles.notFavorite
+                                                }`}
+                                            >
+                                                <img
+                                                    src={`/images/${
                                                         favoriteChipsOptions.includes(
                                                             item.name
                                                         )
-                                                            ? styles.favorite
-                                                            : styles.notFavorite
-                                                    }`}
-                                                >
-                                                    <img
-                                                        src={`/images/${
-                                                            favoriteChipsOptions.includes(
-                                                                item.name
-                                                            )
-                                                                ? "heart_filled"
-                                                                : "heart"
-                                                        }.png`}
-                                                        alt="favorite_image"
-                                                        className={
-                                                            styles.favoriteImage
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
+                                                            ? "heart_filled"
+                                                            : "heart"
+                                                    }.png`}
+                                                    alt="favorite_image"
+                                                    className={
+                                                        styles.favoriteImage
+                                                    }
+                                                />
+                                            </div>
+                                        )}
                                         <div
                                             className={`${styles.option} ${
-                                                openChipsIndex === index ||
-                                                hoverChipsIndex === index
+                                                openChipsIndex === index
                                                     ? styles.open
                                                     : ""
                                             } ${
