@@ -23,11 +23,20 @@ const Options = () => {
         favoriteDrink,
     } = useApp();
 
+    const [isHoverable, setIsHoverable] = useState(false);
+
+    useEffect(() => {
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia("(hover: hover)");
+            setIsHoverable(mediaQuery.matches);
+        }
+    }, []);
+
     useEffect(() => {
         if (options) {
             setLoading(false);
         }
-    }, [options])
+    }, [options]);
 
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
@@ -74,12 +83,14 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
-                                        onPointerEnter={() =>
-                                            setHoverDrinkIndex(index)
-                                        }
-                                        onPointerLeave={() =>
-                                            setHoverDrinkIndex(null)
-                                        }
+                                        onPointerEnter={() => {
+                                            if (isHoverable)
+                                                setHoverDrinkIndex(index);
+                                        }}
+                                        onPointerLeave={() => {
+                                            if (isHoverable)
+                                                setHoverDrinkIndex(null);
+                                        }}
                                     >
                                         {(hoverDrinkIndex === index ||
                                             openDrinkIndex === index ||
@@ -196,12 +207,14 @@ const Options = () => {
                                         style={{
                                             animationDelay: `${index * 0.1}s`,
                                         }}
-                                        onPointerEnter={() =>
-                                            setHoverChipsIndex(index)
-                                        }
-                                        onPointerLeave={() =>
-                                            setHoverChipsIndex(null)
-                                        }
+                                        onPointerEnter={() => {
+                                            if (isHoverable)
+                                                setHoverChipsIndex(index);
+                                        }}
+                                        onPointerLeave={() => {
+                                            if (isHoverable)
+                                                setHoverChipsIndex(null);
+                                        }}
                                     >
                                         {(hoverChipsIndex === index ||
                                             openChipsIndex === index ||

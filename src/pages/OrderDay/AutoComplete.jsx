@@ -200,7 +200,7 @@ const AutoComplete = ({
                         {suggestion}
                     </span>
                     {(hoverIndex === index ||
-                        favorites.includes(suggestion) || !isHoverable) && options.includes(suggestion) && (
+                        favorites.includes(suggestion) || !isHoverable) && options.some(option => option.name === suggestion) && (
                         <button
                             type="button"
                             tabIndex={-1}
