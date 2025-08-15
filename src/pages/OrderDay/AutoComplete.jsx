@@ -61,15 +61,6 @@ const AutoComplete = ({
     const [splittedInput, setSplittedInput] = useState([]);
     const [inputText, setInputText] = useState('')
 
-    const [isHoverable, setIsHoverable] = useState(false);
-
-    useEffect(() => {
-        if (window.matchMedia) {
-            const mediaQuery = window.matchMedia("(hover: hover)");
-            setIsHoverable(mediaQuery.matches);
-        }
-    }, []); 
-
     useEffect(() => {
         setInputText(currentInput);
         const splitted = currentInput.split(/, | és /);
@@ -127,7 +118,7 @@ const AutoComplete = ({
                     }
                     return true                    
                 })
-                .map((amount) => ({suggestion: `${directMatch.name} ${amount}${unit}`, name: directMatch.name}))
+                .map((amount) => `${directMatch.name} ${amount}${unit}`)
                 .reverse();
         }
 
@@ -143,27 +134,27 @@ const AutoComplete = ({
                     ) && normalizedInput !== normalizeText(name)
                 });
             })
-            .map((option) => ({suggestion: option.name, name: option.name}))
+            .map((option) => option.name)
             .sort((a, b) => {
-                const scoreA = favorites.includes(a.suggestion)
+                const scoreA = favorites.includes(a)
                     ? 2
-                    : 0 + mostFavorites.includes(a.suggestion)
+                    : 0 + mostFavorites.includes(a)
                     ? 1
                     : 0;
-                const scoreB = favorites.includes(b.suggestion)
+                const scoreB = favorites.includes(b)
                     ? 2
-                    : 0 + mostFavorites.includes(b.suggestion)
+                    : 0 + mostFavorites.includes(b)
                     ? 1
                     : 0;
 
-                return scoreB - scoreA || a.suggestion.localeCompare(b.suggestion);
+                return scoreB - scoreA || a.localeCompare(b);
             });
 
         let allSuggestions = [...matchedAmounts, ...matchedOptions];
 
         const seen = new Set();
         allSuggestions = allSuggestions.filter((item) => {
-            const key = normalizeText(item.suggestion);
+            const key = normalizeText(item);
             if (seen.has(key)) return false;
             seen.add(key);
             return true;
@@ -182,7 +173,7 @@ const AutoComplete = ({
                 <div
                     key={index}
                     className={`${styles.suggestionItem} ${
-                        mostFavorites.includes(suggestion.name)
+                        mostFavorites.includes(suggestion)
                             ? styles.favoriteItem
                             : ""
                     }`}
@@ -192,32 +183,32 @@ const AutoComplete = ({
                         if (suggestionClicked) {
                             const lengthOfLast = splittedInput.at(-1).length;
                             const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
-                            suggestionClicked(`${text}${suggestion.suggestion}`)
+                            suggestionClicked(`${text}${suggestion}`)
                         }
                     }}
                 >
                     <span className={styles.suggestionText}>
-                        {suggestion.suggestion}
+                        {suggestion}
                     </span>
                     {(hoverIndex === index ||
-                        favorites.includes(suggestion.name) || !isHoverable) && (
+                        favorites.includes(suggestion) || !isHoverable) && options.includes(suggestion) && (
                         <button
                             type="button"
                             tabIndex={-1}
                             onMouseDown={e => e.preventDefault()}
                             onClick={(e) => {
                                 e.stopPropagation();
-                                heartClicked(suggestion.name);
+                                heartClicked(suggestion);
                             }}
                             className={`${styles.favoriteButton} ${
-                                favorites.includes(suggestion.name)
+                                favorites.includes(suggestion)
                                     ? styles.favorite
                                     : styles.notFavorite
                             }`}
                         >
                             <img
                                 src={`/images/${
-                                    favorites.includes(suggestion.name)
+                                    favorites.includes(suggestion)
                                         ? "heart_filled"
                                         : "heart"
                                 }.png`}
