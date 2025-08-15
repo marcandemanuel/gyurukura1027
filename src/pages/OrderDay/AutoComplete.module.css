@@ -43,7 +43,8 @@
 }
 
 .favoriteItem:hover {
-    border: 1px solid transparent;
+    border: 1px solid #ff1027;
+    background-color: rgba(255, 16, 39, 0.2)
 }
 
 .suggestionText {

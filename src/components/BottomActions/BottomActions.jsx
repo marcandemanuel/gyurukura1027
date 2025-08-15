@@ -79,7 +79,7 @@ const BottomActions = () => {
             <div className={styles.container}>
                 <div className={styles.actions}>
                     <button
-                        className={styles.bottomButton}
+                        className={`${styles.bottomButton} ${styles.backButton}`}
                         onClick={() => {
                             setConfettiStatus(2);
                         }}
@@ -96,7 +96,7 @@ const BottomActions = () => {
             <div className={styles.container}>
                 <div className={styles.actions}>
                     <button
-                        className={styles.bottomButton}
+                        className={`${styles.bottomButton} ${styles.backButton}`}
                         onClick={handleBack}
                     >
                         Vissza
