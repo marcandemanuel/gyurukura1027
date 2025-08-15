@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { useApp } from "../../contexts/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { useNavigation } from "../../contexts/NavigationContext.jsx";
 import NotFound from "../NotFound/NotFound";
 import BottomActions from "../../components/BottomActions/BottomActions.jsx";
@@ -212,7 +212,15 @@ const OrderDay = () => {
             ) : (
                 <>
                     <h2 className={styles.title}>{movie}</h2>
-                    <h3 className={styles.subtitle}>Ajánlott mennyiségek: {amountDrink}l inni és {amountChips}g csipsz</h3>
+                    <h3 className={styles.subtitle}>
+                        <span>
+                            Ajánlott mennyiségek: {amountDrink}l inni és{" "}
+                            {amountChips}g csipsz
+                        </span>
+                        <span>
+                            Top választások: {trendingDrink} és {trendingChips}
+                        </span>
+                    </h3>
 
                     <div className={styles.inputFields}>
                         <div className={styles.inputContainer}>
@@ -280,7 +288,6 @@ const OrderDay = () => {
                                         }, 100);
                                     }}
                                     heartClicked={favoriteDrink}
-                                    trending={trendingDrink}
                                 />
                             )}
                         </div>
@@ -352,7 +359,6 @@ const OrderDay = () => {
                                         }, 100);
                                     }}
                                     heartClicked={favoriteChips}
-                                    trending={trendingChips}
                                 />
                             )}
                         </div>

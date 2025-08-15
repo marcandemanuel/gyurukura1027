@@ -54,8 +54,7 @@ const AutoComplete = ({
     mostFavorites = [],
     unit,
     suggestionClicked,
-    heartClicked,
-    trending=null
+    heartClicked
 }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
@@ -151,9 +150,7 @@ const AutoComplete = ({
                 return scoreB - scoreA || a.suggestion.localeCompare(b.suggestion);
             });
 
-        let allSuggestions = trending
-            ? [...matchedAmounts, ...matchedOptions]
-            : [{ suggestion: `${trending} - Top választás`, name: trending }, ...matchedAmounts, ...matchedOptions];
+        let allSuggestions = [...matchedAmounts, ...matchedOptions];
 
         const seen = new Set();
         allSuggestions = allSuggestions.filter((item) => {
