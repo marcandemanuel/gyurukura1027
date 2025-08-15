@@ -61,6 +61,15 @@ const AutoComplete = ({
     const [splittedInput, setSplittedInput] = useState([]);
     const [inputText, setInputText] = useState('')
 
+    const [isHoverable, setIsHoverable] = useState(false);
+
+    useEffect(() => {
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia("(hover: hover)");
+            setIsHoverable(mediaQuery.matches);
+        }
+    }, []); 
+
     useEffect(() => {
         setInputText(currentInput);
         const splitted = currentInput.split(/, | és /);
@@ -191,7 +200,7 @@ const AutoComplete = ({
                         {suggestion.suggestion}
                     </span>
                     {(hoverIndex === index ||
-                        favorites.includes(suggestion.name)) && (
+                        favorites.includes(suggestion.name) || !isHoverable) && (
                         <button
                             type="button"
                             tabIndex={-1}

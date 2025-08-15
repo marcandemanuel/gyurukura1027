@@ -20,8 +20,8 @@ const TRANSLATIONS = {
 };
 
 const RUNTIMES = [182, 186, 164, 208, 235, 263];
-const RATIO_DRINK = 2.25 / 263;
-const RATIO_CHIPS = 280 / 263;
+const RATIO_DRINK = 2 / 263;
+const RATIO_CHIPS = 200 / 263;
 
 function getTrending(arr) {
     if (!arr.length) return "";
@@ -88,7 +88,9 @@ const OrderDay = () => {
     const drinkInputRef = useRef(null);
     const chipsInputRef = useRef(null);
 
-    // Access navigationPile from NavigationContext
+    const drinkSuggestionClickInProgress = useRef(false);
+    const chipsSuggestionClickInProgress = useRef(false);
+
     const { back } = useNavigation();
 
     const movies = [
@@ -213,13 +215,14 @@ const OrderDay = () => {
                 <>
                     <h2 className={styles.title}>{movie}</h2>
                     <h3 className={styles.subtitle}>
-                        <span>
-                            Ajánlott mennyiségek: {amountDrink}l inni és{" "}
-                            {amountChips}g csipsz
-                        </span>
-                        <span>
+                        <p className={styles.subtitleRow}>
+                            Ajánlott mennyiségek: {amountDrink} inni és{" "}
+                            {amountChips} csipsz
+                        </p>
+                        <br />
+                        <p className={styles.subtitleRow}>
                             Top választások: {trendingDrink} és {trendingChips}
-                        </span>
+                        </p>
                     </h3>
 
                     <div className={styles.inputFields}>
@@ -246,10 +249,11 @@ const OrderDay = () => {
                                 }}
                                 onFocus={() => setIsDrinkFocused(true)}
                                 onBlur={() => {
-                                    setTimeout(
-                                        () => setIsDrinkFocused(false),
-                                        200
-                                    );
+                                    setTimeout(() => {
+                                        if (!drinkSuggestionClickInProgress.current) {
+                                            setIsDrinkFocused(false);
+                                        }
+                                    }, 200);
                                 }}
                             />
                             {drinkStatus !== "Eldöntetlen" && (
@@ -273,6 +277,7 @@ const OrderDay = () => {
                                     mostFavorites={mostFavoriteDrinks}
                                     unit={"l"}
                                     suggestionClicked={(suggestion) => {
+                                        drinkSuggestionClickInProgress.current = true;
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
@@ -285,6 +290,10 @@ const OrderDay = () => {
                                             if (drinkInputRef.current) {
                                                 drinkInputRef.current.focus();
                                             }
+                                            // Reset the flag after focus
+                                            setTimeout(() => {
+                                                drinkSuggestionClickInProgress.current = false;
+                                            }, 0);
                                         }, 100);
                                     }}
                                     heartClicked={favoriteDrink}
@@ -317,10 +326,11 @@ const OrderDay = () => {
                                 }}
                                 onFocus={() => setIsChipsFocused(true)}
                                 onBlur={() => {
-                                    setTimeout(
-                                        () => setIsChipsFocused(false),
-                                        200
-                                    );
+                                    setTimeout(() => {
+                                        if (!chipsSuggestionClickInProgress.current) {
+                                            setIsChipsFocused(false);
+                                        }
+                                    }, 200);
                                 }}
                             />
                             {chipsStatus !== "Eldöntetlen" && (
@@ -344,6 +354,7 @@ const OrderDay = () => {
                                     mostFavorites={mostFavoriteChips}
                                     unit={"g"}
                                     suggestionClicked={(suggestion) => {
+                                        chipsSuggestionClickInProgress.current = true;
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
@@ -356,6 +367,10 @@ const OrderDay = () => {
                                             if (chipsInputRef.current) {
                                                 chipsInputRef.current.focus();
                                             }
+                                            // Reset the flag after focus
+                                            setTimeout(() => {
+                                                chipsSuggestionClickInProgress.current = false;
+                                            }, 0);
                                         }, 100);
                                     }}
                                     heartClicked={favoriteChips}
