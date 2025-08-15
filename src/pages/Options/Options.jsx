@@ -91,12 +91,27 @@ const Options = () => {
                                                 setHoverDrinkIndex(null);
                                         }}
                                     >
-                                        {(hoverDrinkIndex === index ||
-                                            openDrinkIndex === index ||
-                                            favoriteDrinkOptions.includes(
-                                                item.name
-                                            )) &&
-                                            user && (
+                                        <div
+                                            className={`${styles.option} ${
+                                                openDrinkIndex === index
+                                                    ? styles.open
+                                                    : ""
+                                            } ${
+                                                mostFavoriteDrinks.includes(
+                                                    item.name
+                                                )
+                                                    ? styles.favoriteItem
+                                                    : ""
+                                            }`}
+                                            onClick={() =>
+                                                drinkSelected(item, index)
+                                            }
+                                            tabIndex={0}
+                                            onBlur={() =>
+                                                setOpenDrinkIndex(null)
+                                            }
+                                        >
+                                            {user && (
                                                 <div
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -129,27 +144,6 @@ const Options = () => {
                                                     />
                                                 </div>
                                             )}
-                                        <div
-                                            className={`${styles.option} ${
-                                                openDrinkIndex === index ||
-                                                hoverDrinkIndex === index
-                                                    ? styles.open
-                                                    : ""
-                                            } ${
-                                                mostFavoriteDrinks.includes(
-                                                    item.name
-                                                )
-                                                    ? styles.favoriteItem
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                drinkSelected(item, index)
-                                            }
-                                            tabIndex={0}
-                                            onBlur={() =>
-                                                setOpenDrinkIndex(null)
-                                            }
-                                        >
                                             <h4 className={styles.optionTitle}>
                                                 {item.name}
                                             </h4>
@@ -207,39 +201,6 @@ const Options = () => {
                                             animationDelay: `${index * 0.1}s`,
                                         }}
                                     >
-                                        {user && (
-                                            <div
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    favoriteChips(
-                                                        item.name
-                                                    );
-                                                }}
-                                                className={`${
-                                                    styles.favoriteButton
-                                                } ${
-                                                    favoriteChipsOptions.includes(
-                                                        item.name
-                                                    )
-                                                        ? styles.favorite
-                                                        : styles.notFavorite
-                                                }`}
-                                            >
-                                                <img
-                                                    src={`/images/${
-                                                        favoriteChipsOptions.includes(
-                                                            item.name
-                                                        )
-                                                            ? "heart_filled"
-                                                            : "heart"
-                                                    }.png`}
-                                                    alt="favorite_image"
-                                                    className={
-                                                        styles.favoriteImage
-                                                    }
-                                                />
-                                            </div>
-                                        )}
                                         <div
                                             className={`${styles.option} ${
                                                 openChipsIndex === index
@@ -260,6 +221,39 @@ const Options = () => {
                                                 setOpenChipsIndex(null)
                                             }
                                         >
+                                            {user && (
+                                                <div
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        favoriteChips(
+                                                            item.name
+                                                        );
+                                                    }}
+                                                    className={`${
+                                                        styles.favoriteButton
+                                                    } ${
+                                                        favoriteChipsOptions.includes(
+                                                            item.name
+                                                        )
+                                                            ? styles.favorite
+                                                            : styles.notFavorite
+                                                    }`}
+                                                >
+                                                    <img
+                                                        src={`/images/${
+                                                            favoriteChipsOptions.includes(
+                                                                item.name
+                                                            )
+                                                                ? "heart_filled"
+                                                                : "heart"
+                                                        }.png`}
+                                                        alt="favorite_image"
+                                                        className={
+                                                            styles.favoriteImage
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
                                             <h4 className={styles.optionTitle}>
                                                 {item.name}
                                             </h4>
