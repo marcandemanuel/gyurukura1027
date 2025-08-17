@@ -223,11 +223,9 @@ const OrderDay = () => {
                         <div
                             className={styles.inputWithAutoComplete}
                             onFocus={() => {
-                                console.log('Drink focused');
                                 setIsDrinkFocused(true)
                             }}
                             onBlur={() => {
-                                console.log('Drink lost focus')
                                 setIsDrinkFocused(false);
                             }}
                         >
@@ -274,7 +272,6 @@ const OrderDay = () => {
                                         mostFavorites={mostFavoriteDrinks}
                                         unit={"l"}
                                         suggestionClicked={(suggestion) => {
-                                            console.log('Suggestion clicked')
                                             const newUser = JSON.parse(
                                                 JSON.stringify(
                                                     editedUser
@@ -286,7 +283,6 @@ const OrderDay = () => {
                                                 suggestion;
                                             setEditedUser(newUser);
                                             setIsDrinkFocused(true);
-                                            console.log('drinkInputRef', drinkInputRef)
                                             if (drinkInputRef.current) {
                                                 drinkInputRef.current.value = suggestion;
                                                 drinkInputRef.current.focus();
