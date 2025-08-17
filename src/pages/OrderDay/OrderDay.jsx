@@ -88,9 +88,6 @@ const OrderDay = () => {
     const drinkInputRef = useRef(null);
     const chipsInputRef = useRef(null);
 
-    const drinkSuggestionClickInProgress = useRef(false);
-    const chipsSuggestionClickInProgress = useRef(false);
-
     const { back } = useNavigation();
 
     const movies = [
@@ -223,156 +220,146 @@ const OrderDay = () => {
                     </p>
 
                     <div className={styles.inputFields}>
-                        <div className={styles.inputContainer}>
-                            <input
-                                ref={drinkInputRef}
-                                className={styles.inputField}
-                                type="text"
-                                placeholder="Inni"
-                                value={
-                                    editedUser
-                                        ? editedUser[`day${dayId}`][0]
-                                        : user[`day${dayId}`][0] || ""
-                                }
-                                onChange={(event) => {
-                                    const newValue = event.target.value;
-                                    const newUser = JSON.parse(
-                                        JSON.stringify(
-                                            editedUser ? editedUser : user
-                                        )
-                                    );
-                                    newUser[`day${dayId}`][0] = newValue;
-                                    setEditedUser(newUser);
-                                }}
-                                onFocus={() => setIsDrinkFocused(true)}
-                                onBlur={() => {
-                                    setTimeout(() => {
-                                        if (!drinkSuggestionClickInProgress.current) {
-                                            setIsDrinkFocused(false);
-                                        }
-                                    }, 200);
-                                }}
-                            />
-                            {drinkStatus !== "Eldöntetlen" && (
-                                <img
-                                    src={`/images/${TRANSLATIONS[drinkStatus]}.png`}
-                                    alt={TRANSLATIONS[drinkStatus]}
-                                    className={styles.statusImage}
-                                />
-                            )}
-                        </div>
-                        <div className={styles.autoComplete}>
-                            {isDrinkFocused && (
-                                <AutoComplete
-                                    currentInput={
+                        <div
+                            className={styles.inputWithAutoComplete}
+                            onFocus={() => setIsDrinkFocused(true)}
+                            onBlur={() => setIsDrinkFocused(false)}
+                        >
+                            <div className={styles.inputContainer}>
+                                <input
+                                    ref={drinkInputRef}
+                                    className={styles.inputField}
+                                    type="text"
+                                    placeholder="Inni"
+                                    value={
                                         editedUser
                                             ? editedUser[`day${dayId}`][0]
                                             : user[`day${dayId}`][0] || ""
                                     }
-                                    options={options.drink}
-                                    favorites={favoriteDrinkOptions}
-                                    mostFavorites={mostFavoriteDrinks}
-                                    unit={"l"}
-                                    suggestionClicked={(suggestion) => {
-                                        drinkSuggestionClickInProgress.current = true;
+                                    onChange={(event) => {
+                                        const newValue = event.target.value;
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
                                             )
                                         );
-                                        newUser[`day${dayId}`][0] = suggestion;
+                                        newUser[`day${dayId}`][0] = newValue;
                                         setEditedUser(newUser);
-                                        setTimeout(() => {
+                                    }}
+                                />
+                                {drinkStatus !== "Eldöntetlen" && (
+                                    <img
+                                        src={`/images/${TRANSLATIONS[drinkStatus]}.png`}
+                                        alt={TRANSLATIONS[drinkStatus]}
+                                        className={styles.statusImage}
+                                    />
+                                )}
+                            </div>
+                            <div className={styles.autoComplete}>
+                                {isDrinkFocused && (
+                                    <AutoComplete
+                                        currentInput={
+                                            editedUser
+                                                ? editedUser[`day${dayId}`][0]
+                                                : user[`day${dayId}`][0] || ""
+                                        }
+                                        options={options.drink}
+                                        favorites={favoriteDrinkOptions}
+                                        mostFavorites={mostFavoriteDrinks}
+                                        unit={"l"}
+                                        suggestionClicked={(suggestion) => {
+                                            const newUser = JSON.parse(
+                                                JSON.stringify(
+                                                    editedUser
+                                                        ? editedUser
+                                                        : user
+                                                )
+                                            );
+                                            newUser[`day${dayId}`][0] =
+                                                suggestion;
+                                            setEditedUser(newUser);
                                             setIsDrinkFocused(true);
                                             if (drinkInputRef.current) {
+                                                drinkInputRef.current.value = suggestion;
                                                 drinkInputRef.current.focus();
                                             }
-                                            // Reset the flag after focus
-                                            setTimeout(() => {
-                                                drinkSuggestionClickInProgress.current = false;
-                                            }, 0);
-                                        }, 100);
-                                    }}
-                                    heartClicked={favoriteDrink}
-                                />
-                            )}
+                                        }}
+                                        heartClicked={favoriteDrink}
+                                    />
+                                )}
+                            </div>
                         </div>
                         <div
-                            className={styles.inputContainer}
-                            style={{ marginTop: 30 }}
+                            className={styles.inputWithAutoComplete}
+                            onFocus={() => setIsChipsFocused(true)}
+                            onBlur={() => setIsChipsFocused(false)}
                         >
-                            <input
-                                ref={chipsInputRef}
-                                className={styles.inputField}
-                                type="text"
-                                placeholder="Csipsz"
-                                value={
-                                    editedUser
-                                        ? editedUser[`day${dayId}`][1]
-                                        : user[`day${dayId}`][1] || ""
-                                }
-                                onChange={(event) => {
-                                    const newValue = event.target.value;
-                                    const newUser = JSON.parse(
-                                        JSON.stringify(
-                                            editedUser ? editedUser : user
-                                        )
-                                    );
-                                    newUser[`day${dayId}`][1] = newValue;
-                                    setEditedUser(newUser);
-                                }}
-                                onFocus={() => setIsChipsFocused(true)}
-                                onBlur={() => {
-                                    setTimeout(() => {
-                                        if (!chipsSuggestionClickInProgress.current) {
-                                            setIsChipsFocused(false);
-                                        }
-                                    }, 200);
-                                }}
-                            />
-                            {chipsStatus !== "Eldöntetlen" && (
-                                <img
-                                    src={`/images/${TRANSLATIONS[chipsStatus]}.png`}
-                                    alt={TRANSLATIONS[chipsStatus]}
-                                    className={styles.statusImage}
-                                />
-                            )}
-                        </div>
-                        <div className={styles.autoComplete}>
-                            {isChipsFocused && (
-                                <AutoComplete
-                                    currentInput={
+                            <div
+                                className={styles.inputContainer}
+                                style={{ marginTop: 30 }}
+                            >
+                                <input
+                                    ref={chipsInputRef}
+                                    className={styles.inputField}
+                                    type="text"
+                                    placeholder="Csipsz"
+                                    value={
                                         editedUser
                                             ? editedUser[`day${dayId}`][1]
                                             : user[`day${dayId}`][1] || ""
                                     }
-                                    options={options.chips}
-                                    favorites={favoriteChipsOptions}
-                                    mostFavorites={mostFavoriteChips}
-                                    unit={"g"}
-                                    suggestionClicked={(suggestion) => {
-                                        chipsSuggestionClickInProgress.current = true;
+                                    onChange={(event) => {
+                                        const newValue = event.target.value;
                                         const newUser = JSON.parse(
                                             JSON.stringify(
                                                 editedUser ? editedUser : user
                                             )
                                         );
-                                        newUser[`day${dayId}`][1] = suggestion;
+                                        newUser[`day${dayId}`][1] = newValue;
                                         setEditedUser(newUser);
-                                        setTimeout(() => {
+                                    }}
+                                />
+                                {chipsStatus !== "Eldöntetlen" && (
+                                    <img
+                                        src={`/images/${TRANSLATIONS[chipsStatus]}.png`}
+                                        alt={TRANSLATIONS[chipsStatus]}
+                                        className={styles.statusImage}
+                                    />
+                                )}
+                            </div>
+                            <div className={styles.autoComplete}>
+                                {isChipsFocused && (
+                                    <AutoComplete
+                                        currentInput={
+                                            editedUser
+                                                ? editedUser[`day${dayId}`][1]
+                                                : user[`day${dayId}`][1] || ""
+                                        }
+                                        options={options.chips}
+                                        favorites={favoriteChipsOptions}
+                                        mostFavorites={mostFavoriteChips}
+                                        unit={"g"}
+                                        suggestionClicked={(suggestion) => {
+                                            const newUser = JSON.parse(
+                                                JSON.stringify(
+                                                    editedUser
+                                                        ? editedUser
+                                                        : user
+                                                )
+                                            );
+                                            newUser[`day${dayId}`][1] =
+                                                suggestion;
+                                            setEditedUser(newUser);
                                             setIsChipsFocused(true);
                                             if (chipsInputRef.current) {
+                                                chipsInputRef.current.value = suggestion;
                                                 chipsInputRef.current.focus();
                                             }
-                                            // Reset the flag after focus
-                                            setTimeout(() => {
-                                                chipsSuggestionClickInProgress.current = false;
-                                            }, 0);
-                                        }, 100);
-                                    }}
-                                    heartClicked={favoriteChips}
-                                />
-                            )}
+                                        }}
+                                        heartClicked={favoriteChips}
+                                    />
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -383,7 +370,7 @@ const OrderDay = () => {
                         >
                             Vissza
                         </button>
-                        {dayId !== 0 && (
+                        {dayIdNumber !== 0 && (
                             <Link
                                 className={styles.actionButton}
                                 to={`/rendeles/${dayIdNumber - 1}`}
@@ -392,7 +379,7 @@ const OrderDay = () => {
                                 Előző
                             </Link>
                         )}
-                        {dayId !== 5 && (
+                        {dayIdNumber !== movies.length - 1 && (
                             <Link
                                 className={styles.actionButton}
                                 to={`/rendeles/${dayIdNumber + 1}`}
