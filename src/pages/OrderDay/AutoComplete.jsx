@@ -179,7 +179,8 @@ const AutoComplete = ({
                     }`}
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
-                    onClick={() => {
+                    onMouseDown={e => {
+                        e.preventDefault();
                         if (suggestionClicked) {
                             const lengthOfLast = splittedInput.at(-1).length;
                             const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
