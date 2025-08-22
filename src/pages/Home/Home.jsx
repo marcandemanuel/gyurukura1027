@@ -160,7 +160,7 @@ const Home = () => {
     }, [isAdmin]);
 
     const handleEdit = (movieId) => {
-        navigate(`/rendeles/${movieId}`);
+        navigate(`/nasirendeles/${movieId}`);
     };
 
     const handleMovieInfo = (movieId) => {
@@ -298,7 +298,7 @@ const Home = () => {
                 </button>
                 <Link
                     className={styles.actionButton}
-                    to="/rendeles/0"
+                    to="/nasirendeles/0"
                     tabIndex={0}
                 >
                     Szerkesztés

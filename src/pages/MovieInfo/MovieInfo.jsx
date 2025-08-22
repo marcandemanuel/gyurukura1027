@@ -174,7 +174,7 @@ const MovieInfo = () => {
                 </button>
                 <Link
                     className={styles.actionButton}
-                    to={`/rendeles/${movieIndex}`}
+                    to={`/nasirendeles/${movieIndex}`}
                     tabIndex={0}
                 >
                     Nasi szerkesztése

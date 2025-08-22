@@ -39,7 +39,7 @@ function App() {
                               }
                           />
                           <Route
-                              path="/rendeles/:dayId"
+                              path="/nasirendeles/:dayId"
                               element={
                                   <AuthGuard>
                                       <OrderDay />

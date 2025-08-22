@@ -377,7 +377,7 @@ const OrderDay = () => {
                         {dayIdNumber !== 0 && (
                             <Link
                                 className={styles.actionButton}
-                                to={`/rendeles/${dayIdNumber - 1}`}
+                                to={`/nasirendeles/${dayIdNumber - 1}`}
                                 tabIndex={0}
                             >
                                 Előző
@@ -386,7 +386,7 @@ const OrderDay = () => {
                         {dayIdNumber !== movies.length - 1 && (
                             <Link
                                 className={styles.actionButton}
-                                to={`/rendeles/${dayIdNumber + 1}`}
+                                to={`/nasirendeles/${dayIdNumber + 1}`}
                                 tabIndex={0}
                             >
                                 Következő
