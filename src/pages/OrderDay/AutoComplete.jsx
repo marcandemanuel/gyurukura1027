@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 const emojiMap = {
     "🍑": ["barack", "barackos"],
+    "🍐": ["körte", "körtés"],
     "🍊": ["narancs", "narancsos"],
     "🫐": ["áfonya", "áfonyás"],
     "🧀": ["sajt", "sajtos"],

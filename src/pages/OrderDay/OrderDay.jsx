@@ -109,28 +109,27 @@ const OrderDay = () => {
     const drinkStatus = user[`acday${dayIdNumber}`][0];
     const chipsStatus = user[`acday${dayIdNumber}`][1];
 
-    const { amountDrink, amountChips, trendingDrink, trendingChips } =
-        useMemo(() => {
-            const drinks = [];
-            const chips = [];
-            profiles.forEach((profile) => {
-                const day = profile[`day${dayId}`];
-                if (Array.isArray(day)) {
-                    if (day[0]) drinks.push(day[0]);
-                    if (day[1]) chips.push(day[1]);
-                }
-            });
-            return {
-                amountDrink: `${
-                    Math.round(RUNTIMES[dayId] * RATIO_DRINK * 10) / 10
-                }l`,
-                amountChips: `${
-                    Math.round((RUNTIMES[dayId] * RATIO_CHIPS) / 5) * 5
-                }g`,
-                trendingDrink: getTrending(drinks),
-                trendingChips: getTrending(chips),
-            };
-        }, [profiles, dayId]);
+    const { amountDrink, amountChips, topDrink, topChips } = useMemo(() => {
+        const drinks = [];
+        const chips = [];
+        profiles.forEach((profile) => {
+            const day = profile[`day${dayId}`];
+            if (Array.isArray(day)) {
+                if (day[0]) drinks.push(day[0]);
+                if (day[1]) chips.push(day[1]);
+            }
+        });
+        return {
+            amountDrink: `${
+                Math.round(RUNTIMES[dayId] * RATIO_DRINK * 10) / 10
+            }l`,
+            amountChips: `${
+                Math.round((RUNTIMES[dayId] * RATIO_CHIPS) / 5) * 5
+            }g`,
+            topDrink: options.top.drink[dayId] || null,
+            topChips: options.top.chips[dayId] || null,
+        };
+    }, [profiles, dayId]);
 
     const handleBack = () => {
         back([/^\/nasirend$/, /^\/film\/\d+$/], "/nasirend");
@@ -170,9 +169,7 @@ const OrderDay = () => {
 
         setEditedUser(newUser);
         const success = updateProfile(newUser, "nasi_changed");
-        // Immediately clear notifications from local user state to prevent duplicates
         if (success) {
-            // Remove notifications from the user object in frontend state as well
             newUser.notifications = [];
             setEditedUser(newUser);
         }
@@ -215,15 +212,38 @@ const OrderDay = () => {
                         Ajánlott mennyiségek: {amountDrink} inni és{" "}
                         {amountChips} csipsz
                     </p>
-                    <p className={styles.subtitleRow}>
-                        Top választások: {trendingDrink} és {trendingChips}
-                    </p>
+                    {topDrink && topChips && (
+                        <p
+                            className={styles.subtitleRow}
+                            onClick={() => {
+                                const newUser = JSON.parse(
+                                    JSON.stringify(
+                                        editedUser ? editedUser : user
+                                    )
+                                );
+                                newUser[`day${dayId}`][0] = topDrink;
+                                newUser[`day${dayId}`][1] = topChips;
+                                setEditedUser(newUser);
+
+                                if (chipsInputRef.current) {
+                                    chipsInputRef.current.value = topChips;
+                                }
+
+                                if (drinkInputRef.current) {
+                                    drinkInputRef.current.value = topDrink;
+                                    drinkInputRef.current.focus();
+                                }
+                            }}
+                        >
+                            Top választás: {topDrink} és {topChips}
+                        </p>
+                    )}
 
                     <div className={styles.inputFields}>
                         <div
                             className={styles.inputWithAutoComplete}
                             onFocus={() => {
-                                setIsDrinkFocused(true)
+                                setIsDrinkFocused(true);
                             }}
                             onBlur={() => {
                                 setIsDrinkFocused(false);
@@ -284,7 +304,8 @@ const OrderDay = () => {
                                             setEditedUser(newUser);
                                             setIsDrinkFocused(true);
                                             if (drinkInputRef.current) {
-                                                drinkInputRef.current.value = suggestion;
+                                                drinkInputRef.current.value =
+                                                    suggestion;
                                                 drinkInputRef.current.focus();
                                             }
                                         }}
@@ -356,7 +377,8 @@ const OrderDay = () => {
                                             setEditedUser(newUser);
                                             setIsChipsFocused(true);
                                             if (chipsInputRef.current) {
-                                                chipsInputRef.current.value = suggestion;
+                                                chipsInputRef.current.value =
+                                                    suggestion;
                                                 chipsInputRef.current.focus();
                                             }
                                         }}
