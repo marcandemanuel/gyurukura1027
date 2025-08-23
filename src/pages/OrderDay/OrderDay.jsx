@@ -225,13 +225,12 @@ const OrderDay = () => {
                                 newUser[`day${dayId}`][1] = topChips;
                                 setEditedUser(newUser);
 
-                                if (chipsInputRef.current) {
-                                    chipsInputRef.current.value = topChips;
-                                }
-
                                 if (drinkInputRef.current) {
                                     drinkInputRef.current.value = topDrink;
-                                    drinkInputRef.current.focus();
+                                }
+
+                                if (chipsInputRef.current) {
+                                    chipsInputRef.current.value = topChips;
                                 }
                             }}
                         >
