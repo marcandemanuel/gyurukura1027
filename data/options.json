@@ -491,5 +491,23 @@
                 200
             ]
         }
-    ]
+    ],
+    "top": {
+        "drink": [
+            "Coca Cola",
+            "Coca Cola",
+            "Coca Cola",
+            "Coca Cola",
+            "Coca Cola",
+            "Coca Cola"
+        ],
+        "chips": [
+            "Lay's",
+            "Lay's",
+            "Lay's",
+            "Lay's",
+            "Lay's",
+            "Lay's"
+        ]
+    }
 }
