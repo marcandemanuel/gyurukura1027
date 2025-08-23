@@ -48,16 +48,16 @@ function getTrending(arr) {
 const MovieInfo = () => {
     const { movieId } = useParams();
     const navigate = useNavigate();
-    const { user, profiles } = useApp();
-    const movieIndex = Number(movieId) || 0;
-    const movieTitle = MOVIE_TITLES[movieIndex] || "Ismeretlen film";
+    const { user, profiles, options } = useApp();
+    const movieIndex = Number(movieId) || 1;
+    const movieTitle = MOVIE_TITLES[movieIndex-1] || "Ismeretlen film";
 
-    const dayData = user[`day${movieIndex}`] || ["", ""];
+    const dayData = user[`day${movieIndex-1}`] || ["", ""];
 
     const isEmpty = !dayData[0] && !dayData[1];
     const missingDrink = !dayData[0] && dayData[1];
     const missingChips = dayData[0] && !dayData[1];
-    const runtime = RUNTIMES[movieIndex];
+    const runtime = RUNTIMES[movieIndex-1];
     const config = useConfig();
 
     MOVIE_TITLES[config.birthday_on_movie_id] += " 🎂";
@@ -69,13 +69,13 @@ const MovieInfo = () => {
     };
 
     // Compute stats from profiles
-    const { amountDrink, amountChips, trendingDrink, trendingChips } =
+    const { amountDrink, amountChips, topDrink, topChips } =
         useMemo(() => {
             // Each profile has day0, day1, ... for each movie, which is an array [drink, chips]
             const drinks = [];
             const chips = [];
             profiles.forEach((profile) => {
-                const day = profile[`day${movieIndex}`];
+                const day = profile[`day${movieIndex-1}`];
                 if (Array.isArray(day)) {
                     if (day[0]) drinks.push(day[0]);
                     if (day[1]) chips.push(day[1]);
@@ -83,15 +83,15 @@ const MovieInfo = () => {
             });
             return {
                 amountDrink: `${
-                    Math.round(RUNTIMES[movieIndex] * RATIO_DRINK * 10) / 10
+                    Math.round(RUNTIMES[movieIndex - 1] * RATIO_DRINK * 10) / 10
                 }l`,
                 amountChips: `${
-                    Math.round((RUNTIMES[movieIndex] * RATIO_CHIPS) / 5) * 5
+                    Math.round((RUNTIMES[movieIndex - 1] * RATIO_CHIPS) / 5) * 5
                 }g`,
-                trendingDrink: getTrending(drinks),
-                trendingChips: getTrending(chips),
+                topDrink: options.top.drink[dayIdNumber - 1] || null,
+                topChips: options.top.chips[dayIdNumber - 1] || null,
             };
-        }, [profiles, movieIndex]);
+        }, [profiles, movieIndex-1]);
 
     const getSubtitle = () => {
         if (isEmpty) {
@@ -130,7 +130,7 @@ const MovieInfo = () => {
         );
     };
 
-    if (MOVIE_TITLES[movieIndex] === undefined) {
+    if (MOVIE_TITLES[movieIndex-1] === undefined) {
         return <NotFound />;
     }
     return (
@@ -159,9 +159,9 @@ const MovieInfo = () => {
                     <p>Ajánlott csipsz mennyiség: {amountChips}</p>
                 </div>
                 <div className={styles.side}>
-                    <p>Népszerű inni: {trendingDrink ? trendingDrink : "-"}</p>
+                    <p>Népszerű inni: {topDrink ? topDrink : "-"}</p>
                     <p>
-                        Népszerű csipsz: {trendingChips ? trendingChips : "-"}
+                        Népszerű csipsz: {topChips ? topChips : "-"}
                     </p>
                 </div>
             </div>

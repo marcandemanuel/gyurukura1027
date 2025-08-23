@@ -38,7 +38,7 @@ const ExpandedDataTable = () => {
 
     const expandedProfile = Number(userId);
     const [expandedProfileData, setExpandedProfileData] = useState(
-        profiles[expandedProfile]
+        profiles[expandedProfile-1]
     );
 
     if (expandedProfileData === undefined) {
@@ -238,7 +238,7 @@ const ExpandedDataTable = () => {
                                         <td
                                             className={`${styles.nameCell} ${styles.dataCell}`}
                                             onClick={() =>
-                                                navigate(`/film/${index}`)
+                                                navigate(`/film/${index+1}`)
                                             }
                                         >
                                             {movie}

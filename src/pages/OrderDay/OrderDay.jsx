@@ -101,19 +101,19 @@ const OrderDay = () => {
 
     movies[config.birthday_on_movie_id] += " 🎂";
 
-    const movie = movies[dayId];
+    const movie = movies[dayIdNumber-1];
     if (movie === undefined) {
         return <NotFound />;
     }
 
-    const drinkStatus = user[`acday${dayIdNumber}`][0];
-    const chipsStatus = user[`acday${dayIdNumber}`][1];
+    const drinkStatus = user[`acday${dayIdNumber-1}`][0];
+    const chipsStatus = user[`acday${dayIdNumber-1}`][1];
 
     const { amountDrink, amountChips, topDrink, topChips } = useMemo(() => {
         const drinks = [];
         const chips = [];
         profiles.forEach((profile) => {
-            const day = profile[`day${dayId}`];
+            const day = profile[`day${dayIdNumber-1}`];
             if (Array.isArray(day)) {
                 if (day[0]) drinks.push(day[0]);
                 if (day[1]) chips.push(day[1]);
@@ -121,15 +121,15 @@ const OrderDay = () => {
         });
         return {
             amountDrink: `${
-                Math.round(RUNTIMES[dayId] * RATIO_DRINK * 10) / 10
+                Math.round(RUNTIMES[dayIdNumber-1] * RATIO_DRINK * 10) / 10
             }l`,
             amountChips: `${
-                Math.round((RUNTIMES[dayId] * RATIO_CHIPS) / 5) * 5
+                Math.round((RUNTIMES[dayIdNumber-1] * RATIO_CHIPS) / 5) * 5
             }g`,
-            topDrink: options.top.drink[dayId] || null,
-            topChips: options.top.chips[dayId] || null,
+            topDrink: options.top.drink[dayIdNumber-1] || null,
+            topChips: options.top.chips[dayIdNumber-1] || null,
         };
-    }, [profiles, dayId]);
+    }, [profiles, dayIdNumber-1]);
 
     const handleBack = () => {
         back([/^\/nasirend$/, /^\/film\/\d+$/], "/nasirend");
@@ -221,8 +221,8 @@ const OrderDay = () => {
                                         editedUser ? editedUser : user
                                     )
                                 );
-                                newUser[`day${dayId}`][0] = topDrink;
-                                newUser[`day${dayId}`][1] = topChips;
+                                newUser[`day${dayIdNumber-1}`][0] = topDrink;
+                                newUser[`day${dayIdNumber-1}`][1] = topChips;
                                 setEditedUser(newUser);
 
                                 if (drinkInputRef.current) {
@@ -256,8 +256,8 @@ const OrderDay = () => {
                                     placeholder="Inni"
                                     value={
                                         editedUser
-                                            ? editedUser[`day${dayId}`][0]
-                                            : user[`day${dayId}`][0] || ""
+                                            ? editedUser[`day${dayIdNumber-1}`][0]
+                                            : user[`day${dayIdNumber-1}`][0] || ""
                                     }
                                     onChange={(event) => {
                                         const newValue = event.target.value;
@@ -266,7 +266,7 @@ const OrderDay = () => {
                                                 editedUser ? editedUser : user
                                             )
                                         );
-                                        newUser[`day${dayId}`][0] = newValue;
+                                        newUser[`day${dayIdNumber-1}`][0] = newValue;
                                         setEditedUser(newUser);
                                     }}
                                 />
@@ -283,8 +283,8 @@ const OrderDay = () => {
                                     <AutoComplete
                                         currentInput={
                                             editedUser
-                                                ? editedUser[`day${dayId}`][0]
-                                                : user[`day${dayId}`][0] || ""
+                                                ? editedUser[`day${dayIdNumber-1}`][0]
+                                                : user[`day${dayIdNumber-1}`][0] || ""
                                         }
                                         options={options.drink}
                                         favorites={favoriteDrinkOptions}
@@ -298,7 +298,7 @@ const OrderDay = () => {
                                                         : user
                                                 )
                                             );
-                                            newUser[`day${dayId}`][0] =
+                                            newUser[`day${dayIdNumber-1}`][0] =
                                                 suggestion;
                                             setEditedUser(newUser);
                                             setIsDrinkFocused(true);
@@ -329,8 +329,8 @@ const OrderDay = () => {
                                     placeholder="Csipsz"
                                     value={
                                         editedUser
-                                            ? editedUser[`day${dayId}`][1]
-                                            : user[`day${dayId}`][1] || ""
+                                            ? editedUser[`day${dayIdNumber-1}`][1]
+                                            : user[`day${dayIdNumber-1}`][1] || ""
                                     }
                                     onChange={(event) => {
                                         const newValue = event.target.value;
@@ -339,7 +339,7 @@ const OrderDay = () => {
                                                 editedUser ? editedUser : user
                                             )
                                         );
-                                        newUser[`day${dayId}`][1] = newValue;
+                                        newUser[`day${dayIdNumber-1}`][1] = newValue;
                                         setEditedUser(newUser);
                                     }}
                                 />
@@ -356,8 +356,8 @@ const OrderDay = () => {
                                     <AutoComplete
                                         currentInput={
                                             editedUser
-                                                ? editedUser[`day${dayId}`][1]
-                                                : user[`day${dayId}`][1] || ""
+                                                ? editedUser[`day${dayIdNumber-1}`][1]
+                                                : user[`day${dayIdNumber-1}`][1] || ""
                                         }
                                         options={options.chips}
                                         favorites={favoriteChipsOptions}
@@ -371,7 +371,7 @@ const OrderDay = () => {
                                                         : user
                                                 )
                                             );
-                                            newUser[`day${dayId}`][1] =
+                                            newUser[`day${dayIdNumber-1}`][1] =
                                                 suggestion;
                                             setEditedUser(newUser);
                                             setIsChipsFocused(true);
@@ -395,7 +395,7 @@ const OrderDay = () => {
                         >
                             Vissza
                         </button>
-                        {dayIdNumber !== 0 && (
+                        {dayIdNumber !== 1 && (
                             <Link
                                 className={styles.actionButton}
                                 to={`/nasirendeles/${dayIdNumber - 1}`}
@@ -404,7 +404,7 @@ const OrderDay = () => {
                                 Előző
                             </Link>
                         )}
-                        {dayIdNumber !== movies.length - 1 && (
+                        {dayIdNumber !== movies.length && (
                             <Link
                                 className={styles.actionButton}
                                 to={`/nasirendeles/${dayIdNumber + 1}`}

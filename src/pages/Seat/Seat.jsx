@@ -25,7 +25,7 @@ const Seat = () => {
         );
     }
 
-    const profileData = profiles[Number(userId)]
+    const profileData = profiles[Number(userId)-1]
 
     if (profileData === undefined) {
         return (
