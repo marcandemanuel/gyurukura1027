@@ -77,7 +77,7 @@ const DataTable = () => {
     }, [profiles]);
 
     const expandProfile = (profileIndex) => {
-        navigate(`/adatok/${profileIndex}`);
+        navigate(`/adatok/${profileIndex+1}`);
     };
 
     // Calculate status dot type based on original logic
@@ -380,7 +380,7 @@ const DataTable = () => {
                                                 className={styles.imageBox}
                                                 onClick={() =>
                                                     navigate(
-                                                        `/ulohely/${profileIndex}`
+                                                        `/ulohely/${profileIndex+1}`
                                                     )
                                                 }
                                             >

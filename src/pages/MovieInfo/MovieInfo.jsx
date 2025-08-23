@@ -49,6 +49,7 @@ const MovieInfo = () => {
     const { movieId } = useParams();
     const navigate = useNavigate();
     const { user, profiles, options } = useApp();
+    const [clicked, setClicked] = useState(false);
     const movieIndex = Number(movieId) || 1;
     const movieTitle = MOVIE_TITLES[movieIndex-1] || "Ismeretlen film";
 
@@ -88,8 +89,8 @@ const MovieInfo = () => {
                 amountChips: `${
                     Math.round((RUNTIMES[movieIndex - 1] * RATIO_CHIPS) / 5) * 5
                 }g`,
-                topDrink: options.top.drink[dayIdNumber - 1] || null,
-                topChips: options.top.chips[dayIdNumber - 1] || null,
+                topDrink: options.top.drink[movieIndex - 1] || null,
+                topChips: options.top.chips[movieIndex - 1] || null,
             };
         }, [profiles, movieIndex-1]);
 
@@ -140,9 +141,11 @@ const MovieInfo = () => {
             <div className={styles.videoSection}>
                 <video
                     controls
-                    className={styles.videoPlayer}
+                    className={`${styles.videoPlayer} ${clicked ? styles.clicked : ''}`}
                     autoPlay
                     muted
+                    onMouseDown={() => setClicked(true)}
+                    onMouseUp={() => setClicked(false)}
                 >
                     <source
                         src={`/videos/${movieIndex}.mp4`}

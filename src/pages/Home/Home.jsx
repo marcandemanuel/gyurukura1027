@@ -160,11 +160,11 @@ const Home = () => {
     }, [isAdmin]);
 
     const handleEdit = (movieId) => {
-        navigate(`/nasirendeles/${movieId}`);
+        navigate(`/nasirendeles/${movieId+1}`);
     };
 
     const handleMovieInfo = (movieId) => {
-        navigate(`/film/${movieId}`);
+        navigate(`/film/${movieId+1}`);
     };
 
     const handleChangeProfile = () => {
@@ -235,7 +235,7 @@ const Home = () => {
     };
 
     const handleViewSeat = () => {
-        navigate(`/ulohely/${user.id}`);
+        navigate(`/ulohely/${user.id+1}`);
     };
 
     if (!user || !isAuthenticated) {
@@ -319,7 +319,7 @@ const Home = () => {
                 {user.seat_image && (
                     <Link
                         className={styles.actionButton}
-                        to={`/ulohely/${user.id}`}
+                        to={`/ulohely/${user.id+1}`}
                         tabIndex={0}
                     >
                         Ülőhely
