@@ -37,11 +37,12 @@
 }
 
 .subtitle {
-    font-size: 15px;
+    font-size: 12px;
     padding-bottom: 40px;
     color: #9c8028;
     font-family: "Aniron";
     margin: 0;
+    text-align: center;
 }
 
 .placeholder {

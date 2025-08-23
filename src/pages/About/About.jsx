@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useConfig } from "../../contexts/ConfigContext.jsx";
 import { useApp } from "../../contexts/AppContext";
 import Loading from "../../components/Common/Loading/Loading";
@@ -13,11 +12,9 @@ const About = () => {
     const { isLoading, setIsLoading } = useApp();
 
     useEffect(() => {
-        // Only update global isLoading if the value actually changes
         if (isLoading !== (loading || !config)) {
             setIsLoading(loading || !config);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, config]);
 
     const isNowBefore = (yearMonth) => {
@@ -52,18 +49,13 @@ const About = () => {
 
             <h3 className={styles.timelineTitle}>Idővonal</h3>
 
-            {/* Timeline visualization */}
             <Timeline about={config.about} />
             <BottomActions />
         </div>
     );
 };
 
-import { useRef } from "react";
-
-// LastDot component (must be defined before Timeline)
 const LastDot = ({ mode, absoluteTop, timelineContainerRef }) => {
-    // Calculate the horizontal center of the timeline container in the viewport
     const [left, setLeft] = useState("50%");
     useEffect(() => {
         setLeft("50%");
@@ -71,7 +63,6 @@ const LastDot = ({ mode, absoluteTop, timelineContainerRef }) => {
             const container = timelineContainerRef.current;
             if (!container) return;
             const rect = container.getBoundingClientRect();
-            // Center of the container relative to the viewport
             const center = rect.left + rect.width / 2;
             setLeft(`${center}px`);
         };
@@ -99,10 +90,8 @@ const LastDot = ({ mode, absoluteTop, timelineContainerRef }) => {
     return <div className={className} style={style} />;
 };
 
-// Timeline component
 
 const Timeline = ({ about }) => {
-    // Parse events and sort by date
     const events = Object.entries(about)
         .map(([name, { date, location, description }]) => ({
             name,
@@ -113,7 +102,6 @@ const Timeline = ({ about }) => {
         }))
         .sort((a, b) => a.dateObj - b.dateObj);
 
-    // Timeline start and end
     const timelineStart = new Date("2020-01-01");
     const timelineEnd = events.length
         ? events[events.length - 1].dateObj
@@ -123,13 +111,10 @@ const Timeline = ({ about }) => {
         (timelineEnd.getFullYear() - timelineStart.getFullYear()) * 12 +
         (timelineEnd.getMonth() - timelineStart.getMonth());
 
-    // Height of the timeline in px
     const timelineHeight = 2000;
 
-    // State to show only the last InfoCard
     const [onlyShowLastCard, setOnlyShowLastCard] = useState(false);
 
-    // Calculate dot positions
     const getDotPosition = (dateObj) => {
         const monthsFromStart =
             (dateObj.getFullYear() - timelineStart.getFullYear()) * 12 +
@@ -137,10 +122,8 @@ const Timeline = ({ about }) => {
         return (monthsFromStart / totalMonths) * timelineHeight;
     };
 
-    // Current date position (do not plot a dot for it)
     const now = new Date();
     const nowPosition = (() => {
-        // Clamp to timeline range
         if (now < timelineStart) return 0;
         if (now > timelineEnd) return timelineHeight;
         const monthsFromStart =
@@ -149,11 +132,9 @@ const Timeline = ({ about }) => {
         return (monthsFromStart / totalMonths) * timelineHeight;
     })();
 
-    // Refs for each dot
     const dotRefs = useRef([]);
     const [entered, setEntered] = useState([]);
 
-    // --- Persistent state for last infocard ---
     const [lastCardEntered, setLastCardEntered] = useState(false);
     const [lastCardAnimated, setLastCardAnimated] = useState(false);
 
@@ -188,7 +169,6 @@ const Timeline = ({ about }) => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Timeline grow mask state (no animation, just instant reveal)
     const [visibleTimelineHeight, setVisibleTimelineHeight] = useState(0);
     const [maxTimelineHeight, setMaxTimelineHeight] = useState(0);
 
@@ -199,11 +179,9 @@ const Timeline = ({ about }) => {
             const rect = container.getBoundingClientRect();
             const vh = window.innerHeight;
             const timelineBottom = rect.bottom;
-            const growStart = vh - vh * 0.2; // 1/5 vh from bottom
+            const growStart = vh - vh * 0.2;
             let visible;
             if (timelineBottom > growStart) {
-                // How much of the timeline is visible?
-                // Add 8px so the last dot is fully visible (dot is 16px, centered)
                 visible =
                     Math.max(0, rect.height - (timelineBottom - growStart)) + 8;
             } else {
@@ -219,8 +197,6 @@ const Timeline = ({ about }) => {
         return () => window.removeEventListener("scroll", handleTimelineGrow);
     }, []);
 
-    // --- Sticky/absolute lastDot logic ---
-    // States: "top" (absolute at top), "fixed" (fixed), "bottom" (absolute at bottom)
     const [lastDotMode, setLastDotMode] = useState("fixed");
     const [lastCardNode, setLastCardNode] = useState(null);
     const timelineContainerRef = useRef(null);
@@ -233,13 +209,10 @@ const Timeline = ({ about }) => {
             const fixedTop = window.innerHeight * 0.8 - 10;
 
             if (rect.top > fixedTop) {
-                // Timeline is below the fixed point: lastDot at top of timeline
                 setLastDotMode("top");
             } else if (rect.bottom <= fixedTop + 10) {
-                // Timeline bottom is above the fixed point: lastDot at bottom
                 setLastDotMode("bottom");
             } else {
-                // Timeline covers the fixed point: lastDot fixed
                 setLastDotMode("fixed");
             }
         };
@@ -251,27 +224,20 @@ const Timeline = ({ about }) => {
             window.removeEventListener("scroll", handleLastDotPosition);
     }, []);
 
-    // --- Track if last infocard has ever appeared ---
     useEffect(() => {
         if (lastDotMode === "bottom" && !lastCardEntered) {
             setLastCardEntered(true);
             setLastCardAnimated(true);
-            // Remove animation after a short delay (simulate one-time animation)
             setTimeout(() => setLastCardAnimated(false), 600);
         }
     }, [lastDotMode, lastCardEntered]);
 
-    // Smooth scroll to lastCardNode when both lastDotMode is "bottom" and lastCardNode is available
     const prevLastDotMode = React.useRef(lastDotMode);
 
-    // Scroll every time lastDotMode transitions to "bottom" and lastCardNode is set
-    // (removed duplicate prevLastDotMode declaration)
     useEffect(() => {
         if (lastDotMode === "bottom" && lastCardNode) {
-            // Hide all but last card
             setOnlyShowLastCard(true);
 
-            // Calculate scroll target (center + 20px)
             const rect = lastCardNode.getBoundingClientRect();
             const scrollTarget =
                 window.scrollY +
@@ -280,14 +246,12 @@ const Timeline = ({ about }) => {
                 window.innerHeight / 2 +
                 30;
 
-            // Smooth scroll only (no scroll prevention, no forced reset)
             window.scrollTo({ top: scrollTarget, behavior: "smooth" });
         } else {
             setOnlyShowLastCard(false);
         }
     }, [lastDotMode, lastCardNode]);
 
-    // Position for the last dot (absolute at the end of the timeline)
     const lastDotAbsoluteTop = timelineHeight - 10;
 
     return (
@@ -309,7 +273,6 @@ const Timeline = ({ about }) => {
                     pointerEvents: "none",
                 }}
             >
-                {/* Filled part of the line */}
                 <div
                     className={styles.timelineLineFilled}
                     style={{
@@ -317,7 +280,6 @@ const Timeline = ({ about }) => {
                         top: 0,
                     }}
                 />
-                {/* Unfilled part of the line */}
                 <div
                     className={styles.timelineLineUnfilled}
                     style={{
@@ -325,7 +287,6 @@ const Timeline = ({ about }) => {
                         top: nowPosition,
                     }}
                 />
-                {/* No dots in the mask */}
             </div>
             {events
                 .slice(0, -1)
@@ -340,9 +301,7 @@ const Timeline = ({ about }) => {
                         />
                     ) : null
                 )}
-            {/* Dots rendered outside the mask, animated in sync with InfoCards */}
             {events.slice(0, -1).map((event, idx) => {
-                // Mark as future if event is after or in the same month as now
                 const eventYear = event.dateObj.getFullYear();
                 const eventMonth = event.dateObj.getMonth();
                 const nowYear = now.getFullYear();
@@ -351,8 +310,6 @@ const Timeline = ({ about }) => {
                     eventYear > nowYear ||
                     (eventYear === nowYear && eventMonth >= nowMonth);
 
-                // Always render a detector dot for scroll detection
-                // Only render the visible/animated dot if entered[idx] is true
                 return (
                     <React.Fragment key={event.name + "-frag"}>
                         <div
@@ -377,13 +334,11 @@ const Timeline = ({ about }) => {
                     </React.Fragment>
                 );
             })}
-            {/* --- Last Dot --- */}
             <LastDot
                 mode={lastDotMode}
                 absoluteTop={lastDotAbsoluteTop}
                 timelineContainerRef={timelineContainerRef}
             />
-            {/* --- Last Event InfoCard (centered, persistent) --- */}
             {lastCardEntered && events.length > 0 && (
                 <InfoCard
                     key={events[events.length - 1].name + "-last"}
@@ -400,20 +355,10 @@ const Timeline = ({ about }) => {
     );
 };
 
-/**
- * InfoCard component
- * @param {object} props
- * @param {object} props.event
- * @param {number} props.idx
- * @param {number} props.top
- * @param {boolean} [props.centered]
- */
 const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
-    // Alternate side: even = right, odd = left, unless centered
     const side = centered ? "center" : idx % 2 === 0 ? "right" : "left";
     const year = event.date.split("-")[0];
 
-    // Ref and state for dynamic height
     const cardRef = useRef(null);
     const contentRef = useRef(null);
     const logoContainerRef = useRef(null);
@@ -424,10 +369,8 @@ const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
         if (onMount && centered && cardRef.current) {
             onMount(cardRef.current);
         }
-        // Only run when onMount, centered, or the ref changes
     }, [onMount, centered]);
 
-    // For dynamic logo sizing
     useEffect(() => {
         if (!centered) return;
         function resizeLogoContainer() {
@@ -440,7 +383,6 @@ const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
                 const cardHeight = cardRef.current.offsetHeight;
                 const contentHeight = contentRef.current.offsetHeight;
                 const remaining = cardHeight - contentHeight - PADDING;
-                // Prevent negative or too small
                 logoContainerRef.current.style.height = `${
                     (remaining > 0 ? remaining : 0) <= 200
                         ? remaining > 0
@@ -462,7 +404,6 @@ const InfoCard = ({ event, idx, top, centered = false, onMount = null }) => {
         }
     }, []);
 
-    // Center horizontally if centered, otherwise use left/right
     let cardClass = styles.infoCard;
     if (side === "center") {
         cardClass += ` ${styles.infoCardCenter}`;

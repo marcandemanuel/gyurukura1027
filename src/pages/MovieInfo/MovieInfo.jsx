@@ -162,9 +162,9 @@ const MovieInfo = () => {
                     <p>Ajánlott csipsz mennyiség: {amountChips}</p>
                 </div>
                 <div className={styles.side}>
-                    <p>Népszerű inni: {topDrink ? topDrink : "-"}</p>
+                    <p>Top inniválasztás: {topDrink ? topDrink : "-"}</p>
                     <p>
-                        Népszerű csipsz: {topChips ? topChips : "-"}
+                        Top csipszválasztás: {topChips ? topChips : "-"}
                     </p>
                 </div>
             </div>

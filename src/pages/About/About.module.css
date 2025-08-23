@@ -132,7 +132,7 @@
     color: #9c8028;
     font-family: Aniron;
     font-size: 14px;
-    line-height: 1.618;
+    line-height: 1.4;
     width: 70vw;
     margin: 0 auto 50px auto;
 }
@@ -306,7 +306,7 @@
     font-family: Aniron;
     color: #9c8028;
     margin-top: 4px;
-    line-height: 1.618
+    line-height: 1.4
 }
 
 @media (max-width: 600px) {
@@ -412,7 +412,7 @@
     color: #9c8028;
     font-family: Aniron;
     font-size: 14px;
-    line-height: 1.618;
+    line-height: 1.4;
     margin: 40px 0 0 0;
 
     .infoCardLogoContainer {
