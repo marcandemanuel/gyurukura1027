@@ -43,7 +43,7 @@ const expandOptionWithEmoji = (option) => {
         }
     }
 
-    expandedNames.push(option)
+    expandedNames.push(option);
 
     return expandedNames;
 };
@@ -55,19 +55,21 @@ const AutoComplete = ({
     mostFavorites = [],
     unit,
     suggestionClicked,
-    heartClicked
+    heartClicked,
 }) => {
     const [suggestions, setSuggestions] = useState([]);
     const [hoverIndex, setHoverIndex] = useState(null);
     const [splittedInput, setSplittedInput] = useState([]);
-    const [inputText, setInputText] = useState('')
+    const [inputText, setInputText] = useState("");
 
     useEffect(() => {
         setInputText(currentInput);
         const splitted = currentInput.split(/, | és /);
-        if (currentInput.endsWith(' és ') || currentInput.endsWith(', ')) splitted.push('')
+        if (currentInput.endsWith(" és ") || currentInput.endsWith(", "))
+            splitted.push("");
         setSplittedInput(splitted);
-        const normalizedInput = splitted && splitted.length ? normalizeText(splitted.at(-1)) : '';
+        const normalizedInput =
+            splitted && splitted.length ? normalizeText(splitted.at(-1)) : "";
 
         const directMatch = options.find((option) => {
             const expandedNames = expandOptionWithEmoji(option.name);
@@ -117,7 +119,7 @@ const AutoComplete = ({
                             ) && `${amount}${unit}` !== amountInDirectMatch
                         );
                     }
-                    return true                    
+                    return true;
                 })
                 .map((amount) => `${directMatch.name} ${amount}${unit}`)
                 .reverse();
@@ -130,23 +132,21 @@ const AutoComplete = ({
                 return expandedNames.some((name) => {
                     const words = normalizeText(name).split(" ");
                     const inputWords = normalizedInput.split(" ");
-                    return inputWords.every((inputWord) =>
-                        words.some((word) => word.startsWith(inputWord))
-                    ) && normalizedInput !== normalizeText(name)
+                    return (
+                        inputWords.every((inputWord) =>
+                            words.some((word) => word.startsWith(inputWord))
+                        ) && normalizedInput !== normalizeText(name)
+                    );
                 });
             })
             .map((option) => option.name)
             .sort((a, b) => {
-                const scoreA = favorites.includes(a)
-                    ? 2
-                    : 0 + mostFavorites.includes(a)
-                    ? 1
-                    : 0;
-                const scoreB = favorites.includes(b)
-                    ? 2
-                    : 0 + mostFavorites.includes(b)
-                    ? 1
-                    : 0;
+                const scoreA =
+                    (favorites.includes(a) ? 2 : 0) +
+                    (mostFavorites.includes(a) ? 1 : 0);
+                const scoreB =
+                    (favorites.includes(b) ? 2 : 0) +
+                    (mostFavorites.includes(b) ? 1 : 0);
 
                 return scoreB - scoreA || a.localeCompare(b);
             });
@@ -167,7 +167,7 @@ const AutoComplete = ({
     if (!suggestions || suggestions.length === 0) {
         return null;
     }
-    
+
     return (
         <div className={styles.autoCompleteContainer}>
             {suggestions.map((suggestion, index) => (
@@ -180,23 +180,23 @@ const AutoComplete = ({
                     }`}
                     onPointerEnter={() => setHoverIndex(index)}
                     onPointerLeave={() => setHoverIndex(null)}
-                    onMouseDown={e => {
+                    onMouseDown={(e) => {
                         e.preventDefault();
                         if (suggestionClicked) {
                             const lengthOfLast = splittedInput.at(-1).length;
-                            const text = lengthOfLast ? inputText.slice(0, -lengthOfLast) : inputText;
-                            suggestionClicked(`${text}${suggestion}`)
+                            const text = lengthOfLast
+                                ? inputText.slice(0, -lengthOfLast)
+                                : inputText;
+                            suggestionClicked(`${text}${suggestion}`);
                         }
                     }}
                 >
-                    <span className={styles.suggestionText}>
-                        {suggestion}
-                    </span>
-                    {options.some(option => option.name === suggestion) && (
+                    <span className={styles.suggestionText}>{suggestion}</span>
+                    {options.some((option) => option.name === suggestion) && (
                         <button
                             type="button"
                             tabIndex={-1}
-                            onMouseDown={e => e.preventDefault()}
+                            onMouseDown={(e) => e.preventDefault()}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 heartClicked(suggestion);
