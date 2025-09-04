@@ -80,16 +80,15 @@ const DataTable = () => {
         navigate(`/adatok/${profileIndex+1}`);
     };
 
-    // Calculate status dot type based on original logic
     const aDot = (profile, ind) => {
-        if (
-            isAdmin &&
-            profile[`acday${ind}`].includes("Eldöntetlen") &&
-            profile[`day${ind}`].some((str) => str !== "") &&
-            !profile.admin
-        ) {
-            return "new";
-        }
+        // if (
+        //     isAdmin &&
+        //     profile[`acday${ind}`].includes("Eldöntetlen") &&
+        //     profile[`day${ind}`].some((str) => str !== "") &&
+        //     !profile.admin
+        // ) {
+        //     return "new";
+        // }
 
         if (
             profile[`acday${ind}`][0] === profile[`acday${ind}`][1] &&
@@ -135,17 +134,14 @@ const DataTable = () => {
         return `${dayData[0]} és ${dayData[1]}`;
     };
 
-    // Check if two profiles are different (like original getDifferences logic)
     const profilesAreDifferent = (profile1, profile2) => {
         if (!profile1 || !profile2) return false;
 
-        // Compare all relevant fields
         const fieldsToCompare = ["user", "pin", "admin", "seat_image"];
         for (const field of fieldsToCompare) {
             if (profile1[field] !== profile2[field]) return true;
         }
 
-        // Compare day arrays and status arrays and comments
         for (let i = 0; i <= 5; i++) {
             const day1 = profile1[`day${i}`] || [];
             const day2 = profile2[`day${i}`] || [];
@@ -163,7 +159,6 @@ const DataTable = () => {
         return false;
     };
 
-    // Check if main table profiles have actually changed
     const mainTableHasActualChanges = () => {
         if (tableProfiles.length !== originalProfiles.length) return true;
 
@@ -227,13 +222,11 @@ const DataTable = () => {
             tableKeys[config.birthday_on_movie_id + 1] += " 🎂";
         }
 
-        // Ensure uploaderRefs has a ref for each profile id
         tableProfiles.forEach((profile) => {
             if (!uploaderRefs.current[profile.id]) {
                 uploaderRefs.current[profile.id] = React.createRef();
             }
         });
-        // Optionally, remove refs for profiles that no longer exist
         Object.keys(uploaderRefs.current).forEach((id) => {
             if (
                 !tableProfiles.some(
