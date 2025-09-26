@@ -1,11 +1,11 @@
 {
     "pin": "2006",
     "admin_main_email": "marcandemanuel@gmail.com",
-    "count_down_title": "🎉 A 2025-ös GyűrűkUra 10-27 kezdete október 23. este hét óra! 🎉",
-    "start_time": "2025-10-23T19:00:00+02:00",
+    "count_down_title": "🎉 A 2025-ös GyűrűkUra 10-27 kezdete október 21. este hét óra! 🎉",
+    "start_time": "2025-10-21T19:00:00+02:00",
     "birthday_on_movie_id": 5,
     "year": 2025,
-    "about_current_text": "A VI. GyűrűkUra 10-27 fesztiválra 2025 október 23-án csütörtökön este hét órakor fog sor kerülni, és október 28-án kedden fog befejeződni. Ezen az új weblapon keresztül lehet a nasirendelést intézni és egyéb információkat is itt lehet majd megtalálni az idei, VI. GyűrűkUra 10-27-ről. Az idei év szintén nagy fejlődés a fesztivál történetében, a név (GyűrűkUra 10-27), a logó, valamint a weblap miatt.",
+    "about_current_text": "A VI. GyűrűkUra 10-27 fesztiválra 2025 október 21-án kedden este hét órakor fog sor kerülni, és október 26-án vasárnap fog befejeződni. Ezen az új weblapon keresztül lehet a nasirendelést intézni és egyéb információkat is itt lehet majd megtalálni az idei, VI. GyűrűkUra 10-27-ről. Az idei év szintén nagy fejlődés a fesztivál történetében, a név (GyűrűkUra 10-27), a logó, valamint a weblap miatt.",
     "about": {
         "Az I. GyűrűkUra 10-27 fesztivál": {
             "date": "2020-10",
@@ -45,16 +45,16 @@
         "A VI. GyűrűkUra 10-27 fesztivál": {
             "date": "2025-10",
             "location": "Kemenesszentpéter, Magyarország",
-            "description": "🎉 2025 október 23-án este hét órakor 🎉"
+            "description": "🎉 2025 október 21-án este hét órakor 🎉"
         }
     },
     "timezone": 3,
     "emails": {
         "nv_opened": "2025-08-03T06:00:00",
         "nv_closes": "2025-09-30T06:00:00",
-        "starts_today": "2025-10-23T06:00:00",
-        "started": "2025-10-23T19:00:00",
-        "ends_today": "2025-10-28T06:00:00",
+        "starts_today": "2025-10-21T06:00:00",
+        "started": "2025-10-21T19:00:00",
+        "ends_today": "2025-10-26T06:00:00",
         "birthday": "2025-10-27T06:00:10"
     }
 }
