@@ -6,6 +6,51 @@ import Loading from "../../components/Common/Loading/Loading";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Options.module.css";
 
+const emojiMap = {
+    "🍑": ["barack", "barackos"],
+    "🍐": ["körte", "körtés"],
+    "🍊": ["narancs", "narancsos"],
+    "🫐": ["áfonya", "áfonyás"],
+    "🧀": ["sajt", "sajtos"],
+    "🍒": ["meggy", "cseresznye", "meggyes", "cseresznyés"],
+    "🍋": ["citrom", "citromos"],
+    "🍇": ["szőlő", "szőlős"],
+    "🍓": ["eper", "epres"],
+    "🧂": ["só", "sós"],
+    "🍕": ["pizza", "pizzás"],
+    "🍅": [
+        "paradicsom",
+        "ketchup",
+        "kecsap",
+        "paradicsomos",
+        "ketchupos",
+        "kecsapos",
+    ],
+    "🌶️": ["chili", "csili", "chilis", "csilis", "csípős"],
+    "🥓": ["bacon", "baconös", "békön", "békönös"],
+};
+
+const normalizeText = (text) => {
+    return text.toLowerCase().trim();
+};
+
+const expandOptionWithEmoji = (option) => {
+    let expandedNames = [];
+
+    for (const [emoji, variations] of Object.entries(emojiMap)) {
+        if (option.includes(emoji)) {
+            const baseText = option.replace(emoji, "").trim();
+            expandedNames = variations.map(
+                (variant) => `${baseText} ${variant}`
+            );
+        }
+    }
+
+    expandedNames.push(option);
+
+    return expandedNames;
+};
+
 const Options = () => {
     const [openDrinkIndex, setOpenDrinkIndex] = useState(null);
     const [hoverDrinkIndex, setHoverDrinkIndex] = useState(null);
@@ -22,7 +67,9 @@ const Options = () => {
         favoriteDrink,
     } = useApp();
 
+    const [displayedOptions, setDisplayedOptions] = useState(options)
     const [isHoverable, setIsHoverable] = useState(false);
+    const [searchValue, setSearchValue] = useState('')
 
     useEffect(() => {
         if (window.matchMedia) {
@@ -36,6 +83,62 @@ const Options = () => {
             setLoading(false);
         }
     }, [options]);
+
+    useEffect(() => {
+        const normalizedInput = normalizeText(searchValue)
+
+        const matchedDrinkOptions = options.drink
+            .filter((option) => {
+                const expandedNames = expandOptionWithEmoji(option.name);
+
+                return expandedNames.some((name) => {
+                    const words = normalizeText(name).split(" ");
+                    const inputWords = normalizedInput.split(" ");
+                    return (
+                        inputWords.every((inputWord) =>
+                            words.some((word) => word.startsWith(inputWord))
+                        ) && normalizedInput !== normalizeText(name)
+                    );
+                });
+            })
+            .map((option) => option.name)
+            .sort();
+
+        const seen = new Set();
+        drinkOptions = matchedDrinkOptions.filter((item) => {
+            const key = normalizeText(item);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+
+        const matchedChipsOptions = options.chips
+            .filter((option) => {
+                const expandedNames = expandOptionWithEmoji(option.name);
+
+                return expandedNames.some((name) => {
+                    const words = normalizeText(name).split(" ");
+                    const inputWords = normalizedInput.split(" ");
+                    return (
+                        inputWords.every((inputWord) =>
+                            words.some((word) => word.startsWith(inputWord))
+                        ) && normalizedInput !== normalizeText(name)
+                    );
+                });
+            })
+            .map((option) => option.name)
+            .sort();
+
+        const chipsSeen = new Set();
+        chipsOptions = matchedChipsOptions.filter((item) => {
+            const key = normalizeText(item);
+            if (chipsSeen.has(key)) return false;
+            chipsSeen.add(key);
+            return true;
+        });
+
+        setDisplayedOptions({drink: drinkOptions, chips: chipsOptions})
+    }, [searchValue]);
 
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
@@ -71,11 +174,13 @@ const Options = () => {
                 <>
                     <h2 className={styles.title}>Biztosított nasik</h2>
 
+                    <input type='text' placeholder="Keresés" onChange={(e) => setSearchValue(e.target.value)} />
+
                     <div className={styles.content}>
                         <div className={styles.section}>
                             <h3 className={styles.sectionTitle}>Innik</h3>
                             <div className={styles.grid}>
-                                {options.drink.map((item, index) => (
+                                {displayedOptions.drink.map((item, index) => (
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
@@ -193,7 +298,7 @@ const Options = () => {
                         <div className={styles.section}>
                             <h3 className={styles.sectionTitle}>Csipszek</h3>
                             <div className={styles.grid}>
-                                {options.chips.map((item, index) => (
+                                {displayedOptions.chips.map((item, index) => (
                                     <div
                                         className={styles.optionContainer}
                                         key={index}
