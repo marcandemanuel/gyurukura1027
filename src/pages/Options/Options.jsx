@@ -86,7 +86,7 @@ const Options = () => {
 
     useEffect(() => {
         console.log(searchValue)
-        const normalizedInput = normalizeText(searchValue)
+        const normalizedInput = searchValue.toLowerCase()
         
         if (normalizedInput === '') {
             setDisplayedOptions(options)
