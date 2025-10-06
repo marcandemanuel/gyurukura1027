@@ -105,7 +105,7 @@ const Options = () => {
             .sort();
 
         const seen = new Set();
-        drinkOptions = matchedDrinkOptions.filter((item) => {
+        const drinkOptions = matchedDrinkOptions.filter((item) => {
             const key = normalizeText(item);
             if (seen.has(key)) return false;
             seen.add(key);
@@ -130,7 +130,7 @@ const Options = () => {
             .sort();
 
         const chipsSeen = new Set();
-        chipsOptions = matchedChipsOptions.filter((item) => {
+        const chipsOptions = matchedChipsOptions.filter((item) => {
             const key = normalizeText(item);
             if (chipsSeen.has(key)) return false;
             chipsSeen.add(key);
