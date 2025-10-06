@@ -184,7 +184,7 @@ const Options = () => {
                     </div>
 
                     <div className={styles.content}>
-                        {displayedOptions.drink.length && (
+                        {displayedOptions.drink.length > 0 && (
                             <div className={styles.section}>
                                 <h3 className={styles.sectionTitle}>Innik</h3>
                                 <div className={styles.grid}>
@@ -338,7 +338,7 @@ const Options = () => {
                             </div>
                         )}
 
-                        {displayedOptions.chips.length && (
+                        {displayedOptions.chips.length > 0 && (
                             <div className={styles.section}>
                                 <h3 className={styles.sectionTitle}>
                                     Csipszek
