@@ -67,9 +67,9 @@ const Options = () => {
         favoriteDrink,
     } = useApp();
 
-    const [displayedOptions, setDisplayedOptions] = useState(options)
+    const [displayedOptions, setDisplayedOptions] = useState(options);
     const [isHoverable, setIsHoverable] = useState(false);
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
         if (window.matchMedia) {
@@ -85,12 +85,12 @@ const Options = () => {
     }, [options]);
 
     useEffect(() => {
-        console.log(searchValue)
-        const normalizedInput = normalizeText(searchValue)
-        
-        if (normalizedInput === '') {
-            setDisplayedOptions(options)
-            return
+        console.log(searchValue);
+        const normalizedInput = normalizeText(searchValue);
+
+        if (normalizedInput === "") {
+            setDisplayedOptions(options);
+            return;
         }
 
         const matchedDrinkOptions = options.drink
@@ -100,10 +100,8 @@ const Options = () => {
                 return expandedNames.some((name) => {
                     const words = normalizeText(name).split(" ");
                     const inputWords = normalizedInput.split(" ");
-                    return (
-                        inputWords.every((inputWord) =>
-                            words.some((word) => word.startsWith(inputWord))
-                        )
+                    return inputWords.every((inputWord) =>
+                        words.some((word) => word.startsWith(inputWord))
                     );
                 });
             })
@@ -124,10 +122,8 @@ const Options = () => {
                 return expandedNames.some((name) => {
                     const words = normalizeText(name).split(" ");
                     const inputWords = normalizedInput.split(" ");
-                    return (
-                        inputWords.every((inputWord) =>
-                            words.some((word) => word.startsWith(inputWord))
-                        )
+                    return inputWords.every((inputWord) =>
+                        words.some((word) => word.startsWith(inputWord))
                     );
                 });
             })
@@ -141,7 +137,7 @@ const Options = () => {
             return true;
         });
 
-        setDisplayedOptions({drink: drinkOptions, chips: chipsOptions})
+        setDisplayedOptions({ drink: drinkOptions, chips: chipsOptions });
     }, [searchValue, options]);
 
     const drinkSelected = (item, index) => {
@@ -178,236 +174,311 @@ const Options = () => {
                 <>
                     <h2 className={styles.title}>Biztosított nasik</h2>
 
-                    <input type='text' placeholder="Keresés" onChange={(e) => setSearchValue(e.target.value)} />
+                    <input
+                        type="text"
+                        placeholder="Keresés"
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        className={styles.search}
+                    />
 
                     <div className={styles.content}>
-                        <div className={styles.section}>
-                            <h3 className={styles.sectionTitle}>Innik</h3>
-                            <div className={styles.grid}>
-                                {displayedOptions.drink.map((item, index) => (
-                                    <div
-                                        className={styles.optionContainer}
-                                        key={index}
-                                        style={{
-                                            animationDelay: `${index * 0.1}s`,
-                                        }}
-                                        onPointerEnter={() => {
-                                            if (isHoverable)
-                                                setHoverDrinkIndex(index);
-                                        }}
-                                        onPointerLeave={() => {
-                                            if (isHoverable)
-                                                setHoverDrinkIndex(null);
-                                        }}
-                                    >
-                                        <div
-                                            className={`${styles.option} ${
-                                                openDrinkIndex === index
-                                                    ? styles.open
-                                                    : ""
-                                            } ${
-                                                mostFavoriteDrinks.includes(
-                                                    item.name
-                                                )
-                                                    ? styles.favoriteItem
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                drinkSelected(item, index)
-                                            }
-                                            tabIndex={0}
-                                            onBlur={() =>
-                                                setOpenDrinkIndex(null)
-                                            }
-                                        >
-                                            {user && (
-                                                <div
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        favoriteDrink(
-                                                            item.name
+                        {displayedOptions.drink && (
+                            <div className={styles.section}>
+                                <h3 className={styles.sectionTitle}>Innik</h3>
+                                <div className={styles.grid}>
+                                    {displayedOptions.drink.map(
+                                        (item, index) => (
+                                            <div
+                                                className={
+                                                    styles.optionContainer
+                                                }
+                                                key={index}
+                                                style={{
+                                                    animationDelay: `${
+                                                        index * 0.1
+                                                    }s`,
+                                                }}
+                                                onPointerEnter={() => {
+                                                    if (isHoverable)
+                                                        setHoverDrinkIndex(
+                                                            index
                                                         );
-                                                    }}
+                                                }}
+                                                onPointerLeave={() => {
+                                                    if (isHoverable)
+                                                        setHoverDrinkIndex(
+                                                            null
+                                                        );
+                                                }}
+                                            >
+                                                <div
                                                     className={`${
-                                                        styles.favoriteButton
+                                                        styles.option
                                                     } ${
-                                                        favoriteDrinkOptions.includes(
+                                                        openDrinkIndex === index
+                                                            ? styles.open
+                                                            : ""
+                                                    } ${
+                                                        mostFavoriteDrinks.includes(
                                                             item.name
                                                         )
-                                                            ? styles.favorite
-                                                            : styles.notFavorite
+                                                            ? styles.favoriteItem
+                                                            : ""
                                                     }`}
-                                                >
-                                                    <img
-                                                        src={`/images/${
-                                                            favoriteDrinkOptions.includes(
-                                                                item.name
-                                                            )
-                                                                ? "heart_filled"
-                                                                : "heart"
-                                                        }.png`}
-                                                        alt="favorite_image"
-                                                        className={
-                                                            styles.favoriteImage
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
-                                            <h4 className={styles.optionTitle}>
-                                                {item.name}
-                                            </h4>
-                                            <div className={styles.details}>
-                                                <h5
-                                                    className={
-                                                        styles.availableIn
+                                                    onClick={() =>
+                                                        drinkSelected(
+                                                            item,
+                                                            index
+                                                        )
+                                                    }
+                                                    tabIndex={0}
+                                                    onBlur={() =>
+                                                        setOpenDrinkIndex(null)
                                                     }
                                                 >
-                                                    Elérhető mennyiségek:
-                                                </h5>
-                                                <p className={styles.amounts}>
-                                                    {item.amounts.map(
-                                                        (amount, i) => (
-                                                            <span
-                                                                key={i}
-                                                                className={
-                                                                    styles.amountClickable
-                                                                }
-                                                                onClick={(e) =>
-                                                                    copyDrinkAmount(
-                                                                        item,
-                                                                        amount,
-                                                                        e
+                                                    {user && (
+                                                        <div
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                favoriteDrink(
+                                                                    item.name
+                                                                );
+                                                            }}
+                                                            className={`${
+                                                                styles.favoriteButton
+                                                            } ${
+                                                                favoriteDrinkOptions.includes(
+                                                                    item.name
+                                                                )
+                                                                    ? styles.favorite
+                                                                    : styles.notFavorite
+                                                            }`}
+                                                        >
+                                                            <img
+                                                                src={`/images/${
+                                                                    favoriteDrinkOptions.includes(
+                                                                        item.name
                                                                     )
+                                                                        ? "heart_filled"
+                                                                        : "heart"
+                                                                }.png`}
+                                                                alt="favorite_image"
+                                                                className={
+                                                                    styles.favoriteImage
                                                                 }
-                                                                tabIndex={0}
-                                                            >
-                                                                {amount}l
-                                                                {i !==
-                                                                item.amounts
-                                                                    .length -
-                                                                    1
-                                                                    ? ", "
-                                                                    : ""}
-                                                            </span>
-                                                        )
+                                                            />
+                                                        </div>
                                                     )}
-                                                </p>
+                                                    <h4
+                                                        className={
+                                                            styles.optionTitle
+                                                        }
+                                                    >
+                                                        {item.name}
+                                                    </h4>
+                                                    <div
+                                                        className={
+                                                            styles.details
+                                                        }
+                                                    >
+                                                        <h5
+                                                            className={
+                                                                styles.availableIn
+                                                            }
+                                                        >
+                                                            Elérhető
+                                                            mennyiségek:
+                                                        </h5>
+                                                        <p
+                                                            className={
+                                                                styles.amounts
+                                                            }
+                                                        >
+                                                            {item.amounts.map(
+                                                                (amount, i) => (
+                                                                    <span
+                                                                        key={i}
+                                                                        className={
+                                                                            styles.amountClickable
+                                                                        }
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            copyDrinkAmount(
+                                                                                item,
+                                                                                amount,
+                                                                                e
+                                                                            )
+                                                                        }
+                                                                        tabIndex={
+                                                                            0
+                                                                        }
+                                                                    >
+                                                                        {amount}
+                                                                        l
+                                                                        {i !==
+                                                                        item
+                                                                            .amounts
+                                                                            .length -
+                                                                            1
+                                                                            ? ", "
+                                                                            : ""}
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                ))}
+                                        )
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        )}
 
-                        <div className={styles.section}>
-                            <h3 className={styles.sectionTitle}>Csipszek</h3>
-                            <div className={styles.grid}>
-                                {displayedOptions.chips.map((item, index) => (
-                                    <div
-                                        className={styles.optionContainer}
-                                        key={index}
-                                        style={{
-                                            animationDelay: `${index * 0.1}s`,
-                                        }}
-                                    >
-                                        <div
-                                            className={`${styles.option} ${
-                                                openChipsIndex === index
-                                                    ? styles.open
-                                                    : ""
-                                            } ${
-                                                mostFavoriteChips.includes(
-                                                    item.name
-                                                )
-                                                    ? styles.favoriteItem
-                                                    : ""
-                                            }`}
-                                            onClick={() =>
-                                                chipsSelected(item, index)
-                                            }
-                                            tabIndex={0}
-                                            onBlur={() =>
-                                                setOpenChipsIndex(null)
-                                            }
-                                        >
-                                            {user && (
+                        {displayedOptions.chips && (
+                            <div className={styles.section}>
+                                <h3 className={styles.sectionTitle}>
+                                    Csipszek
+                                </h3>
+                                <div className={styles.grid}>
+                                    {displayedOptions.chips.map(
+                                        (item, index) => (
+                                            <div
+                                                className={
+                                                    styles.optionContainer
+                                                }
+                                                key={index}
+                                                style={{
+                                                    animationDelay: `${
+                                                        index * 0.1
+                                                    }s`,
+                                                }}
+                                            >
                                                 <div
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        favoriteChips(
-                                                            item.name
-                                                        );
-                                                    }}
                                                     className={`${
-                                                        styles.favoriteButton
+                                                        styles.option
                                                     } ${
-                                                        favoriteChipsOptions.includes(
+                                                        openChipsIndex === index
+                                                            ? styles.open
+                                                            : ""
+                                                    } ${
+                                                        mostFavoriteChips.includes(
                                                             item.name
                                                         )
-                                                            ? styles.favorite
-                                                            : styles.notFavorite
+                                                            ? styles.favoriteItem
+                                                            : ""
                                                     }`}
-                                                >
-                                                    <img
-                                                        src={`/images/${
-                                                            favoriteChipsOptions.includes(
-                                                                item.name
-                                                            )
-                                                                ? "heart_filled"
-                                                                : "heart"
-                                                        }.png`}
-                                                        alt="favorite_image"
-                                                        className={
-                                                            styles.favoriteImage
-                                                        }
-                                                    />
-                                                </div>
-                                            )}
-                                            <h4 className={styles.optionTitle}>
-                                                {item.name}
-                                            </h4>
-                                            <div className={styles.details}>
-                                                <h5
-                                                    className={
-                                                        styles.availableIn
+                                                    onClick={() =>
+                                                        chipsSelected(
+                                                            item,
+                                                            index
+                                                        )
+                                                    }
+                                                    tabIndex={0}
+                                                    onBlur={() =>
+                                                        setOpenChipsIndex(null)
                                                     }
                                                 >
-                                                    Elérhető mennyiségek:
-                                                </h5>
-                                                <p className={styles.amounts}>
-                                                    {item.amounts.map(
-                                                        (amount, i) => (
-                                                            <span
-                                                                key={i}
-                                                                className={
-                                                                    styles.amountClickable
-                                                                }
-                                                                onClick={(e) =>
-                                                                    copyChipsAmount(
-                                                                        item,
-                                                                        amount,
-                                                                        e
+                                                    {user && (
+                                                        <div
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                favoriteChips(
+                                                                    item.name
+                                                                );
+                                                            }}
+                                                            className={`${
+                                                                styles.favoriteButton
+                                                            } ${
+                                                                favoriteChipsOptions.includes(
+                                                                    item.name
+                                                                )
+                                                                    ? styles.favorite
+                                                                    : styles.notFavorite
+                                                            }`}
+                                                        >
+                                                            <img
+                                                                src={`/images/${
+                                                                    favoriteChipsOptions.includes(
+                                                                        item.name
                                                                     )
+                                                                        ? "heart_filled"
+                                                                        : "heart"
+                                                                }.png`}
+                                                                alt="favorite_image"
+                                                                className={
+                                                                    styles.favoriteImage
                                                                 }
-                                                                tabIndex={0}
-                                                            >
-                                                                {amount}g
-                                                                {i !==
-                                                                item.amounts
-                                                                    .length -
-                                                                    1
-                                                                    ? ", "
-                                                                    : ""}
-                                                            </span>
-                                                        )
+                                                            />
+                                                        </div>
                                                     )}
-                                                </p>
+                                                    <h4
+                                                        className={
+                                                            styles.optionTitle
+                                                        }
+                                                    >
+                                                        {item.name}
+                                                    </h4>
+                                                    <div
+                                                        className={
+                                                            styles.details
+                                                        }
+                                                    >
+                                                        <h5
+                                                            className={
+                                                                styles.availableIn
+                                                            }
+                                                        >
+                                                            Elérhető
+                                                            mennyiségek:
+                                                        </h5>
+                                                        <p
+                                                            className={
+                                                                styles.amounts
+                                                            }
+                                                        >
+                                                            {item.amounts.map(
+                                                                (amount, i) => (
+                                                                    <span
+                                                                        key={i}
+                                                                        className={
+                                                                            styles.amountClickable
+                                                                        }
+                                                                        onClick={(
+                                                                            e
+                                                                        ) =>
+                                                                            copyChipsAmount(
+                                                                                item,
+                                                                                amount,
+                                                                                e
+                                                                            )
+                                                                        }
+                                                                        tabIndex={
+                                                                            0
+                                                                        }
+                                                                    >
+                                                                        {amount}
+                                                                        g
+                                                                        {i !==
+                                                                        item
+                                                                            .amounts
+                                                                            .length -
+                                                                            1
+                                                                            ? ", "
+                                                                            : ""}
+                                                                    </span>
+                                                                )
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                ))}
+                                        )
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </div>
                     <BottomActions />
                 </>
