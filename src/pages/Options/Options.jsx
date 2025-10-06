@@ -86,6 +86,11 @@ const Options = () => {
 
     useEffect(() => {
         const normalizedInput = normalizeText(searchValue)
+        
+        if (normalizedInput === '') {
+            setDisplayedOptions(options)
+            return
+        }
 
         const matchedDrinkOptions = options.drink
             .filter((option) => {
@@ -101,7 +106,6 @@ const Options = () => {
                     );
                 });
             })
-            .map((option) => option.name)
             .sort();
 
         const seen = new Set();
@@ -126,7 +130,6 @@ const Options = () => {
                     );
                 });
             })
-            .map((option) => option.name)
             .sort();
 
         const chipsSeen = new Set();
@@ -138,7 +141,7 @@ const Options = () => {
         });
 
         setDisplayedOptions({drink: drinkOptions, chips: chipsOptions})
-    }, [searchValue]);
+    }, [searchValue, options]);
 
     const drinkSelected = (item, index) => {
         if (openDrinkIndex === index || hoverDrinkIndex === index) {
