@@ -5,6 +5,7 @@ import { useApp } from "../../contexts/AppContext";
 import Loading from "../../components/Common/Loading/Loading";
 import BottomActions from "../../components/BottomActions/BottomActions";
 import styles from "./Options.module.css";
+import { AlignCenter } from "lucide-react";
 
 const emojiMap = {
     "🍑": ["barack", "barackos"],
@@ -85,7 +86,6 @@ const Options = () => {
     }, [options]);
 
     useEffect(() => {
-        console.log(searchValue);
         const normalizedInput = normalizeText(searchValue);
 
         if (normalizedInput === "") {
@@ -174,15 +174,17 @@ const Options = () => {
                 <>
                     <h2 className={styles.title}>Biztosított nasik</h2>
 
-                    <input
-                        type="text"
-                        placeholder="Keresés"
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        className={styles.search}
-                    />
+                    <div className={styles.searchContainer}>
+                        <input
+                            type="text"
+                            placeholder="Keresés"
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            className={styles.search}
+                        />
+                    </div>
 
                     <div className={styles.content}>
-                        {displayedOptions.drink && (
+                        {displayedOptions.drink.length && (
                             <div className={styles.section}>
                                 <h3 className={styles.sectionTitle}>Innik</h3>
                                 <div className={styles.grid}>
@@ -336,7 +338,7 @@ const Options = () => {
                             </div>
                         )}
 
-                        {displayedOptions.chips && (
+                        {displayedOptions.chips.length && (
                             <div className={styles.section}>
                                 <h3 className={styles.sectionTitle}>
                                     Csipszek
