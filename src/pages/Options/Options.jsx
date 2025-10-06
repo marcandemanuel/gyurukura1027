@@ -85,6 +85,7 @@ const Options = () => {
     }, [options]);
 
     useEffect(() => {
+        console.log(searchValue)
         const normalizedInput = normalizeText(searchValue)
         
         if (normalizedInput === '') {
