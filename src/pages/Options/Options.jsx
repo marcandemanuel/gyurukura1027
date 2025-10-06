@@ -86,7 +86,7 @@ const Options = () => {
 
     useEffect(() => {
         console.log(searchValue)
-        const normalizedInput = searchValue.toLowerCase()
+        const normalizedInput = normalizeText(searchValue)
         
         if (normalizedInput === '') {
             setDisplayedOptions(options)
@@ -103,7 +103,7 @@ const Options = () => {
                     return (
                         inputWords.every((inputWord) =>
                             words.some((word) => word.startsWith(inputWord))
-                        ) && normalizedInput !== normalizeText(name)
+                        )
                     );
                 });
             })
@@ -111,7 +111,7 @@ const Options = () => {
 
         const seen = new Set();
         const drinkOptions = matchedDrinkOptions.filter((item) => {
-            const key = normalizeText(item);
+            const key = normalizeText(item.name);
             if (seen.has(key)) return false;
             seen.add(key);
             return true;
@@ -127,7 +127,7 @@ const Options = () => {
                     return (
                         inputWords.every((inputWord) =>
                             words.some((word) => word.startsWith(inputWord))
-                        ) && normalizedInput !== normalizeText(name)
+                        )
                     );
                 });
             })
@@ -135,7 +135,7 @@ const Options = () => {
 
         const chipsSeen = new Set();
         const chipsOptions = matchedChipsOptions.filter((item) => {
-            const key = normalizeText(item);
+            const key = normalizeText(item.name);
             if (chipsSeen.has(key)) return false;
             chipsSeen.add(key);
             return true;
