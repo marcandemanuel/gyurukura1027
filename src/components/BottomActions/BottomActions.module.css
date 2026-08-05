@@ -14,7 +14,7 @@
 .wrapperOpen {
     border: 2px solid #9c8028;
     width: 90vw;
-    border-radius: 30px
+    border-radius: 30px;
 }
 
 .actions {
@@ -42,11 +42,11 @@
     padding: 10px 30px;
     font-family: "Aniron";
     border: 2px solid #9c8028;
-    position: relative
+    position: relative;
+    transition: background-color 0.75s ease-out;
 }
 
 .openButton:hover {
-    animation: fadeinbg 0.75s ease-out;
     background-color: black;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .closeButton:active {
-    animation: none
+    animation: none;
 }
 
 .bottomButton,
@@ -85,10 +85,10 @@ a.bottomButton {
     border: 2px solid #9c8028;
     position: relative;
     margin: 5px;
+    transition: background-color 0.75s ease-out;
 }
 
 .bottomButton:hover {
-    animation: fadeinbg 0.75s ease-out;
     background-color: black;
 }
 
@@ -99,16 +99,6 @@ a.bottomButton:active {
 
 .backButton {
     margin: 30px 0;
-}
-
-@keyframes fadeinbg {
-    0% {
-        background-color: transparent;
-    }
-
-    100% {
-        background-color: black;
-    }
 }
 
 @keyframes shakeaxe {

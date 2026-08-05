@@ -154,6 +154,14 @@ class EmailService:
         success = self.send_email(TO, SUBJECT, NAME, 'admin_created_seat', app, url)
 
         return success
+
+    def send_admin_resetted_email(self, email, name, app, url="https://www.gyurukura1027.com"):
+        TO = email
+        SUBJECT = "Az admin visszaállította a nasiválasztót."
+        NAME = name
+        success = self.send_email(TO, SUBJECT, NAME, 'admin_resetted', app, url)
+
+        return success
     
     def send_pin_changed_email(self, email, name, app, url="https://www.gyurukura1027.com"):
         TO = email

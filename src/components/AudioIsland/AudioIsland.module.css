@@ -1,7 +1,7 @@
 .island {
     position: fixed;
     left: 50%;
-    bottom: 20px;
+    bottom: 40px;
     transform: translateX(-50%);
     z-index: 5000;
     background-color: black;

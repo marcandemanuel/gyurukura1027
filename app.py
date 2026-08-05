@@ -347,6 +347,15 @@ def save_all_profiles():
                 except Exception as email_error:
                     print(f"[{get_time()}] - ❌ Email error: {email_error}")
 
+
+            if 'resetted' in profile['sendEmails']:
+                print(f"[{get_time()}] - 📧 Sending resetted email for profile {profile['id']}")
+                try:
+                    email_result = email_service.send_admin_resetted_email(profile['email'], profile['user'], app, "https://www.gyurukura1027.com")
+                    print(f"[{get_time()}] - 📧 Email result: {email_result}")
+                except Exception as email_error:
+                    print(f"[{get_time()}] - ❌ Email error: {email_error}")
+
             profile['sendEmails'] = []
         
         success = data_service.save_all_profiles(data['profiles'])

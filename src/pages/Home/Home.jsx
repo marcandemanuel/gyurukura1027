@@ -298,7 +298,7 @@ const Home = () => {
                 </button>
                 <Link
                     className={styles.actionButton}
-                    to="/nasirendeles/0"
+                    to="/nasirendeles/1"
                     tabIndex={0}
                 >
                     Szerkesztés

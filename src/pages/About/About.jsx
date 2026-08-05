@@ -39,10 +39,10 @@ const About = () => {
             <p className={styles.aboutText}>
                 A GyűrűkUra 10-27 fesztivál elsőként 2020-ban Sebi 14.
                 szülinapján került sorra, és azóta is minden évben ebben az
-                időszakban kerül megrendezésre. A Gyűrűk Ura filmek azóta már
+                időszakban van megrendezve. A Gyűrűk Ura filmek azóta már
                 messze kinőtték a film fogalmát, a fesztiválra ugyanis már
                 hónapokkal előre elkezdődik a felkészülés. A csipsz és kóla
-                adagok egyre növekednek így a fesztiválba befektetett
+                adagok egyre növekednek, így a fesztiválba befektetett
                 pénzösszegek is. Íme az eddigi GyűrűkUra 10-27 események rövid
                 idővonala.
             </p>

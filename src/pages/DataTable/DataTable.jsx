@@ -60,7 +60,7 @@ const DataTable = () => {
     const { back } = useNavigation();
 
     const handleBack = () => {
-        back([/^\/nasirend$/], '/nasirend');
+        back([/^\/nasirend$/], "/nasirend");
     };
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const DataTable = () => {
     }, [profiles]);
 
     const expandProfile = (profileIndex) => {
-        navigate(`/adatok/${profileIndex+1}`);
+        navigate(`/adatok/${profileIndex + 1}`);
     };
 
     const aDot = (profile, ind) => {
@@ -177,9 +177,9 @@ const DataTable = () => {
             const now = new Date();
             const pad = (n) => n.toString().padStart(2, "0");
             const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
-                now.getDate()
+                now.getDate(),
             )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
-                now.getSeconds()
+                now.getSeconds(),
             )}`;
 
             profile.notifications.push(["Töltse ki a nasirendjét", date]);
@@ -230,7 +230,7 @@ const DataTable = () => {
         Object.keys(uploaderRefs.current).forEach((id) => {
             if (
                 !tableProfiles.some(
-                    (profile) => String(profile.id) === String(id)
+                    (profile) => String(profile.id) === String(id),
                 )
             ) {
                 delete uploaderRefs.current[id];
@@ -373,7 +373,7 @@ const DataTable = () => {
                                                 className={styles.imageBox}
                                                 onClick={() =>
                                                     navigate(
-                                                        `/ulohely/${profileIndex+1}`
+                                                        `/ulohely/${profileIndex + 1}`,
                                                     )
                                                 }
                                             >
@@ -387,7 +387,7 @@ const DataTable = () => {
                                         ref={uploaderRefs.current[profile.id]}
                                         onFileChange={(file) => {
                                             setSelectedFileName(
-                                                file?.name || ""
+                                                file?.name || "",
                                             );
                                             setSelectedFiles((prev) => ({
                                                 ...prev,
@@ -419,7 +419,7 @@ const DataTable = () => {
                                                         profileIndex
                                                     ].seat_image = "";
                                                     setTableProfiles(
-                                                        updatedProfiles
+                                                        updatedProfiles,
                                                     );
                                                 }}
                                             >
@@ -520,13 +520,13 @@ const DataTable = () => {
             const now = new Date();
             const pad = (n) => n.toString().padStart(2, "0");
             const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
-                now.getDate()
+                now.getDate(),
             )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
-                now.getSeconds()
+                now.getSeconds(),
             )}`;
 
             const updatedTableProfiles = JSON.parse(
-                JSON.stringify(tableProfiles)
+                JSON.stringify(tableProfiles),
             );
 
             const changedFileIds = [];
@@ -538,7 +538,7 @@ const DataTable = () => {
                         date,
                     ]);
                     updatedTableProfiles[tableProfile.id].sendEmails.push(
-                        "pin_changed"
+                        "pin_changed",
                     );
                     if (
                         tableProfile.pin === "" ||
@@ -554,7 +554,7 @@ const DataTable = () => {
                         date,
                     ]);
                     updatedTableProfiles[tableProfile.id].sendEmails.push(
-                        "name_changed"
+                        "name_changed",
                     );
                 } else if (
                     tableProfile.seat_image !==
@@ -568,7 +568,7 @@ const DataTable = () => {
                             date,
                         ]);
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
-                            "seat_created"
+                            "seat_created",
                         );
                         changedFileIds.push(tableProfile.id);
                     } else {
@@ -579,7 +579,7 @@ const DataTable = () => {
                             date,
                         ]);
                         updatedTableProfiles[tableProfile.id].sendEmails.push(
-                            "seat_changed"
+                            "seat_changed",
                         );
                         changedFileIds.push(tableProfile.id);
                     }
@@ -610,6 +610,79 @@ const DataTable = () => {
         }
     };
 
+    const handleReset = async () => {
+        setLoading(true);
+
+        try {
+            const now = new Date();
+            const pad = (n) => n.toString().padStart(2, "0");
+            const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(
+                now.getDate(),
+            )} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(
+                now.getSeconds(),
+            )}`;
+
+            const resetData = {
+                acday0: ["Eldöntetlen", "Eldöntetlen"],
+                acday1: ["Eldöntetlen", "Eldöntetlen"],
+                acday2: ["Eldöntetlen", "Eldöntetlen"],
+                acday3: ["Eldöntetlen", "Eldöntetlen"],
+                acday4: ["Eldöntetlen", "Eldöntetlen"],
+                acday5: ["Eldöntetlen", "Eldöntetlen"],
+                checked: false,
+                comment0: ["", ""],
+                comment1: ["", ""],
+                comment2: ["", ""],
+                comment3: ["", ""],
+                comment4: ["", ""],
+                comment5: ["", ""],
+                day0: ["", ""],
+                day1: ["", ""],
+                day2: ["", ""],
+                day3: ["", ""],
+                day4: ["", ""],
+                day5: ["", ""],
+                seat_image: null,
+            };
+
+            const updatedTableProfiles = JSON.parse(
+                JSON.stringify(tableProfiles),
+            );
+
+            tableProfiles.forEach((tableProfile) => {
+                const profileIndex = tableProfile.id;
+
+                Object.assign(updatedTableProfiles[profileIndex], resetData);
+
+                updatedTableProfiles[profileIndex].notifications =
+                    updatedTableProfiles[profileIndex].notifications || [];
+                updatedTableProfiles[profileIndex].notifications.push([
+                    "Az admin visszaállította a nasiválasztót.",
+                    date,
+                ]);
+
+                updatedTableProfiles[profileIndex].sendEmails =
+                    updatedTableProfiles[profileIndex].sendEmails || [];
+                updatedTableProfiles[profileIndex].sendEmails.push("resetted");
+            });
+
+            await apiService.saveAllProfiles(updatedTableProfiles);
+
+            setHasChanges(false);
+            setOriginalProfiles(
+                JSON.parse(JSON.stringify(updatedTableProfiles)),
+            );
+
+            setLoading(false);
+            await refreshCurrentUser(isAdmin);
+            navigate("/nasirend");
+        } catch (error) {
+            setLoading(false);
+            await refreshCurrentUser(isAdmin);
+            navigate("/nasirend");
+        }
+    };
+
     if (!user) {
         navigate("/profilok");
         return null;
@@ -633,12 +706,20 @@ const DataTable = () => {
                             Vissza
                         </button>
                         {isAdmin && (
-                            <button
-                                className={styles.saveButton}
-                                onClick={handleSave}
-                            >
-                                Mentés
-                            </button>
+                            <>
+                                <button
+                                    className={styles.resetButton}
+                                    onClick={handleReset}
+                                >
+                                    Visszaállítás
+                                </button>
+                                <button
+                                    className={styles.saveButton}
+                                    onClick={handleSave}
+                                >
+                                    Mentés
+                                </button>
+                            </>
                         )}
                     </ActionRow>
                     <BottomActions />
